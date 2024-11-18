@@ -40,12 +40,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
             <form action="{{ URL::to('/admin-dashboard') }}" method="post">
                 {{ csrf_field() }}
-                <input type="text" class="ggg" name="admin_email" placeholder="nhập E-MAIL" required="">
-                <input type="password" class="ggg" name="admin_password" placeholder="nhập PASSWORD" required="">
+                <input type="text" class="ggg" name="admin_email" placeholder="nhập email" required="">
+                <input type="password" class="ggg" name="admin_password" placeholder="nhập password" required="">
                 <span><input type="checkbox" />Nhớ đăng nhập</span>
                 <h6><a href="#">Quên mật khẩu?</a></h6>
                 <div class="clearfix"></div>
-                <input type="submit" value="Đăng nhâp" name="login">
+                <input type="submit" value="Đăng Nhập" name="login">
             </form>
 
             <p>Don't Have an Account ?<a href="registration.html">Create an account</a></p>
