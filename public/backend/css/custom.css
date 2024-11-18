@@ -1,0 +1,31 @@
+/* public/css/custom.css */
+body {
+    background-color: #f0f8ff; /* Màu nền */
+    color: #333; /* Màu chữ */
+    font-family: Arial, sans-serif;
+}
+.header {
+    background-color: #4682b4; /* Màu nền của header */
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+.sidebar {
+    background-color: #87cefa; /* Màu nền của sidebar */
+    padding: 15px;
+    width: 200px;
+    float: left;
+}
+.content {
+    margin-left: 220px;
+    padding: 15px;
+}
+.footer {
+    background-color: #4682b4; /* Màu nền của footer */
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
