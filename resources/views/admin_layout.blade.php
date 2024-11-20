@@ -93,12 +93,36 @@
                         <li class="sub-menu">
                             <a href="javascript:;">
                                 <i class="fa fa-book"></i>
+                                <span>Danh mục Hoa</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="{{ URL::to('/add-category-product') }}">Thêm loại Hoa</a></li>
+                                <li><a href="{{ URL::to('/all-category-product') }}">Liệt kê hoa các loại
+                                    </a></li>
+                            </ul>
+                        </li>
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-book"></i>
                                 <span>Danh mục sản phẩm</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="{{ URL::to('/add-category-product') }}">Thêm danh mục sản
+                                <li><a href="{{ URL::to('/add-brand-product') }}">Thêm kiểu bó hoa
+                                    </a></li>
+                                <li><a href="{{ URL::to('/all-brand-product') }}">Liệt kê sản
                                         phẩm</a></li>
-                                <li><a href="{{ URL::to('/all-category-product') }}">Liệt kê danh mục sản
+                            </ul>
+                        </li>
+
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-book"></i>
+                                <span>Sản phẩm</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="{{ URL::to('/add-product') }}">Thêm sản phẩm
+                                    </a></li>
+                                <li><a href="{{ URL::to('/all-product') }}">Liệt kê sản
                                         phẩm</a></li>
                             </ul>
                         </li>
