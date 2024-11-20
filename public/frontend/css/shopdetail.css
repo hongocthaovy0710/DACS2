@@ -1,0 +1,14 @@
+@charset "utf8";
+.offer {
+    border: 1px solid #ebebeb;
+    padding: 10px 12px;
+    position: relative;
+    margin-top: 20px;
+    color: #288ad6;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    display: block;
+    unicode-bidi: isolate;
+    -webkit-font-smoothing: antialiased;
+    box-sizing: border-box;
+}

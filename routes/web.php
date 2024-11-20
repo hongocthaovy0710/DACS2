@@ -3,7 +3,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryProductController;
 
 Route::get('/', 'App\Http\Controllers\HomeController@index');
-Route::get('/trang-chu', 'App\Http\Controllers\HomeController@index');
+Route::get('/trang chu', 'App\Http\Controllers\HomeController@index');
 Route::get('/tintuc', function () {
     return view('news');
 });
