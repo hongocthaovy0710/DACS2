@@ -27,13 +27,10 @@
                 </div>
             </div>
             <div class="table-responsive">
-                <?php
-                $message = Session::get('message');
-                if ($message) {
-                    echo '<span class="text-alert">' . $message . '</span>';
-                    Session::put('message', null);
-                }
-                ?>
+                @if (Session::has('message'))
+                    <span class="text-alert">{{ Session::get('message') }}</span>
+                    {{ Session::put('message', null) }}
+                @endif
                 <table class="table table-striped b-t b-light">
                     <thead>
                         <tr>
@@ -63,13 +60,13 @@
                                         <a href="{{ URL::to('/unactive-category-product/' . $cate_pro->category_id) }}"><span
                                                 class="fa-thumb-styling fa fa-thumbs-up"></span></a>
                                         <?php
- }else{
- ?>
+                               }else{
+                                 ?>
                                         <a href="{{ URL::to('/active-category-product/' . $cate_pro->category_id) }}"><span
                                                 class="fa-thumb-styling fa fa-thumbs-down"></span></a>
                                         <?php
- }
- ?>
+                                       }
+                                       ?>
                                     </span></td>
 
                                 <td>
