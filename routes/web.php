@@ -7,6 +7,11 @@ use App\Http\Controllers\ProductController;
 
 Route::get('/', 'App\Http\Controllers\HomeController@index');
 Route::get('/trang chu', 'App\Http\Controllers\HomeController@index');
+Route::get('/shop','App\Http\Controllers\HomeController@show_category');
+Route::get('/shop-detail','App\Http\Controllers\HomeController@show_shop_detail');
+Route::get('/contact','App\Http\Controllers\HomeController@contact');
+
+
 Route::get('/tintuc', function () {
     return view('news');
 });
@@ -48,3 +53,8 @@ Route::post('/save-product', [ProductController::class, 'save_product']);
 Route::get('/edit-product/{product_id}', [ProductController::class, 'edit_product'])->name('edit-product');
 Route::get('/delete-product/{product_id}', [ProductController::class, 'delete_product'])->name('delete-product');
 Route::post('/update-product/{product_id}', [ProductController::class, 'update_product'])->name('update-product');
+
+//Danh muc san pham index
+Route::get('/danh-muc-san-pham/{category_id}',[CategoryProductController::class,'show_category_home']);
+Route::get('/thuong-hieu-san-pham/{brand_id}',[BrandProduct::class,'show_brand_home']);
+Route::get('/chi-tiet-san-pham/{product_id}',[ProductController::class,'details_product']);
