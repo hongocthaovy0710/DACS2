@@ -194,6 +194,7 @@ h4{
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
+   
 }
 
 .carousel-item {
@@ -509,6 +510,7 @@ h4{
 
 
 .py-5 {
-    padding-top: 1.5rem !important;
-    padding-bottom: 1.5rem !important
+    padding-top: 3rem !important;
+    padding-bottom: 1.5rem !important;
 }
+
