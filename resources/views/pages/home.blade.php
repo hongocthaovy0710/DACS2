@@ -8,11 +8,16 @@
                     <h4 class="mb-3 text-secondary">Shop Flower</h4>
                     <h1 class="mb-5 display-3 text-primary"></h1>
                     <div class="position-relative mx-auto">
-                        <input class="form-control border-2 border-secondary w-75 py-3 px-4 rounded-pill" type="number"
+                       
+                    <form action="{{URL::to('/tim-kiem')}}" method="POST">
+                                @csrf
+                    <input name="search" class="form-control border-2 border-secondary w-75 py-3 px-4 rounded-pill" type="text"
                             placeholder="Search">
                         <button type="submit"
                             class="btn btn-primary border-2 border-secondary py-3 px-4 position-absolute rounded-pill text-white h-100"
-                            style="top: 0; right: 25%;">Submit Now</button>
+                            style="top: 0; right: 25%;">Tìm</button>
+                    </form>
+
                     </div>
                 </div>
                 <div class="col-md-12 col-lg-5">
@@ -204,75 +209,6 @@
                         </div>
                     </div>
 
-
-                    <div id="tab-3" class="tab-pane fade show p-0">
-                        <div class="row g-4">
-                            <div class="col-lg-12">
-                                <div class="row g-4">
-                                    <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="img/9.3.jpg.webp" class="img-fluid w-100 rounded-top"
-                                                    alt="">
-                                            </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
-                                                style="top: 10px; left: 10px;">Flower</div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>Sắc tím mộng mơ</h4>
-                                                <p>Hoa Thạch thảo tím mang trên mình một nét đẹp nhẹ nhàng lại dễ thương,
-                                                    xinh xắn</p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">300,000VNĐ</p>
-                                                    <a href="#"
-                                                        class="btn border border-secondary rounded-pill px-3 text-primary"><i
-                                                            class="fa fa-shopping-bag me-2 text-primary"></i> Add to
-                                                        cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                    <div id="tab-4" class="tab-pane fade show p-0">
-                        <div class="row g-4">
-                            <div class="col-lg-12">
-                                <div class="row g-4">
-                                    <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="img/9.6jpg.webp" class="img-fluid w-100 rounded-top"
-                                                    alt="">
-                                            </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
-                                                style="top: 10px; left: 10px;">Flower</div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>
-                                                    Tươi Sáng</h4>
-                                                <p>Lẵng hoa khai trương Tươi Sáng mang tông màu sáng đầy vui tươi, ngập tràn
-                                                    ánh nắng</p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">820,000VNĐ</p>
-                                                    <a href="#"
-                                                        class="btn border border-secondary rounded-pill px-3 text-primary"><i
-                                                            class="fa fa-shopping-bag me-2 text-primary"></i> Add to
-                                                        cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
 
                     <div id="tab-5" class="tab-pane fade show p-0">

@@ -232,7 +232,7 @@ h4{
 
 .page-header {
     position: relative;
-    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(../img_index/11.jpg);
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('../img/11.jpg');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -513,4 +513,6 @@ h4{
     padding-top: 3rem !important;
     padding-bottom: 1.5rem !important;
 }
+
+
 

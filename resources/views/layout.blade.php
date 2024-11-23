@@ -31,7 +31,7 @@
 
 <body>
 
-<h2>Vy báo</h2>
+
 
     <header class="header">
         <!-- Spinner Start -->
@@ -86,19 +86,48 @@
                             <a href="{{ URL::to('/contact') }}" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="d-flex m-3 me-0">
+                            <form action="{{URL::to('/tim-kiem')}}" method="POST">
+                                @csrf
                             <button
-                                class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4"
+                              name="search"  class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4"
                                 data-bs-toggle="modal" data-bs-target="#searchModal"><i
                                     class="fas fa-search text-primary"></i></button>
-                            <a href="#" class="position-relative me-4 my-auto">
+                           
+                             </form> 
+                           
+                                    <a href="{{ URL::to('/show-cart') }}" class="position-relative me-4 my-auto">
                                 <i class="fa fa-shopping-bag fa-2x"></i>
                                 <span
                                     class="cart position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
                                     style="top: -5px; left: 15px; height: 20px; min-width: 20px;">0</span>
                             </a>
-                            <a href="loginsingup.html" class="my-auto">
-                                <i class="fas fa-user fa-2x"></i>
-                            </a>
+                       <!-- nút đăng nhập    -->
+                          
+
+                            <?php
+
+                                use Illuminate\Support\Facades\Session;
+
+                                    $customer_id = Session::get('customer_id');
+                                    if ($customer_id != NULL) {
+                                    ?>
+                                          
+                                        <a href="{{ URL::to('/logout-checkout') }}" class="my-auto">
+                                       <i class="fas fa-user fa-2x"></i> Đăng xuất
+                                        </a>                                 
+                                  
+                                    <?php    
+                                    } else {
+                                    ?>
+                               
+                                        <a href="{{ URL::to('/logout-checkout') }}" class="my-auto">
+                                       <i class="fas fa-user fa-2x"></i> Đăng nhập
+                                        </a>
+                                   
+                                    <?php
+                                    }
+                                ?>
+                            
                         </div>
                     </div>
                 </nav>
@@ -226,11 +255,7 @@
                             Site Name</a>, All right reserved.</span>
                 </div>
                 <div class="col-md-6 my-auto text-center text-md-end text-white">
-                    <!--/*** This template is free as long as you keep the below author’s credit link/attribution link/backlink. ***/-->
-                    <!--/*** If you'd like to use the template without the below author’s credit link/attribution link/backlink, ***/-->
-                    <!--/*** you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". ***/-->
-                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a> Distributed By <a
-                        class="border-bottom" href="https://themewagon.com">ThemeWagon</a>
+                    
                 </div>
             </div>
         </div>

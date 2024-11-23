@@ -4,6 +4,7 @@ use App\Http\Controllers\BrandProduct;
 use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryProductController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProductController;
 
 Route::get('/', 'App\Http\Controllers\HomeController@index');
@@ -11,11 +12,9 @@ Route::get('/trang chu', 'App\Http\Controllers\HomeController@index');
 Route::get('/shop','App\Http\Controllers\HomeController@show_category');
 Route::get('/shop-detail','App\Http\Controllers\HomeController@show_shop_detail');
 Route::get('/contact','App\Http\Controllers\HomeController@contact');
+Route::post('/tim-kiem','App\Http\Controllers\HomeController@search');
 
 
-Route::get('/tintuc', function () {
-    return view('news');
-});
 Route::get('/trang-tin', 'App\Http\Controllers\NewsController@index');
 Route::get('/gioi-thieu', 'App\Http\Controllers\NewsController@index2');
 
@@ -63,3 +62,16 @@ Route::get('/chi-tiet-san-pham/{product_id}',[ProductController::class,'details_
 
 //cart
 Route::post('/save-cart', [CartController::class, 'save_cart']);
+Route::get('/show-cart', [CartController::class, 'show_cart']);
+Route::get('/delete-to-cart/{rowID}', [CartController::class, 'delete_to_cart']);
+Route::post('/update-cart-quantity', [CartController::class, 'update_cart_quantity']);
+
+//Checkout
+Route::get('/login-checkout', [CheckoutController::class, 'login_checkout']);
+Route::get('/logout-checkout', [CheckoutController::class, 'logout_checkout']);
+Route::post('login-customer',[CheckoutController::class,'login_customer']);
+Route::post('/add-customer', [CheckoutController::class, 'add_customer']);
+Route::get('/checkout', [CheckoutController::class, 'checkout']);
+Route::get('/payment', [CheckoutController::class, 'payment']);
+Route::post('/save-checkout-customer',[CheckoutController::class,'save_checkout_customer']);
+Route::post('/order-place',[CheckoutController::class,'order_place']);
