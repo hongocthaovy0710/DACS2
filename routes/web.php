@@ -4,6 +4,7 @@ use App\Http\Controllers\BrandProduct;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryProductController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\AdminController;
 
 Route::get('/', 'App\Http\Controllers\HomeController@index');
 Route::get('/trang chu', 'App\Http\Controllers\HomeController@index');
@@ -15,9 +16,15 @@ Route::get('/gioi-thieu', 'App\Http\Controllers\NewsController@index2');
 
 // phan code cho admin
 Route::get('/admin', 'App\Http\Controllers\AdminController@index');
-Route::get('/admin-dashboard', 'App\Http\Controllers\AdminController@show_dashboard');
 Route::post('/admin-dashboard', 'App\Http\Controllers\AdminController@dashboard');
 Route::get('/logout', 'App\Http\Controllers\AdminController@logout');
+Route::get('/dashboard', 'App\Http\Controllers\AdminController@dashboard')->name('dashboard');
+Route::get('/dashboard', 'App\Http\Controllers\AdminController@show_dashboard')->name('dashboard');
+
+Route::group(['middleware' => ['web']], function () {
+    Route::get('/login-facebook', [AdminController::class, 'login_facebook']);
+    Route::get('/admin/callback', [AdminController::class, 'callback_facebook']);
+});
 
 // Định nghĩa route cho CategoryProductController
 Route::get('/add-category-product', [CategoryProductController::class, 'add_category_product']);
@@ -48,3 +55,5 @@ Route::post('/save-product', [ProductController::class, 'save_product']);
 Route::get('/edit-product/{product_id}', [ProductController::class, 'edit_product'])->name('edit-product');
 Route::get('/delete-product/{product_id}', [ProductController::class, 'delete_product'])->name('delete-product');
 Route::post('/update-product/{product_id}', [ProductController::class, 'update_product'])->name('update-product');
+
+//Định nghĩa route cho AdminController
