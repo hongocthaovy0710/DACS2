@@ -30,6 +30,9 @@
 </head>
 
 <body>
+
+
+
     <header class="header">
         <!-- Spinner Start -->
         <div id="spinner"
@@ -47,19 +50,19 @@
                         <small class="me-3"><i class="fas fa-map-marker-alt me-2 text-secondary"></i> <a
                                 href="#" class="text-white">180 PCT Đà Nẵng</a></small>
                         <small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="#"
-                                class="text-white">nn@Example.com</a></small>
+                                class="text-white">nv@Example.com</a></small>
                     </div>
-                    <div class="top-link pe-2">
+                    <!-- <div class="top-link pe-2">
                         <a href="#" class="text-white"><small class="text-white mx-2">Privacy Policy</small>/</a>
                         <a href="#" class="text-white"><small class="text-white mx-2">Terms of Use</small>/</a>
                         <a href="#" class="text-white"><small class="text-white ms-2">Sales and
                                 Refunds</small></a>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="container px-0">
                 <nav class="navbar navbar-light bg-white navbar-expand-xl">
-                    <a href="index.html" class="navbar-brand">
+                    <a href="{{ URL::to('/trang chu') }}" class="navbar-brand">
                         <h1 class="text-primary display-6">FLower</h1>
                     </a>
                     <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse"
@@ -69,8 +72,8 @@
                     <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
                             <a href="{{ URL::to('/trang chu') }}" class="nav-item nav-link active">Home</a>
-                            <a href="shop.html" class="nav-item nav-link">Shop</a>
-                            <a href="shop-detail.html" class="nav-item nav-link">Shop Detail</a>
+                            <a href="{{ URL::to('/shop') }}" class="nav-item nav-link ">Shop</a>
+                            <!-- <a href="{{ URL::to('/shop-detail') }}" class="nav-item nav-link">Shop Detail</a> -->
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                                 <div class="dropdown-menu m-0 bg-secondary rounded-0">
@@ -80,22 +83,51 @@
                                     <a href="404.html" class="dropdown-item">404 Page</a> -->
                                 </div>
                             </div>
-                            <a href="contact.html" class="nav-item nav-link">Contact</a>
+                            <a href="{{ URL::to('/contact') }}" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="d-flex m-3 me-0">
+                            <form action="{{URL::to('/tim-kiem')}}" method="POST">
+                                @csrf
                             <button
-                                class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4"
+                              name="search"  class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4"
                                 data-bs-toggle="modal" data-bs-target="#searchModal"><i
                                     class="fas fa-search text-primary"></i></button>
-                            <a href="#" class="position-relative me-4 my-auto">
+                           
+                             </form> 
+                           
+                                    <a href="{{ URL::to('/show-cart') }}" class="position-relative me-4 my-auto">
                                 <i class="fa fa-shopping-bag fa-2x"></i>
                                 <span
                                     class="cart position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
                                     style="top: -5px; left: 15px; height: 20px; min-width: 20px;">0</span>
                             </a>
-                            <a href="loginsingup.html" class="my-auto">
-                                <i class="fas fa-user fa-2x"></i>
-                            </a>
+                       <!-- nút đăng nhập    -->
+                          
+
+                            <?php
+
+                                use Illuminate\Support\Facades\Session;
+
+                                    $customer_id = Session::get('customer_id');
+                                    if ($customer_id != NULL) {
+                                    ?>
+                                          
+                                        <a href="{{ URL::to('/logout-checkout') }}" class="my-auto">
+                                       <i class="fas fa-user fa-2x"></i> Đăng xuất
+                                        </a>                                 
+                                  
+                                    <?php    
+                                    } else {
+                                    ?>
+                               
+                                        <a href="{{ URL::to('/logout-checkout') }}" class="my-auto">
+                                       <i class="fas fa-user fa-2x"></i> Đăng nhập
+                                        </a>
+                                   
+                                    <?php
+                                    }
+                                ?>
+                            
                         </div>
                     </div>
                 </nav>
@@ -106,7 +138,7 @@
 
 
     <!-- Modal Search Start -->
-    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-fullscreen">
             <div class="modal-content rounded-0">
                 <div class="modal-header">
@@ -122,16 +154,16 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- Modal Search End -->
-
+<main>
     <div>
 
         @yield('content')
 
     </div>
 
-
+    </main>
 
     <!-- Footer Start -->
     <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5">
@@ -223,11 +255,7 @@
                             Site Name</a>, All right reserved.</span>
                 </div>
                 <div class="col-md-6 my-auto text-center text-md-end text-white">
-                    <!--/*** This template is free as long as you keep the below author’s credit link/attribution link/backlink. ***/-->
-                    <!--/*** If you'd like to use the template without the below author’s credit link/attribution link/backlink, ***/-->
-                    <!--/*** you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". ***/-->
-                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a> Distributed By <a
-                        class="border-bottom" href="https://themewagon.com">ThemeWagon</a>
+                    
                 </div>
             </div>
         </div>
