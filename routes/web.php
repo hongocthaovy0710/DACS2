@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryProductController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\AdminController;
 
 Route::get('/', 'App\Http\Controllers\HomeController@index');
 Route::get('/trang chu', 'App\Http\Controllers\HomeController@index');
@@ -20,9 +21,15 @@ Route::get('/gioi-thieu', 'App\Http\Controllers\NewsController@index2');
 
 // phan code cho admin
 Route::get('/admin', 'App\Http\Controllers\AdminController@index');
-Route::get('/admin-dashboard', 'App\Http\Controllers\AdminController@show_dashboard');
 Route::post('/admin-dashboard', 'App\Http\Controllers\AdminController@dashboard');
 Route::get('/logout', 'App\Http\Controllers\AdminController@logout');
+Route::get('/dashboard', 'App\Http\Controllers\AdminController@dashboard')->name('dashboard');
+Route::get('/dashboard', 'App\Http\Controllers\AdminController@show_dashboard')->name('dashboard');
+
+Route::group(['middleware' => ['web']], function () {
+    Route::get('/login-facebook', [AdminController::class, 'login_facebook']);
+    Route::get('/admin/callback', [AdminController::class, 'callback_facebook']);
+});
 
 // Định nghĩa route cho CategoryProductController
 Route::get('/add-category-product', [CategoryProductController::class, 'add_category_product']);
@@ -53,25 +60,3 @@ Route::post('/save-product', [ProductController::class, 'save_product']);
 Route::get('/edit-product/{product_id}', [ProductController::class, 'edit_product'])->name('edit-product');
 Route::get('/delete-product/{product_id}', [ProductController::class, 'delete_product'])->name('delete-product');
 Route::post('/update-product/{product_id}', [ProductController::class, 'update_product'])->name('update-product');
-
-//Danh muc san pham index
-Route::get('/danh-muc-san-pham/{category_id}',[CategoryProductController::class,'show_category_home']);
-Route::get('/thuong-hieu-san-pham/{brand_id}',[BrandProduct::class,'show_brand_home']);
-Route::get('/chi-tiet-san-pham/{product_id}',[ProductController::class,'details_product']);
-
-
-//cart
-Route::post('/save-cart', [CartController::class, 'save_cart']);
-Route::get('/show-cart', [CartController::class, 'show_cart']);
-Route::get('/delete-to-cart/{rowID}', [CartController::class, 'delete_to_cart']);
-Route::post('/update-cart-quantity', [CartController::class, 'update_cart_quantity']);
-
-//Checkout
-Route::get('/login-checkout', [CheckoutController::class, 'login_checkout']);
-Route::get('/logout-checkout', [CheckoutController::class, 'logout_checkout']);
-Route::post('login-customer',[CheckoutController::class,'login_customer']);
-Route::post('/add-customer', [CheckoutController::class, 'add_customer']);
-Route::get('/checkout', [CheckoutController::class, 'checkout']);
-Route::get('/payment', [CheckoutController::class, 'payment']);
-Route::post('/save-checkout-customer',[CheckoutController::class,'save_checkout_customer']);
-Route::post('/order-place',[CheckoutController::class,'order_place']);
