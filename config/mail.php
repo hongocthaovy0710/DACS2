@@ -15,6 +15,13 @@ return [
     */
 
     'default' => env('MAIL_MAILER', 'log'),
+    'drivers' => env('MAIL_DRIVER', 'smtp'),
+    
+
+
+    'host' => env('MAIL_HOST','smtp.gmail.com'),
+
+    'port'=> env('MAIL_PORT',587),
 
     /*
     |--------------------------------------------------------------------------
@@ -109,8 +116,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => env('MAIL_FROM_ADDRESS', 'hongocthaovy66@gmail.com'),
+        'name' => env('MAIL_FROM_NAME', 'Thao Vy'),
     ],
 
 ];

@@ -56,4 +56,6 @@ Route::get('/edit-product/{product_id}', [ProductController::class, 'edit_produc
 Route::get('/delete-product/{product_id}', [ProductController::class, 'delete_product'])->name('delete-product');
 Route::post('/update-product/{product_id}', [ProductController::class, 'update_product'])->name('update-product');
 
-//Định nghĩa route cho AdminController
+//Send Mail
+
+// Route::get('send-mail', [HomeController::class, 'send_mail'])->name('send-mail');
