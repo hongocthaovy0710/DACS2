@@ -176,6 +176,7 @@ class CheckoutController extends Controller
             }
                
         }
+        
 
 public function manage_order(){
     // $this->AuthLogin();
