@@ -50,11 +50,17 @@ class CheckoutController extends Controller
         return Redirect::to('/payment');
     }
 
-    public function payment(){
-        $cate_product = DB::table('tbl_category_product')->where('category_status','0')->orderby('category_id', 'desc')->get();
-        $brand_product = DB::table('tbl_brand')->where('brand_status','0')->orderby('brand_id', 'desc')->get();
-        return view('pages.checkout.payment')->with('category',$cate_product)->with('brand',$brand_product);
-   
+    public function payment(Request $request){
+        //
+        $meta_desc = "Đăng nhập thanh toán"; 
+        $meta_keywords = "Đăng nhập thanh toán";
+        $meta_title = "Đăng nhập thanh toán";
+        $url_canonical = $request->url();
+        //
+        $cate_product = DB::table('tbl_category_product')->where('category_status','1')->orderby('category_id','desc')->get();
+        $brand_product = DB::table('tbl_brand')->where('brand_status','1')->orderby('brand_id','desc')->get(); 
+        return view('pages.checkout.show_checkout')->with('category',$cate_product)->with('brand',$brand_product)->with('meta_desc',$meta_desc)->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical);
+
     }
 
     public function logout_checkout(Request $request){
@@ -66,49 +72,95 @@ class CheckoutController extends Controller
         $email = $request->email_account;
         $password = md5($request->password_account);
         $result = DB::table('tbl_customers')->where('customer_email',$email)->where('customer_password',$password)->first();
+        
+        
         if($result){
             Session::put('customer_id',$result->customer_id);
+            Session::put('customer_name',$result->customer_name);
+            Session::put('customer_email',$result->customer_email);
+           
+             Session::put('customer_phone',$result->customer_phone);
             return Redirect::to('/checkout');
         }else{
             return Redirect::to('/login-checkout');
         }
-    }
+        }
+
+
 
 public function order_place(Request $request){
+    //insert payment_method
+    //seo 
+    $meta_desc = "Đăng nhập thanh toán"; 
+    $meta_keywords = "Đăng nhập thanh toán";
+    $meta_title = "Đăng nhập thanh toán";
+    $url_canonical = $request->url();
+    //--seo 
     $data = array();
-    $data['payment_option'] = $request->payment_option;
+    $data['payment_method'] = $request->payment_option;
     $data['payment_status'] = 'Đang chờ xử lý';
-   
     $payment_id = DB::table('tbl_payment')->insertGetId($data);
 
-    $odata = array();
-    $odata['customer_id'] = Session::get('customer_id');
-    $odata['shipping_id'] = Session::get('shipping_id');
-    $odata['payment_id'] = $payment_id;
-    $odata['order_total'] = Cart::total();
-    $odata['order_status'] = 'Đang chờ xử lý';
-    $order_id = DB::table('tbl_order')->insertGetId($odata);
-
-   
-    $oddata = array();
-
-    $contents = Cart::content();
-    foreach($contents as $v_content){
-        $oddata['order_id'] = $order_id;
-        $oddata['product_id'] = $v_content->id;
-        $oddata['product_name'] = $v_content->name;
-        $oddata['product_price'] = $v_content->price;
-        $oddata['product_sales_quantity'] = $v_content->qty;
-        DB::table('tbl_order_details')->insert($oddata);
+    //insert order
+    $order_data = array();
+    $order_data['customer_id'] = Session::get('customer_id');
+    $order_data['shipping_id'] = Session::get('shipping_id');
+    $order_data['payment_id'] = $payment_id;
+    $order_data['order_total'] = Cart::total();
+    $order_data['order_status'] = 1;
+    $order_id = DB::table('tbl_order')->insertGetId($order_data);
+    $body_massage = 'mã đơn hàng  '.$order_id.'tổng tiền: '.$order_data['order_total'];
+    //insert order_details
+    $content = Cart::content();
+    foreach($content as $v_content){
+        $order_d_data['order_id'] = $order_id;
+        $order_d_data['product_id'] = $v_content->id;
+        $order_d_data['product_name'] = $v_content->name;
+        $order_d_data['product_price'] = $v_content->price;
+        $order_d_data['product_sales_quantity'] = $v_content->qty;
+        DB::table('tbl_order_details')->insert($order_d_data);
     }
-    if($data['payment_option']==1){
-        echo 'Thanh toán bằng thẻ ATM';
-    }else{
-        echo 'Thanh toán khi nhận hàng';
+    // trừ số lượng trong bảng tbl_product
+    $datapro = array();
+
+     $content = Cart::content();
+
+    foreach($content as $v_content){
+          $product_info = DB::table('tbl_product')->where('product_id',$v_content->id)->first(); 
+           $datapro['product_num'] = $product_info->product_num - $v_content->qty;
+           DB::table('tbl_product')->where('product_id',$v_content->id)->update($datapro);     
     }
+
+    if($data['payment_method']==1){
+
+        echo 'Thanh toán bằng hình thức chuyển khoản';
+
+    }else{     
+        Cart::destroy();
    
-    return Redirect::to('/payment');
+        // gui email o
+        // $to_name = Session::get('customer_name');
+        // $to_email = Session::get('shipping_email');//send to this email
+           
+         
+        //     $data = array("name"=>$body_massage,"body"=>'Mail gửi về vấn về hàng hóa'); //body of mail.blade.php
+            
+        //     Mail::send('pages.send_mail',$data,function($message) use ($to_name,$to_email){
+
+        //         $message->to($to_email)->subject('đơn hàng được gửi từ shop laravel');//send this mail with subject
+        //         $message->from($to_email,$to_name);//send from this mail
+
+        //     });
+            echo 'Thanh toán khi nhận hàng';
+   
+
+    }
+         $cate_product = DB::table('tbl_category_product')->where('category_status','1')->orderby('category_id','desc')->get();
+        $brand_product = DB::table('tbl_brand')->where('brand_status','1')->orderby('brand_id','desc')->get(); 
+     return view('pages.checkout.handcash')->with('category',$cate_product)->with('brand',$brand_product)->with('meta_desc',$meta_desc)->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical);
+     return Redirect::to('/send-mail');
 }
+
 
 
 }

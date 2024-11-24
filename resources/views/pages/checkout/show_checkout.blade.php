@@ -15,10 +15,12 @@
 <div class="container-fluid py-5">
             <div class="container py-5">
                 <h1 class="mb-4">Thông tin đơn hàng</h1>
+                <form action="">
               
-                <form id="billingForm" action="{{ URL::to('/save-checkout-customer') }}" method="POST">
-                @csrf
+                
                     <div class="row g-5">
+                    <form id="billingForm" action="{{ URL::to('/save-checkout-customer') }}" method="POST">
+                    @csrf
                         <div class="col-md-10 col-lg-6 col-xl-7">
                             <div class="row">
                                 <div class="col-md-12 col-lg-6">
@@ -49,6 +51,7 @@
                                 <textarea name="shipping_notes" class="form-control" spellcheck="false" cols="30" rows="11" placeholder="Ghi chú"></textarea>
                             </div>
                         </div>
+                        </form>
                         <div class="col-md-12 col-lg-6 col-xl-5">
                             <div class="table-responsive">
                                 <table class="table">
@@ -62,54 +65,37 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                  <!-- //tittle heading -->
+			
+                                  <?php
+
+                                use Gloudemans\Shoppingcart\Facades\Cart;
+
+				                    $content = Cart::content();
+				
+				                    ?>
+                	@foreach($content as $v_content)
                                         <tr>
                                             <th scope="row">
                                                 <div class="d-flex align-items-center mt-2">
-                                                    <img src="img_index/Juliet-lover.jpg.webp" class="img-fluid rounded-circle" style="width: 90px; height: 90px;" alt="">
+                                                    <img src="{{URL::to('public/uploads/product/'.$v_content->options->image)}}" class="img-fluid rounded-circle" style="width: 90px; height: 90px;" alt="">
                                                 </div>
                                             </th>
-                                            <td class="py-5">Juliet Lover</td>
-                                            <td class="py-5">350,000VND</td>
-                                            <td class="py-5">2</td>
-                                            <td class="py-5">700,000VND</td>
-                                        </tr>
-                                        <tr>
-                                           
-                                        <tr>
-                                            <th scope="row">
-                                            </th>
-                                            <td class="py-5"></td>
-                                            <td class="py-5"></td>
+                                            <td class="py-5"><a href="">{{$v_content->name}}</a></td>
+                                            <td class="py-5">{{number_format($v_content->price).' '.'VNĐ'}}</td>
+                                            
+                                            <td class="py-5">{{$v_content->qty}}</td>
                                             <td class="py-5">
-                                                <p class="mb-0 text-dark py-3">Subtotal</p>
-                                            </td>
-                                            <td class="py-5">
-                                                <div class="py-3 border-bottom border-top">
-                                                    <p class="mb-0 text-dark">1.500.000VNĐ</p>
-                                                </div>
+                                            <?php
+									$subtotal = $v_content->price * $v_content->qty;
+									echo number_format($subtotal).' '.'VNĐ';
+									?>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">
-                                            </th>
-                                            <td class="py-5">
-                                                <p class="mb-0 text-dark py-4">Shipping</p>
-                                            </td>
-                                            <td colspan="3" class="py-5">
-                                                <div class="form-check text-start">
-                                                    <input type="radio" class="form-check-input bg-primary border-0" id="Shipping-1" name="Shipping-1" value="Shipping">
-                                                    <label class="form-check-label" for="Shipping-1">Free Shipping</label>
-                                                </div>
-                                                <div class="form-check text-start">
-                                                    <input type="radio" class="form-check-input bg-primary border-0" id="Shipping-2" name="Shipping-1" value="Shipping">
-                                                    <label class="form-check-label" for="Shipping-2">Flat : 150.00</label>
-                                                </div>
-                                                <div class="form-check text-start">
-                                                    <input type="radio" class="form-check-input bg-primary border-0" id="Shipping-3" name="Shipping-1" value="Shipping">
-                                                    <label class="form-check-label" for="Shipping-3">Local : 80.00</label>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                        
+                                      
+                                        
                                         <tr>
                                             <th scope="row">
                                             </th>
@@ -120,10 +106,11 @@
                                             <td class="py-5"></td>
                                             <td class="py-5">
                                                 <div class="py-3 border-bottom border-top">
-                                                    <p class="mb-0 text-dark">$135.00</p>
+                                                    <p class="mb-0 text-dark">{{Cart::subtotal(0).' '.'VNĐ'}}</p>
                                                 </div>
                                             </td>
                                         </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -131,7 +118,7 @@
                                 <div class="col-12">
                                     <div class="form-check text-start my-3">
                                     <p class="text-start text-dark">Vui lòng chọn hình thức thanh toán</p>
-                                    <form action="{{URL::to('/order-place')}}">
+                                    <form method="POST" action="{{URL::to('/order-place')}}">
                                      @csrf
                                         <input type="radio" class="form-check-input bg-primary border-0" id="Transfer-1" name="payment_option" value="1">
                                         <label class="form-check-label" for="Transfer-1">Chuyển khoản</label>
@@ -145,7 +132,7 @@
                                 </div>
                             </div>
                             <div class="row g-4 text-center align-items-center justify-content-center pt-4">
-                                <button type="submit" value="Gửi" name="send_order" class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary" > Order</button>
+                                <button type="submit" value="Đặt hàng"  name="send_order_place" class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary" > Order</button>
                             </div>
                         </div>
                     </div>
