@@ -1,6 +1,16 @@
 @extends('layout')
 @section('content')
    
+<!-- Single Page Header start -->
+<div class="container-fluid page-header py-5">
+            <h1 class="text-center text-white display-6">Shop</h1>
+            <ol class="breadcrumb justify-content-center mb-0">
+                <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                <li class="breadcrumb-item active text-white">Sản phẩm</li>
+            </ol>
+        </div>
+        <!-- Single Page Header End -->
+
 <!-- Flowers Shop Start-->
 <div class="container-fluid fruite py-5">
     <div class="container py-5">
@@ -97,56 +107,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="d-flex align-items-center justify-content-start">
-                                    <div class="rounded me-4" style="width: 100px; height: 100px;">
-                                        <img src="./anhHoaxunngoc/11610_sound-of-love.jpg" class="img-fluid rounded" alt="">
-                                    </div>
-                                    <div>
-                                        <h6 class="mb-2">Sound of love</h6>
-                                        <div class="d-flex mb-2">
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <div class="d-flex mb-2">
-                                            <h5 class="fw-bold me-2">350 k</h5>
-                                            <h5 class="text-danger text-decoration-line-through">460 k</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-start">
-                                    <div class="rounded me-4" style="width: 100px; height: 100px;">
-                                        <img src="./anhHoaxunngoc/13258_chuyen-cua-nang.jpg" class="img-fluid rounded" alt="">
-                                    </div>
-                                    <div>
-                                        <h6 class="mb-2">Chuyện của nắng</h6>
-                                        <div class="d-flex mb-2">
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <div class="d-flex mb-2">
-                                            <h5 class="fw-bold me-2">750 k</h5>
-                                            <h5 class="text-danger text-decoration-line-through">830 k</h5>
-                                        </div>
-                                    </div>
-                                </div>
+                               
                                 <div class="d-flex justify-content-center my-4">
                                     <a href="shopkhuyenmai.html" class="btn border border-secondary px-4 py-3 rounded-pill text-primary w-100">View More</a>
                                 </div>
                             </div>
-                            <div class="col-lg-12">
-                                <div class="position-relative">
-                                    <img src="./anhHoaxunngoc/Poster3.jpg" class="img-fluid w-100 rounded" alt="">
-                                    <div class="position-absolute" style="top: 50%; right: 10px; transform: translateY(-50%);">
-                                        <h3 class="text-secondary fw-bold">Feel <br> Flower <br> Love</h3>
-                                    </div>
-                                </div>
-                            </div>
+                          
                             <div class="col-lg-12">
                                 <div class="mb-3">
                                     <h4>Bài viết blog</h4>
