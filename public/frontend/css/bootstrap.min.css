@@ -8147,7 +8147,7 @@ fieldset:disabled .btn {
 }
 
 .pt-5 {
-    padding-top: 3rem !important
+    padding-top: 0 !important
 }
 
 .pe-0 {
