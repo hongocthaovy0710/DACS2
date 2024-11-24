@@ -75,3 +75,9 @@ Route::get('/checkout', [CheckoutController::class, 'checkout']);
 Route::get('/payment', [CheckoutController::class, 'payment']);
 Route::post('/save-checkout-customer',[CheckoutController::class,'save_checkout_customer']);
 Route::post('/order-place',[CheckoutController::class,'order_place']);
+
+
+
+//đơn hàng
+Route::get('/manager-order', [CheckoutController::class, 'manage_order'])->name('manager-order');
+Route::get('/view-order/{orderId}', [CheckoutController::class, 'view_order'])->name('view-order');

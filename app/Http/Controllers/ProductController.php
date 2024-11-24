@@ -114,7 +114,7 @@ class ProductController extends Controller
         return Redirect::to('/all-product');
     }
 
-    public function delete_product_product($product_id){
+    public function delete_product($product_id){
         DB::table('tbl_product')->where('product_id',$product_id) ->delete();
         Session::put('message', 'Xóa danh mục sản phẩm thành công');
         return Redirect::to('all-product');

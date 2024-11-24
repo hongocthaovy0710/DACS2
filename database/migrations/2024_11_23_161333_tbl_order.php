@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('shipping_id');
             $table->integer('payment_id');
             $table->float('order_total');
-            $table->integer('order_status');
+            $table->varchar('order_status');
 
             $table->timestamps();
         });

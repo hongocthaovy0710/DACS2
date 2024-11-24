@@ -12,6 +12,38 @@ session_start();
 class CheckoutController extends Controller
 {
     
+    public function AuthLogin(){
+        $admin_id = Session::get('admin_id');
+        if($admin_id){
+            return Redirect::to('dashboard');
+        }else{
+            return Redirect::to('admin')->send();
+        }
+    }
+
+    public function view_order($order_id){
+       $this->AuthLogin();
+       $order_by_id = DB::table('tbl_order')
+       ->join('tbl_customers','tbl_order.customer_id','=','tbl_customers.customer_id')
+       ->join('tbl_shipping','tbl_order.shipping_id','=','tbl_shipping.shipping_id')
+       ->join('tbl_order_details','tbl_order.order_id','=','tbl_order_details.order_id')
+       ->select('tbl_order.*','tbl_customers.*','tbl_shipping.*','tbl_order_details.*')->first();
+
+       $manager_order_by_id = view('admin.view_order')->with('order_by_id',$order_by_id);
+       return view('admin_layout')->with('admin.view_order',$manager_order_by_id);
+       
+
+      
+      
+    
+    }
+
+    public function update_order(Request $request,$order_id){
+        $order_status = $request->select_status; 
+       DB::table('tbl_order')->where('order_id',$order_id)->update(['order_status'=>$order_status]);
+       return Redirect::to('/manage-order');
+     
+   }
     public function login_checkout(){
         $cate_product = DB::table('tbl_category_product')->where('category_status','0')->orderby('category_id', 'desc')->get();
         $brand_product = DB::table('tbl_brand')->where('brand_status','0')->orderby('brand_id', 'desc')->get();
@@ -161,6 +193,17 @@ public function order_place(Request $request){
      return Redirect::to('/send-mail');
 }
 
+public function manage_order(){
+    // $this->AuthLogin();
+    $all_order = DB::table('tbl_order')
+        ->join('tbl_customers', 'tbl_order.customer_id', '=', 'tbl_customers.customer_id')
+        ->select('tbl_order.*', 'tbl_customers.customer_name')
+        ->orderby('tbl_order.order_id', 'desc')
+        ->get();
 
+    
+    $manager_order = view('admin.manage_order')->with('all_order', $all_order);
+    return view('admin_layout')->with('admin.manage_order', $manager_order);
+}
 
 }

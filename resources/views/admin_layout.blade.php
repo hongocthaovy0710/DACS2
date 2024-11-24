@@ -93,6 +93,18 @@
                         <li class="sub-menu">
                             <a href="javascript:;">
                                 <i class="fa fa-book"></i>
+                                <span>Đơn hàng</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="{{ URL::to('/manager-order') }}">Quản lý đơn hàng
+                                    </a></li>
+
+                            </ul>
+                        </li>
+
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-book"></i>
                                 <span>Danh mục Hoa</span>
                             </a>
                             <ul class="sub">
