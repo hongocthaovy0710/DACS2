@@ -50,19 +50,19 @@
                         <small class="me-3"><i class="fas fa-map-marker-alt me-2 text-secondary"></i> <a
                                 href="#" class="text-white">180 PCT Đà Nẵng</a></small>
                         <small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="#"
-                                class="text-white">nn@Example.com</a></small>
+                                class="text-white">nv@Example.com</a></small>
                     </div>
-                    <div class="top-link pe-2">
+                    <!-- <div class="top-link pe-2">
                         <a href="#" class="text-white"><small class="text-white mx-2">Privacy Policy</small>/</a>
                         <a href="#" class="text-white"><small class="text-white mx-2">Terms of Use</small>/</a>
                         <a href="#" class="text-white"><small class="text-white ms-2">Sales and
                                 Refunds</small></a>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="container px-0">
                 <nav class="navbar navbar-light bg-white navbar-expand-xl">
-                    <a href="index.html" class="navbar-brand">
+                    <a href="{{ URL::to('/trang chu') }}" class="navbar-brand">
                         <h1 class="text-primary display-6">FLower</h1>
                     </a>
                     <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse"
