@@ -91,7 +91,7 @@ class CheckoutController extends Controller
         //
         $cate_product = DB::table('tbl_category_product')->where('category_status','1')->orderby('category_id','desc')->get();
         $brand_product = DB::table('tbl_brand')->where('brand_status','1')->orderby('brand_id','desc')->get(); 
-        return view('pages.checkout.show_checkout')->with('category',$cate_product)->with('brand',$brand_product)->with('meta_desc',$meta_desc)->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical);
+        return view('pages.checkout.payment')->with('category',$cate_product)->with('brand',$brand_product)->with('meta_desc',$meta_desc)->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical);
 
     }
 
@@ -120,29 +120,23 @@ class CheckoutController extends Controller
 
 
 
-public function order_place(Request $request){
-    //insert payment_method
-    //seo 
-    $meta_desc = "Đăng nhập thanh toán"; 
-    $meta_keywords = "Đăng nhập thanh toán";
-    $meta_title = "Đăng nhập thanh toán";
-    $url_canonical = $request->url();
-    //--seo 
+        public function order_place(Request $request){
+    // Xử lý logic đặt hàng ở đây
     $data = array();
     $data['payment_method'] = $request->payment_option;
     $data['payment_status'] = 'Đang chờ xử lý';
     $payment_id = DB::table('tbl_payment')->insertGetId($data);
 
-    //insert order
+    // Insert order
     $order_data = array();
     $order_data['customer_id'] = Session::get('customer_id');
     $order_data['shipping_id'] = Session::get('shipping_id');
     $order_data['payment_id'] = $payment_id;
-    $order_data['order_total'] = Cart::total();
-    $order_data['order_status'] = 1;
+    $order_data['order_total'] = Cart::subtotal();
+    $order_data['order_status'] = 'Đang chờ xử lý';
     $order_id = DB::table('tbl_order')->insertGetId($order_data);
-    $body_massage = 'mã đơn hàng  '.$order_id.'tổng tiền: '.$order_data['order_total'];
-    //insert order_details
+
+    // Insert order details
     $content = Cart::content();
     foreach($content as $v_content){
         $order_d_data['order_id'] = $order_id;
@@ -152,45 +146,11 @@ public function order_place(Request $request){
         $order_d_data['product_sales_quantity'] = $v_content->qty;
         DB::table('tbl_order_details')->insert($order_d_data);
     }
-    // trừ số lượng trong bảng tbl_product
-    $datapro = array();
 
-     $content = Cart::content();
+    // Xóa giỏ hàng sau khi đặt hàng thành công
+    Cart::destroy();
 
-    foreach($content as $v_content){
-          $product_info = DB::table('tbl_product')->where('product_id',$v_content->id)->first(); 
-           $datapro['product_num'] = $product_info->product_num - $v_content->qty;
-           DB::table('tbl_product')->where('product_id',$v_content->id)->update($datapro);     
-    }
-
-    if($data['payment_method']==1){
-
-        echo 'Thanh toán bằng hình thức chuyển khoản';
-
-    }else{     
-        Cart::destroy();
-   
-        // gui email o
-        // $to_name = Session::get('customer_name');
-        // $to_email = Session::get('shipping_email');//send to this email
-           
-         
-        //     $data = array("name"=>$body_massage,"body"=>'Mail gửi về vấn về hàng hóa'); //body of mail.blade.php
-            
-        //     Mail::send('pages.send_mail',$data,function($message) use ($to_name,$to_email){
-
-        //         $message->to($to_email)->subject('đơn hàng được gửi từ shop laravel');//send this mail with subject
-        //         $message->from($to_email,$to_name);//send from this mail
-
-        //     });
-            echo 'Thanh toán khi nhận hàng';
-   
-
-    }
-         $cate_product = DB::table('tbl_category_product')->where('category_status','1')->orderby('category_id','desc')->get();
-        $brand_product = DB::table('tbl_brand')->where('brand_status','1')->orderby('brand_id','desc')->get(); 
-     return view('pages.checkout.handcash')->with('category',$cate_product)->with('brand',$brand_product)->with('meta_desc',$meta_desc)->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical);
-     return Redirect::to('/send-mail');
+    return redirect()->route('home')->with('message', 'Đặt hàng thành công');
 }
 
 public function manage_order(){
