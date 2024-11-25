@@ -27,16 +27,16 @@
                     </thead>
                     <tbody>
 
-                        {{-- @if ($order_by_id)
+                        @if ($order_by_id)
                             <tr>
-                                <td></td>
+                                <td>{{ $order_by_id }} ->customer_name</td>
                                 <td></td>
                             </tr>
                         @else
                             <tr>
                                 <td colspan="2">Không có thông tin khách hàng</td>
                             </tr>
-                        @endif --}}
+                        @endif
 
                     </tbody>
                 </table>
