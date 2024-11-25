@@ -7,8 +7,9 @@ use App\Http\Controllers\CategoryProductController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\HomeController;
 
-Route::get('/', 'App\Http\Controllers\HomeController@index');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/trang chu', 'App\Http\Controllers\HomeController@index');
 Route::get('/shop','App\Http\Controllers\HomeController@show_category');
 Route::get('/shop-detail','App\Http\Controllers\HomeController@show_shop_detail');
@@ -87,4 +88,4 @@ Route::post('/order-place', [CheckoutController::class, 'order_place'])->name('o
 
 //đơn hàng
 Route::get('/manager-order', [CheckoutController::class, 'manage_order'])->name('manager-order');
-Route::get('/view-order/{orderId}', [CheckoutController::class, 'view_order'])->name('view-order');
+Route::get('/view-order/{order_id}', [CheckoutController::class, 'view_order'])->name('view-order');
