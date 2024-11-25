@@ -1,16 +1,22 @@
 <?php
 
 use App\Http\Controllers\BrandProduct;
+use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryProductController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\HomeController;
 
-Route::get('/', 'App\Http\Controllers\HomeController@index');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/trang chu', 'App\Http\Controllers\HomeController@index');
-Route::get('/tintuc', function () {
-    return view('news');
-});
+Route::get('/shop','App\Http\Controllers\HomeController@show_category');
+Route::get('/shop-detail','App\Http\Controllers\HomeController@show_shop_detail');
+Route::get('/contact','App\Http\Controllers\HomeController@contact');
+Route::post('/tim-kiem','App\Http\Controllers\HomeController@search');
+
+
 Route::get('/trang-tin', 'App\Http\Controllers\NewsController@index');
 Route::get('/gioi-thieu', 'App\Http\Controllers\NewsController@index2');
 
@@ -56,4 +62,30 @@ Route::get('/edit-product/{product_id}', [ProductController::class, 'edit_produc
 Route::get('/delete-product/{product_id}', [ProductController::class, 'delete_product'])->name('delete-product');
 Route::post('/update-product/{product_id}', [ProductController::class, 'update_product'])->name('update-product');
 
-//Định nghĩa route cho AdminController
+//Danh muc san pham index
+Route::get('/danh-muc-san-pham/{category_id}',[CategoryProductController::class,'show_category_home']);
+Route::get('/thuong-hieu-san-pham/{brand_id}',[BrandProduct::class,'show_brand_home']);
+Route::get('/chi-tiet-san-pham/{product_id}',[ProductController::class,'details_product']);
+
+
+//cart
+Route::post('/save-cart', [CartController::class, 'save_cart']);
+Route::get('/show-cart', [CartController::class, 'show_cart']);
+Route::get('/delete-to-cart/{rowID}', [CartController::class, 'delete_to_cart']);
+Route::post('/update-cart-quantity', [CartController::class, 'update_cart_quantity']);
+
+//Checkout
+Route::get('/login-checkout', [CheckoutController::class, 'login_checkout']);
+Route::get('/logout-checkout', [CheckoutController::class, 'logout_checkout']);
+Route::post('login-customer',[CheckoutController::class,'login_customer']);
+Route::post('/add-customer', [CheckoutController::class, 'add_customer']);
+Route::get('/checkout', [CheckoutController::class, 'checkout']);
+Route::get('/payment', [CheckoutController::class, 'payment']);
+Route::post('/save-checkout-customer',[CheckoutController::class,'save_checkout_customer']);
+Route::post('/order-place', [CheckoutController::class, 'order_place'])->name('order-place');
+
+
+
+//đơn hàng
+Route::get('/manager-order', [CheckoutController::class, 'manage_order'])->name('manager-order');
+Route::get('/view-order/{order_id}', [CheckoutController::class, 'view_order'])->name('view-order');
