@@ -31,19 +31,7 @@
 
     <script src="{{ asset('public/backend/js/raphael-min.js') }}"></script>
     <script src="{{ asset('public/backend/js/morris.js') }}"></script>
-    {{-- <script>
-        document.querySelectorAll('.editor').forEach(editor => {
-            ClassicEditor
-                .create(editor, {
-                    ckfinder: {
-                        uploadUrl: '{{ route('ckeditor.upload') }}?_token={{ csrf_token() }}'
-                    }
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-        });
-    </script> --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
 
 </head>
 
