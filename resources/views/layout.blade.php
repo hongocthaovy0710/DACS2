@@ -5,8 +5,13 @@
     <meta charset="utf-8">
     <title>Flower Store</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
+    <meta name="description" content="">
+    <meta name="keywords" content=""/>
+    <meta name="robots" content="INDEX,FOLLOW"/>
+    <link  rel="canonical" href="" />
+    <meta name="author" content="">
+    <link  rel="icon" type="image/x-icon" href="" />
+
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap"
         rel="stylesheet"> 
     <!-- Icon Font Stylesheet -->
@@ -24,6 +29,12 @@
 </head>
 
 <body>
+<?php
+  use Illuminate\Support\Facades\Session;
+echo Session::get('customer_id');
+echo Session::get('shipping_id');
+?>
+
     <header class="header">
         <div id="spinner"
             class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50  d-flex align-items-center justify-content-center">
@@ -80,7 +91,7 @@
     
                                 <?php
 
-                                    use Illuminate\Support\Facades\Session;
+                                  
                                         $customer_id = Session::get('customer_id');
                                         if ($customer_id != NULL) {
                                         ?>                                         

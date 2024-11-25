@@ -56,6 +56,9 @@
                             <img alt="" src="{{ 'public/backend/images/2.png' }}">
                             <span class="username">
                                 <?php
+
+use Illuminate\Support\Facades\Session;
+
                                 $name = Session::get('admin_name');
                                 if ($name) {
                                     echo $name;

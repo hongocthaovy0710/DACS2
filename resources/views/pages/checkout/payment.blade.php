@@ -50,7 +50,7 @@ use Illuminate\Support\Facades\Session;
                                     <div class="input-group quantity mt-4" style="width: 100px;">
                                         <div class="input-group-btn">
                                        
-                                 <form action="{{ URL::to('/update-cart-quantity') }}" method="POST">
+                                        <form action="{{ URL::to('/update-cart-quantity') }}" method="POST">
                                         @csrf
                                             <!-- <button class="btn btn-sm btn-minus rounded-circle bg-light border" >
                                             <i class="fa fa-minus"></i>
@@ -79,14 +79,7 @@ use Illuminate\Support\Facades\Session;
                                         ?>
                                     </p>
                                 </td>
-                                <td>
-                                    <button class="btn btn-md rounded-circle bg-light border mt-4" >
-                                       
-                                        <a class="cart_quantity_delete"
-                                        href="{{ URL::to('/delete-to-cart/' . $v_content->rowId) }}">
-                                        <i class="fa fa-times text-danger"></i></a>
-                                    </button>
-                                </td>
+                                
                             
                             </tr>
                          @endforeach

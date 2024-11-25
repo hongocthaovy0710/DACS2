@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 
@@ -89,57 +90,60 @@ class CheckoutController extends Controller
 
 
 public function order_place(Request $request){
-    
-    //--seo 
-    $data = array();
-    $data['payment_method'] = $request->payment_option;
-    $data['payment_status'] = 'Đang chờ xử lý';
-    $payment_id = DB::table('tbl_payment')->insertGetId($data);
+    // $content = Cart::content();
+    // echo $content;
+  
+//--seo 
+$data = array();
+$data['payment_method'] = $request->payment_option;
+$data['payment_status'] = 'Đang chờ xử lý';
+$payment_id = DB::table('tbl_payment')->insertGetId($data);
 
-    //insert order
-    $order_data = array();
-    $order_data['customer_id'] = Session::get('customer_id');
-    $order_data['shipping_id'] = Session::get('shipping_id');
-    $order_data['payment_id'] = $payment_id;
-    $order_data['order_total'] = Cart::subtotal();
-    $order_data['order_status'] = 'Đang chờ xử lý';
-    $order_id = DB::table('tbl_order')->insertGetId($order_data);
-     //insert order_details
-    $content = Cart::content();
-    foreach($content as $v_content){
-        $order_d_data['order_id'] = $order_id;
-        $order_d_data['product_id'] = $v_content->id;
-        $order_d_data['product_name'] = $v_content->name;
-        $order_d_data['product_price'] = $v_content->price;
-        $order_d_data['product_sales_quantity'] = $v_content->qty;
-        DB::table('tbl_order_details')->insert($order_d_data);
-    }
-   
+//insert order
+$order_data = array();
+$order_data['customer_id'] = Session::get('customer_id');
+$order_data['shipping_id'] = Session::get('shipping_id');
+$order_data['payment_id'] = $payment_id;
+$order_data['order_total'] = Cart::subtotal();
+$order_data['order_status'] = '1';
+$order_id = DB::table('tbl_order')->insertGetId($order_data);
+$body_massage = 'mã đơn hàng  '.$order_id.'tổng tiền: '.$order_data['order_total']; 
+ //insert order_details
+$content = Cart::content();
+foreach($content as $v_content){
+    $order_d_data['order_id'] = $order_id;
+    $order_d_data['product_id'] = $v_content->id;
+    $order_d_data['product_name'] = $v_content->name;
+    $order_d_data['product_price'] = $v_content->price;
+    $order_d_data['product_sales_quantity'] = $v_content->qty;
+    DB::table('tbl_order_details')->insert($order_d_data);
+}
 
-    
 
-    if($data['payment_method']==1){
 
-        echo 'Thanh toán bằng hình thức chuyển khoản';
 
-    }else{     
-        Cart::destroy();
-   
-        // gui email o
-        // $to_name = Session::get('customer_name');
-        // $to_email = Session::get('shipping_email');//send to this email
-           
-         
-        //     $data = array("name"=>$body_massage,"body"=>'Mail gửi về vấn về hàng hóa'); //body of mail.blade.php
-            
-        //     Mail::send('pages.send_mail',$data,function($message) use ($to_name,$to_email){
+if($data['payment_method']==1){
 
-        //         $message->to($to_email)->subject('đơn hàng được gửi từ shop laravel');//send this mail with subject
-        //         $message->from($to_email,$to_name);//send from this mail
+    echo 'Thanh toán bằng hình thức chuyển khoản';
 
-        //     });
-            echo 'Thanh toán khi nhận hàng';
-   
+}else{     
+    Cart::destroy();
+
+    // gui email o
+    $to_name = Session::get('customer_name');
+    $to_email = Session::get('shipping_email');//send to this email
+       
+     
+        $data = array("name"=>$body_massage,"body"=>'Mail gửi về vấn về hàng hóa'); //body of mail.blade.php
+        
+        Mail::send('pages.send_mail',$data,function($message) use ($to_name,$to_email){
+
+            $message->to($to_email)->subject('đơn hàng được gửi từ shop laravel');//send this mail with subject
+            $message->from($to_email,$to_name);//send from this mail
+
+        });
+        echo 'Thanh toán khi nhận hàng';
+
 
     }
        

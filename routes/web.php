@@ -14,6 +14,9 @@ Route::get('/shop-detail','App\Http\Controllers\HomeController@show_shop_detail'
 Route::get('/contact','App\Http\Controllers\HomeController@contact');
 Route::post('/tim-kiem','App\Http\Controllers\HomeController@search');
 
+//gửi mail
+Route::get('/send-mail','App\Http\Controllers\HomeController@send_mail');
+
 
 Route::get('/trang-tin', 'App\Http\Controllers\NewsController@index');
 Route::get('/gioi-thieu', 'App\Http\Controllers\NewsController@index2');
