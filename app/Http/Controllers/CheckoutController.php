@@ -22,22 +22,35 @@ class CheckoutController extends Controller
         }
     }
 
-    public function view_order($order_id){
-       $this->AuthLogin();
-       $order_by_id = DB::table('tbl_order')
-       ->join('tbl_customers','tbl_order.customer_id','=','tbl_customers.customer_id')
-       ->join('tbl_shipping','tbl_order.shipping_id','=','tbl_shipping.shipping_id')
-       ->join('tbl_order_details','tbl_order.order_id','=','tbl_order_details.order_id')
-       ->select('tbl_order.*','tbl_customers.*','tbl_shipping.*','tbl_order_details.*')->first();
-     
-       $manager_order_by_id = view('admin.view_order')->with('order_by_id',$order_by_id);
-       return view('admin_layout')->with('admin.view_order',$manager_order_by_id);
-       
 
-      
-      
+ 
     
+public function view_order($order_id){
+    $this->AuthLogin();
+    
+    // Lấy thông tin đơn hàng
+    $order_by_id = DB::table('tbl_order')
+        ->join('tbl_customers', 'tbl_order.customer_id', '=', 'tbl_customers.customer_id')
+        ->join('tbl_shipping', 'tbl_order.shipping_id', '=', 'tbl_shipping.shipping_id')
+        ->join('tbl_order_details', 'tbl_order.order_id', '=', 'tbl_order_details.order_id')
+        ->join('tbl_payment', 'tbl_order.payment_id', '=', 'tbl_payment.payment_id')
+        ->select('tbl_order.*', 'tbl_customers.customer_name', 'tbl_customers.customer_phone', 'tbl_shipping.shipping_name', 'tbl_shipping.shipping_address', 'tbl_shipping.shipping_phone', 'tbl_shipping.shipping_email', 'tbl_shipping.shipping_notes', 'tbl_payment.payment_method', 'tbl_order_details.*')
+        ->where('tbl_order.order_id', $order_id)
+        ->first();
+
+    // Lấy chi tiết đơn hàng
+    $order_details = DB::table('tbl_order_details')
+        ->where('order_id', $order_id)
+        ->get();
+
+    // Kiểm tra nếu đơn hàng không tồn tại
+    if (!$order_by_id) {
+        return redirect()->route('manager-order')->with('error', 'Đơn hàng không tồn tại');
     }
+
+    // Trả về view với thông tin đơn hàng và chi tiết đơn hàng
+    return view('admin.view_order')->with(['order_by_id' => $order_by_id, 'order_details' => $order_details]);
+}
 
     public function update_order(Request $request,$order_id){
         $order_status = $request->select_status; 
@@ -118,9 +131,7 @@ class CheckoutController extends Controller
         }
         }
 
-
-
-
+       
         public function order_place(Request $request){
             // Kiểm tra nếu payment_option không được gửi
             if (!$request->has('payment_option')) {
@@ -153,7 +164,7 @@ class CheckoutController extends Controller
             foreach($content as $v_content){
                 $order_d_data['order_id'] = $order_id;
                 $order_d_data['product_id'] = $v_content->id;
-                $order_d_data['product_name'] = $v_content->name;
+                $order_d_data['product_name'] = htmlspecialchars($v_content->name); // Đảm bảo rằng đây là chuỗi
                 $order_d_data['product_price'] = $v_content->price;
                 $order_d_data['product_sales_quantity'] = $v_content->qty;
                 DB::table('tbl_order_details')->insert($order_d_data);
@@ -162,19 +173,28 @@ class CheckoutController extends Controller
             // Xóa giỏ hàng sau khi đặt hàng thành công
             Cart::destroy();
         
-            // Gửi email
-            $to_name = Session::get('customer_name');
-            $to_email = Session::get('shipping_email'); // Gửi đến email này
-                       
-            $data = array("name" => $to_name, "body" => 'Mail gửi về vấn đề hàng hóa'); // Nội dung của mail.blade.php
-                        
-            Mail::send('pages.send_mail', $data, function($message) use ($to_name, $to_email) {
-                $message->to($to_email)->subject('Đơn hàng được gửi từ shop Laravel'); // Tiêu đề email
-                $message->from('hongocthaovy66@gmail.com', $to_name); // Gửi từ email này
-            });
+            if($data['payment_method'] == 1){
+                echo 'Thanh toán bằng hình thức chuyển khoản';
+            } else {     
+                // Gửi email (comment lại nếu chưa làm chức năng này)
+                // $to_name = Session::get('customer_name');
+                // $to_email = Session::get('shipping_email'); // Gửi đến email này
+                           
+                // $data = array("name" => $to_name, "body" => 'Mail gửi về vấn đề hàng hóa'); // Nội dung của mail.blade.php
+                            
+                // Mail::send('pages.send_mail', $data, function($message) use ($to_name, $to_email) {
+                //     $message->to($to_email)->subject('Đơn hàng được gửi từ shop Laravel'); // Tiêu đề email
+                //     $message->from('your-email@example.com', $to_name); // Gửi từ email này
+                // });
+        
+                echo 'Thanh toán khi nhận hàng';
+            }
         
             return redirect()->route('home')->with('message', 'Đặt hàng thành công');
         }
+
+
+       
 public function manage_order(){
     // $this->AuthLogin();
     $all_order = DB::table('tbl_order')

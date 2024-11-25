@@ -46,7 +46,6 @@
                             <th>Tổng giá tiền</th>
                             <th>Tình trạng</th>
                             <th>Hiển thị</th>
-
                             <th style="width:30px;"></th>
                         </tr>
                     </thead>
@@ -58,23 +57,19 @@
                                 <td>{{ $order->customer_name }}</td>
                                 <td>{{ $order->order_total }}</td>
                                 <td>
-                                    <?php
-                                    if ($order->order_status == 1) {
-                                        echo 'Chưa xử lý';
-                                    } elseif ($order->order_status == 2) {
-                                        echo 'Đã xử lý';
-                                    } else {
-                                        echo 'Hủy đơn hàng-tạm giữ';
-                                    }
-                                    
-                                    ?>
-
+                                    @if ($order->order_status == 1)
+                                        Chưa xử lý
+                                    @elseif ($order->order_status == 2)
+                                        Đã xử lý
+                                    @else
+                                        Hủy đơn hàng-tạm giữ
+                                    @endif
                                 </td>
-
                                 <td>
-                                    <a href="{{ URL::to('/view-order/' . $order->order_id) }}" class="active styling-edit"
-                                        ui-toggle-class="">
-                                        <i class="fa fa-pencil-square-o text-success text-active"></i></a>
+                                    <a href="{{ route('view-order', ['order_id' => $order->order_id]) }}"
+                                        class="active styling-edit" ui-toggle-class="">
+                                        <i class="fa fa-pencil-square-o text-success text-active"></i>
+                                    </a>
                                     <a onclick="return confirm('Bạn có chắc là muốn xóa đơn hàng không?')"
                                         href="{{ URL::to('/delete-order/' . $order->order_id) }}"
                                         class="active styling-edit" ui-toggle-class="">
@@ -88,7 +83,6 @@
             </div>
             <footer class="panel-footer">
                 <div class="row">
-
                     <div class="col-sm-5 text-center">
                         <small class="text-muted inline m-t-sm m-b-sm">showing 20-30 of 50 items</small>
                     </div>

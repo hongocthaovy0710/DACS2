@@ -24,9 +24,27 @@
     <link rel="stylesheet" href="{{ asset('public/backend/css/monthly.css') }}">
     <!-- //calendar -->
     <!-- //font-awesome icons -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.0/classic/ckeditor.js"></script>
     <script src="{{ asset('public/backend/js/jquery2.0.3.min.js') }}"></script>
+
+    {{-- <script src="{{ asset('public/backend/ckeditor/ckeditor5/ckeditor5.js') }}"></script> --}}
+
     <script src="{{ asset('public/backend/js/raphael-min.js') }}"></script>
     <script src="{{ asset('public/backend/js/morris.js') }}"></script>
+    {{-- <script>
+        document.querySelectorAll('.editor').forEach(editor => {
+            ClassicEditor
+                .create(editor, {
+                    ckfinder: {
+                        uploadUrl: '{{ route('ckeditor.upload') }}?_token={{ csrf_token() }}'
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        });
+    </script> --}}
+
 </head>
 
 <body>
@@ -309,6 +327,7 @@
         });
     </script>
     <!-- //calendar -->
+    @yield('js-custom');
 </body>
 
 </html>

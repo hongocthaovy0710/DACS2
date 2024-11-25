@@ -34,13 +34,13 @@
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Mô tả sản phẩm</label>
-                                <textarea style="resize: none" rows="8" class="form-control" name="product_desc" id="exampleInputPassword1"
+                                <textarea style="resize: none" rows="8" class="form-control editor ckeditor" name="product_desc" id="ckeditor1"
                                     placeholder="Mô tả sản phẩm"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Nội dung sản phẩm</label>
-                                <textarea style="resize: none" rows="8" class="form-control" name="product_content" id="exampleInputPassword1"
-                                    placeholder="Mô tả sản phẩm"></textarea>
+                                <textarea style="resize: none" rows="8" class="form-control editor ckeditor" name="product_content"
+                                    id="exampleInputPassword1" placeholder="Mô tả sản phẩm"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Danh mục Hoa</label>
@@ -72,4 +72,17 @@
                 </div>
             </section>
         </div>
+    @endsection
+
+    @section('js-custom')
+        <script src="https://cdn.ckeditor.com/ckeditor5/39.0.0/classic/ckeditor.js"></script>
+        <script>
+            document.querySelectorAll('.editor').forEach(editor => {
+                ClassicEditor
+                    .create(editor)
+                    .catch(error => {
+                        console.error(error);
+                    });
+            });
+        </script>
     @endsection
