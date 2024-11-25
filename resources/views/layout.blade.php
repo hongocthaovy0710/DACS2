@@ -29,11 +29,6 @@
 </head>
 
 <body>
-<?php
-  use Illuminate\Support\Facades\Session;
-echo Session::get('customer_id');
-echo Session::get('shipping_id');
-?>
 
     <header class="header">
         <div id="spinner"
@@ -85,12 +80,12 @@ echo Session::get('shipping_id');
                                     <a href="{{ URL::to('/show-cart') }}" class="position-relative me-4 my-auto">
                                 <i class="fa fa-shopping-bag fa-2x"></i>
                                 <span
-                                    class="cart position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
-                                    style="top: -5px; left: 15px; height: 20px; min-width: 20px;">0</span>
+                                    class="cart position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" >
+                                </span>
                             </a>
     
                                 <?php
-
+                                    use Illuminate\Support\Facades\Session;
                                   
                                         $customer_id = Session::get('customer_id');
                                         if ($customer_id != NULL) {

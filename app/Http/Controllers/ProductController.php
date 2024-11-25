@@ -128,6 +128,9 @@ class ProductController extends Controller
         return view('admin.product_list', compact('products'));
     }
 
+    
+
+
     public function details_product($product_id){
         $cate_product = DB::table('tbl_category_product')->where('category_status','0')->orderby('category_id', 'desc')->get();
         $brand_product = DB::table('tbl_brand')->where('brand_status','0')->orderby('brand_id', 'desc')->get();

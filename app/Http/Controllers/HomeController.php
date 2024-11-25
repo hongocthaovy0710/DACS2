@@ -49,27 +49,32 @@ class HomeController extends Controller
             }
 
 
-            // public function search(){
-            //     $cate_product = DB::table('tbl_category_product')->where('category_status','0')->orderby('category_id', 'desc')->get();
-            //     $brand_product = DB::table('tbl_brand')->where('brand_status','0')->orderby('brand_id', 'desc')->get();
-             
-            //     $all_product = DB::table('tbl_product')->where('product_status','0')->orderby('product_id', 'desc')->limit(4)->get();
-            //     return view('pages.search')->with('category',$cate_product)->with('brand',$brand_product)->with('all_product',$all_product);
-            //     }
+           
 
-                public function search(Request $request){
-                    $find = $request->search;
-                    $reuslt = SanPhamModel::where('product_name','like','%'.$find.'%')->orWhere('product_price','like',$find)->get();
-                    if($reuslt){
-                        
-                        return view('pages.sanpham.search')->with('timkiem',$reuslt);
-                    }else{
-                        Session::put('timsanpham','Không Tìm Thấy Sản Phẩm ');
-                        Session::put('message1',$find);
-                        return view('pages.sanpham.search')->with('timkiem',$reuslt);
-                    };
-            
+            public function search(Request $request){
+                $find = $request->input('search'); // Lấy từ khóa tìm kiếm từ input
+                if (!$find || trim($find) === '') {
+                    // Nếu không nhập từ khóa, trả về trang tìm kiếm với thông báo
+                    Session::put('message', 'Vui lòng nhập từ khóa tìm kiếm.');
+                    return redirect()->back();
                 }
+            
+                // Thực hiện truy vấn tìm kiếm sản phẩm theo tên hoặc giá
+                $search_product = SanPhamModel::where('product_name', 'like', '%' . $find . '%')
+                                ->orWhere('product_price', 'like', '%' . $find . '%')
+                                ->get();
+                                         
+                if ($search_product->isEmpty()) {
+                    // Không tìm thấy sản phẩm
+                    Session::put('timsanpham', 'Không tìm thấy sản phẩm nào với từ khóa: ' . $find);
+                }
+                Session::forget('timsanpham');
+                // Trả về view kết quả tìm kiếm
+                return view('pages.sanpham.search')->with('search_product', $search_product);
+            }
+            
+            
+
 
 
                 public function send_mail(){
