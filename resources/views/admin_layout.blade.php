@@ -24,9 +24,21 @@
     <link rel="stylesheet" href="{{ asset('public/backend/css/monthly.css') }}">
     <!-- //calendar -->
     <!-- //font-awesome icons -->
-    <script src="{{ asset('public/backend/js/jquery2.0.3.min.js') }}"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.0/classic/ckeditor.js"></script>
+    {{-- <script src="{{ asset('public/backend/js/jquery2.0.3.min.js') }}"></script> --}}
+
+    {{-- <script src="{{ asset('public/backend/ckeditor/ckeditor5/ckeditor5.js') }}"></script> --}}
+    <script src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
     <script src="{{ asset('public/backend/js/raphael-min.js') }}"></script>
     <script src="{{ asset('public/backend/js/morris.js') }}"></script>
+    <script src="{{ asset('public/backend/js/jquery.validate.min.js') }}"></script>
+
+
+    <script>
+        $.validate({
+
+        })
+    </script>
 </head>
 
 <body>
@@ -91,6 +103,18 @@ use Illuminate\Support\Facades\Session;
                                 <i class="fa fa-dashboard"></i>
                                 <span>Tổng quan</span>
                             </a>
+                        </li>
+
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-book"></i>
+                                <span>Đơn hàng</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="{{ URL::to('/manager-order') }}">Quản lý đơn hàng
+                                    </a></li>
+
+                            </ul>
                         </li>
 
                         <li class="sub-menu">
@@ -300,6 +324,7 @@ use Illuminate\Support\Facades\Session;
         });
     </script>
     <!-- //calendar -->
+    @yield('js-custom');
 </body>
 
 </html>

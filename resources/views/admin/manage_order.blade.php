@@ -3,7 +3,7 @@
     <div class="table-agile-info">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Liệt kê danh mục sản phẩm
+                Liệt kê đơn hàng
             </div>
             <div class="row w3-res-tb">
                 <div class="col-sm-5 m-b-xs">
@@ -27,10 +27,13 @@
                 </div>
             </div>
             <div class="table-responsive">
-                @if (Session::has('message'))
-                    <span class="text-alert">{{ Session::get('message') }}</span>
-                    {{ Session::put('message', null) }}
-                @endif
+                <?php
+                $message = Session::get('message');
+                if ($message) {
+                    echo '<span class="text-alert">' . $message . '</span>';
+                    Session::put('message', null);
+                }
+                ?>
                 <table class="table table-striped b-t b-light">
                     <thead>
                         <tr>
@@ -39,36 +42,36 @@
                                     <input type="checkbox"><i></i>
                                 </label>
                             </th>
-                            <th>Tên danh mục</th>
-                            <th>Số lượng</th>
+                            <th>Tên người đặt</th>
+                            <th>Tổng giá tiền</th>
+                            <th>Tình trạng</th>
                             <th>Hiển thị</th>
                             <th style="width:30px;"></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($all_brand_product as $key => $brand_pro)
+                        @foreach ($all_order as $key => $order)
                             <tr>
                                 <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label>
                                 </td>
-                                <td>{{ $brand_pro->brand_name }}</td>
-                                <td>{{ $brand_pro->slug_brand_product }}</td>
-                                <td><span class="text-ellipsis">
-                                        @if ($brand_pro->brand_status == 0)
-                                            <a href="{{ URL::to('/unactive-brand-product/' . $brand_pro->brand_id) }}"><span
-                                                    class="fa-thumb-styling fa fa-thumbs-up"></span></a>
-                                        @else
-                                            <a href="{{ URL::to('/active-brand-product/' . $brand_pro->brand_id) }}"><span
-                                                    class="fa-thumb-styling fa fa-thumbs-down"></span></a>
-                                        @endif
-                                    </span>
+                                <td>{{ $order->customer_name }}</td>
+                                <td>{{ $order->order_total }}</td>
+                                <td>
+                                    @if ($order->order_status == 1)
+                                        Chưa xử lý
+                                    @elseif ($order->order_status == 2)
+                                        Đã xử lý
+                                    @else
+                                        Hủy đơn hàng-tạm giữ
+                                    @endif
                                 </td>
                                 <td>
-                                    <a href="{{ URL::to('/edit-brand-product/' . $brand_pro->brand_id) }}"
+                                    <a href="{{ route('view-order', ['order_id' => $order->order_id]) }}"
                                         class="active styling-edit" ui-toggle-class="">
                                         <i class="fa fa-pencil-square-o text-success text-active"></i>
                                     </a>
-                                    <a onclick="return confirm('Bạn có chắc là muốn xóa danh mục này ko?')"
-                                        href="{{ URL::to('/delete-brand-product/' . $brand_pro->brand_id) }}"
+                                    <a onclick="return confirm('Bạn có chắc là muốn xóa đơn hàng không?')"
+                                        href="{{ URL::to('/delete-order/' . $order->order_id) }}"
                                         class="active styling-edit" ui-toggle-class="">
                                         <i class="fa fa-times text-danger text"></i>
                                     </a>

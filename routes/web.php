@@ -6,8 +6,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryProductController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\HomeController;
 
-Route::get('/', 'App\Http\Controllers\HomeController@index');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/trang chu', 'App\Http\Controllers\HomeController@index');
 Route::get('/shop','App\Http\Controllers\HomeController@show_category');
 Route::get('/shop-detail','App\Http\Controllers\HomeController@show_shop_detail');
@@ -23,9 +25,15 @@ Route::get('/gioi-thieu', 'App\Http\Controllers\NewsController@index2');
 
 // phan code cho admin
 Route::get('/admin', 'App\Http\Controllers\AdminController@index');
-Route::get('/admin-dashboard', 'App\Http\Controllers\AdminController@show_dashboard');
 Route::post('/admin-dashboard', 'App\Http\Controllers\AdminController@dashboard');
 Route::get('/logout', 'App\Http\Controllers\AdminController@logout');
+Route::get('/dashboard', 'App\Http\Controllers\AdminController@dashboard')->name('dashboard');
+Route::get('/dashboard', 'App\Http\Controllers\AdminController@show_dashboard')->name('dashboard');
+
+Route::group(['middleware' => ['web']], function () {
+    Route::get('/login-facebook', [AdminController::class, 'login_facebook']);
+    Route::get('/admin/callback', [AdminController::class, 'callback_facebook']);
+});
 
 // Định nghĩa route cho CategoryProductController
 Route::get('/add-category-product', [CategoryProductController::class, 'add_category_product']);
@@ -78,4 +86,10 @@ Route::post('/add-customer', [CheckoutController::class, 'add_customer']);
 Route::get('/checkout', [CheckoutController::class, 'checkout']);
 Route::get('/payment', [CheckoutController::class, 'payment']);
 Route::post('/save-checkout-customer',[CheckoutController::class,'save_checkout_customer']);
-Route::post('/order-place',[CheckoutController::class,'order_place']);
+Route::post('/order-place', [CheckoutController::class, 'order_place'])->name('order-place');
+
+
+
+//đơn hàng
+Route::get('/manager-order', [CheckoutController::class, 'manage_order'])->name('manager-order');
+Route::get('/view-order/{order_id}', [CheckoutController::class, 'view_order'])->name('view-order');
