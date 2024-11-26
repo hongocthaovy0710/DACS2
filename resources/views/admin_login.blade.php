@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 
+<?php use Illuminate\Support\Facades\Session; ?>
+
 <head>
     <title>Visitors an Admin Panel Category Bootstrap Responsive Website Template | Login :: w3layouts</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
