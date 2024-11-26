@@ -5,8 +5,13 @@
     <meta charset="utf-8">
     <title>Flower Store</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
+    <meta name="description" content="">
+    <meta name="keywords" content=""/>
+    <meta name="robots" content="INDEX,FOLLOW"/>
+    <link  rel="canonical" href="" />
+    <meta name="author" content="">
+    <link  rel="icon" type="image/x-icon" href="" />
+
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap"
         rel="stylesheet"> 
     <!-- Icon Font Stylesheet -->
@@ -24,6 +29,7 @@
 </head>
 
 <body>
+
     <header class="header">
         <div id="spinner"
             class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50  d-flex align-items-center justify-content-center">
@@ -48,7 +54,7 @@
 
             <div class="container px-0">
                 <nav class="navbar navbar-light bg-white navbar-expand-xl">
-                    <a href="{{ URL::to('/trang chu') }}" class="navbar-brand">
+                    <a href="{{ URL::to('/') }}" class="navbar-brand">
                         <h1 class="text-primary display-6">FLower</h1>
                     </a>
                     <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse"
@@ -57,30 +63,27 @@
                     </button>
                     <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
-                            <a href="{{ URL::to('/trang chu') }}" class="nav-item nav-link active">Trang chủ</a>
+                            <a href="{{ URL::to('/') }}" class="nav-item nav-link active">Trang chủ</a>
                             <a href="{{ URL::to('/shop') }}" class="nav-item nav-link ">Sản phẩm</a>                                                                             
                             <a href="{{ URL::to('/contact') }}" class="nav-item nav-link">Liên hệ</a>
                         </div>
                         <div class="d-flex m-3 me-0">
                             <form action="{{URL::to('/tim-kiem')}}" method="POST">
                                 @csrf
-                            <button
-                              name="search"  class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4"
-                                data-bs-toggle="modal" data-bs-target="#searchModal"><i
-                                    class="fas fa-search text-primary"></i></button>
+                           
                            
                              </form> 
                            
                                     <a href="{{ URL::to('/show-cart') }}" class="position-relative me-4 my-auto">
                                 <i class="fa fa-shopping-bag fa-2x"></i>
                                 <span
-                                    class="cart position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
-                                    style="top: -5px; left: 15px; height: 20px; min-width: 20px;">0</span>
+                                    class="cart position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" >
+                                </span>
                             </a>
     
                                 <?php
-
                                     use Illuminate\Support\Facades\Session;
+                                  
                                         $customer_id = Session::get('customer_id');
                                         if ($customer_id != NULL) {
                                         ?>                                         
@@ -106,25 +109,7 @@
     <!-- Menu bar -->
 
 
-    <!-- Modal Search Start -->
-    <!-- <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-fullscreen">
-            <div class="modal-content rounded-0">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Search by keyword</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body d-flex align-items-center">
-                    <div class="input-group w-75 mx-auto d-flex">
-                        <input type="search" class="form-control p-3" placeholder="keywords"
-                            aria-describedby="search-icon-1">
-                        <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-    <!-- Modal Search End -->
+   
 <main>
     <div>
 

@@ -16,6 +16,9 @@ Route::get('/shop-detail','App\Http\Controllers\HomeController@show_shop_detail'
 Route::get('/contact','App\Http\Controllers\HomeController@contact');
 Route::post('/tim-kiem','App\Http\Controllers\HomeController@search');
 
+//gửi mail
+Route::get('/send-mail','App\Http\Controllers\HomeController@send_mail');
+
 
 Route::get('/trang-tin', 'App\Http\Controllers\NewsController@index');
 Route::get('/gioi-thieu', 'App\Http\Controllers\NewsController@index2');
@@ -66,6 +69,7 @@ Route::post('/update-product/{product_id}', [ProductController::class, 'update_p
 Route::get('/danh-muc-san-pham/{category_id}',[CategoryProductController::class,'show_category_home']);
 Route::get('/thuong-hieu-san-pham/{brand_id}',[BrandProduct::class,'show_brand_home']);
 Route::get('/chi-tiet-san-pham/{product_id}',[ProductController::class,'details_product']);
+Route::get('/', [ProductController::class, 'showNewProducts']);
 
 
 //cart
