@@ -128,7 +128,8 @@ class ProductController extends Controller
         return view('admin.product_list', compact('products'));
     }
 
-    
+     // Hiển thị trang chủ
+     
 
 
     public function details_product($product_id){
