@@ -83,10 +83,14 @@
                             <p class="text-dark fs-5 fw-bold mb-0">{{ number_format($product->product_price) . ' VND' }}</p>
                         </div>
                         <div class="card-footer bg-white border-0 d-flex justify-content-between">
-                        <a class="btn border border-secondary rounded-pill px-3 text-primary"
-                                                        onclick="addToCart(event)"><i
-                                                            class="fa fa-shopping-bag me-2 text-primary"></i>Thêm vào giỏ hàng</a>
-                           
+                        <form action="{{ URL::to('/save-cart') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="productid_hidden" value="{{ $product->product_id }}">
+                    <input type="hidden" name="qty" value="1">
+                    <button type="submit" class="btn border border-secondary rounded-pill px-3 text-primary">
+                        <i class="fa fa-shopping-bag me-2 text-primary"></i>Thêm vào giỏ hàng
+                    </button>
+                </form>
                         </div>
                     </div>
                 </div>
