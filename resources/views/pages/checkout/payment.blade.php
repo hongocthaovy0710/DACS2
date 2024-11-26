@@ -80,14 +80,7 @@
                                 ?>
                             </p>
                         </td>
-                        <td>
-                            <button class="btn btn-md rounded-circle bg-light border mt-4">
 
-                                <a class="cart_quantity_delete"
-                                    href="{{ URL::to('/delete-to-cart/' . $v_content->rowId) }}">
-                                    <i class="fa fa-times text-danger"></i></a>
-                            </button>
-                        </td>
 
                     </tr>
                 @endforeach

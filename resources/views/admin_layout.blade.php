@@ -25,26 +25,20 @@
     <!-- //calendar -->
     <!-- //font-awesome icons -->
     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.0/classic/ckeditor.js"></script>
-    <script src="{{ asset('public/backend/js/jquery2.0.3.min.js') }}"></script>
+    {{-- <script src="{{ asset('public/backend/js/jquery2.0.3.min.js') }}"></script> --}}
 
     {{-- <script src="{{ asset('public/backend/ckeditor/ckeditor5/ckeditor5.js') }}"></script> --}}
-
+    <script src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
     <script src="{{ asset('public/backend/js/raphael-min.js') }}"></script>
     <script src="{{ asset('public/backend/js/morris.js') }}"></script>
-    {{-- <script>
-        document.querySelectorAll('.editor').forEach(editor => {
-            ClassicEditor
-                .create(editor, {
-                    ckfinder: {
-                        uploadUrl: '{{ route('ckeditor.upload') }}?_token={{ csrf_token() }}'
-                    }
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-        });
-    </script> --}}
+    <script src="{{ asset('public/backend/js/jquery.validate.min.js') }}"></script>
 
+
+    <script>
+        $.validate({
+
+        })
+    </script>
 </head>
 
 <body>
@@ -74,6 +68,9 @@
                             <img alt="" src="{{ 'public/backend/images/2.png' }}">
                             <span class="username">
                                 <?php
+
+use Illuminate\Support\Facades\Session;
+
                                 $name = Session::get('admin_name');
                                 if ($name) {
                                     echo $name;
