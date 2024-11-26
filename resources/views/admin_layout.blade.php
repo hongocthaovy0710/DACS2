@@ -25,14 +25,20 @@
     <!-- //calendar -->
     <!-- //font-awesome icons -->
     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.0/classic/ckeditor.js"></script>
-    <script src="{{ asset('public/backend/js/jquery2.0.3.min.js') }}"></script>
+    {{-- <script src="{{ asset('public/backend/js/jquery2.0.3.min.js') }}"></script> --}}
 
     {{-- <script src="{{ asset('public/backend/ckeditor/ckeditor5/ckeditor5.js') }}"></script> --}}
-
+    <script src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
     <script src="{{ asset('public/backend/js/raphael-min.js') }}"></script>
     <script src="{{ asset('public/backend/js/morris.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="{{ asset('public/backend/js/jquery.validate.min.js') }}"></script>
 
+
+    <script>
+        $.validate({
+
+        })
+    </script>
 </head>
 
 <body>

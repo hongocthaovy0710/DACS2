@@ -40,7 +40,7 @@
                                 </label>
                             </th>
                             <th>Tên danh mục</th>
-                            <th>Slug</th>
+                            <th>Số lượng</th>
                             <th>Hiển thị</th>
                             <th style="width:30px;"></th>
                         </tr>
