@@ -31,7 +31,7 @@
     <script src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
     <script src="{{ asset('public/backend/js/raphael-min.js') }}"></script>
     <script src="{{ asset('public/backend/js/morris.js') }}"></script>
-    <script src="{{ asset('public/backend/js/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('public/backend/js/jquery.form-validator.min.js') }}"></script>
 
 
     <script>
@@ -68,9 +68,9 @@
                             <img alt="" src="{{ 'public/backend/images/2.png' }}">
                             <span class="username">
                                 <?php
-
-use Illuminate\Support\Facades\Session;
-
+                                
+                                use Illuminate\Support\Facades\Session;
+                                
                                 $name = Session::get('admin_name');
                                 if ($name) {
                                     echo $name;
