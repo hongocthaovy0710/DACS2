@@ -78,40 +78,8 @@
                             </div>
 
 
-                            <div class="col-lg-12">
-                                <div class="position-relative">
-                                    <img src="./anhHoaxunngoc/Poster2.jpg" class="img-fluid w-100 rounded" alt="">
-                                    <div class="position-absolute" style="top: 50%; left: 10px; transform: translateY(-50%);">
-                                        <h3 class="text-secondary fw-bold">Feel <br> Flower <br> Love</h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <h4 class="mb-3">Khuyến mãi</h4>
-                                <div class="d-flex align-items-center justify-content-start">
-                                    <div class="rounded me-4" style="width: 100px; height: 100px;">
-                                        <img src="./anhHoaxunngoc/13262_tinh-dau-tho-ngay.jpg" class="img-fluid rounded" alt="">
-                                    </div>
-                                    <div>
-                                        <h6 class="mb-2">Tình Đầu</h6>
-                                        <div class="d-flex mb-2">
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <div class="d-flex mb-2">
-                                            <h5 class="fw-bold me-2">250 k</h5>
-                                            <h5 class="text-danger text-decoration-line-through">340 k</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                               
-                                <div class="d-flex justify-content-center my-4">
-                                    <a href="shopkhuyenmai.html" class="btn border border-secondary px-4 py-3 rounded-pill text-primary w-100">View More</a>
-                                </div>
-                            </div>
+                            
+                           
                           
                             <div class="col-lg-12">
                                 <div class="mb-3">
@@ -152,7 +120,14 @@
                                         <p>{{ $product->product_content }}</p>
                                         <div class="d-flex justify-content-between flex-lg-wrap">
                                             <p class="text-dark fs-5 fw-bold mb-0">{{number_format ((float)$product->product_price).' '.'VND' }}</p>
-                                            <a href="shop-detail.html" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                            <form action="{{ URL::to('/save-cart') }}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="productid_hidden" value="{{ $product->product_id }}">
+                                                <input type="hidden" name="qty" value="1">
+                                                <button type="submit" class="btn border border-secondary rounded-pill px-3 text-primary">
+                                                    <i class="fa fa-shopping-bag me-2 text-primary"></i>Thêm vào giỏ hàng
+                                                </button>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>

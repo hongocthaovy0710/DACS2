@@ -39,11 +39,7 @@
                                     <i class="fa fa-star text-secondary"></i>
                                     <i class="fa fa-star"></i>
                                 </div>
-                                <p class="mb-4">Sản phẩm bao gồm: <br> 
-                                                - Cẩm chướng chùm hồng viên: 3 <br>
-                                                - Cúc calimero hồng: 3 <br>
-                                                - Hoa Sao tím: 1 <br>      
-                                                - Pink OHara: 1         
+                                <p class="mb-4">{{$value->product_desc }}       
                                 </p>
                                 <p class="mb-4">{{ $value->product_content }}</p>
                                 <div class="input-group quantity mb-5" style="width: 100px;">
@@ -100,7 +96,9 @@
                     @foreach ($relate as $key => $lienquan)
                         <div class="border border-primary rounded position-relative vesitable-item">
                             <div class="vesitable-img">
+                            <a href="{{ URL::to('/chi-tiet-san-pham/' . $lienquan->product_id) }}">
                                 <img src="{{ asset('public/uploads/product/' . $lienquan->product_image) }}" class="img-fluid w-100 rounded-top" alt="">
+                            </a>
                             </div>
                             <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">{{$lienquan->brand_name}}</div>
                             <div class="p-4 pb-0 rounded-bottom">
@@ -108,8 +106,15 @@
                                 <p>{{$lienquan->product_content}}</p>
                                 <div class="d-flex justify-content-between flex-lg-wrap">
                                     <p class="text-dark fs-5 fw-bold">{{ number_format((float) $lienquan->product_price) . ' ' . 'VND' }}</p>
-                                    <a href="shop-detail2.html" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                </div>
+                                    <form action="{{ URL::to('/save-cart') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="productid_hidden" value="{{ $lienquan->product_id }}">
+                                    <input type="hidden" name="qty" value="1">
+                                    <button type="submit" class="btn border border-secondary rounded-pill px-3 text-primary">
+                                        <i class="fa fa-shopping-bag me-2 text-primary"></i>Thêm vào giỏ hàng
+                                    </button>
+                                </form>
+                             </div>
                             </div>
                         </div>
                       
