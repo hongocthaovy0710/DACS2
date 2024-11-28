@@ -68,12 +68,12 @@
                                 <td>
                                     <a href="{{ route('view-order', ['order_id' => $order->order_id]) }}"
                                         class="active styling-edit" ui-toggle-class="">
-                                        <i class="fa fa-pencil-square-o text-success text-active"></i>
+                                        <i class="fa fa-pencil-square-o text-success text-active "></i>
                                     </a>
                                     <a onclick="return confirm('Bạn có chắc là muốn xóa đơn hàng không?')"
                                         href="{{ URL::to('/delete-order/' . $order->order_id) }}"
                                         class="active styling-edit" ui-toggle-class="">
-                                        <i class="fa fa-times text-danger text"></i>
+                                        <i class="fa fa-times text-danger text "></i>
                                     </a>
                                 </td>
                             </tr>

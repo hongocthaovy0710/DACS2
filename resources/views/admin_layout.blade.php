@@ -8,6 +8,7 @@
     <!-- Link đến file CSS tùy chỉnh -->
 
     <link rel="stylesheet" href="{{ asset('public/backend/css/bootstrap.min.css') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- //bootstrap-css -->
     <!-- Custom CSS -->
     <link href="{{ asset('public/backend/css/style.css') }}" rel='stylesheet' type='text/css' />
@@ -25,10 +26,12 @@
     <!-- //calendar -->
     <!-- //font-awesome icons -->
     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.0/classic/ckeditor.js"></script>
-    {{-- <script src="{{ asset('public/backend/js/jquery2.0.3.min.js') }}"></script> --}}
+
 
     {{-- <script src="{{ asset('public/backend/ckeditor/ckeditor5/ckeditor5.js') }}"></script> --}}
-    <script src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
+    {{-- <script src="https://code.jquery.com/jquery-2.0.3.min.js"></script> --}}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script src="{{ asset('public/backend/js/raphael-min.js') }}"></script>
     <script src="{{ asset('public/backend/js/morris.js') }}"></script>
     <script src="{{ asset('public/backend/js/jquery.form-validator.min.js') }}"></script>
@@ -39,6 +42,7 @@
 
         })
     </script>
+
 </head>
 
 <body>
@@ -59,9 +63,9 @@
             <div class="top-nav clearfix">
                 <!--search & user info start-->
                 <ul class="nav pull-right top-menu">
-                    <li>
+                    {{-- <li>
                         <input type="text" class="form-control search" placeholder=" Search">
-                    </li>
+                    </li> --}}
                     <!-- user login dropdown start-->
                     <li class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
@@ -80,8 +84,8 @@
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu extended logout">
-                            <li><a href="#"><i class=" fa fa-suitcase"></i>cá nhân</a></li>
-                            <li><a href="#"><i class="fa fa-cog"></i> cài đặt</a></li>
+                            <li><a href="{{ URL::to('/') }}"><i class=" fa fa-suitcase"></i>Trang Web</a></li>
+                            {{-- <li><a href="#"><i class="fa fa-cog"></i> cài đặt</a></li> --}}
                             <li><a href="{{ URL::to('/logout') }}"><i class="fa fa-key"></i> Đăng xuất</a></li>
                         </ul>
                     </li>
@@ -128,6 +132,20 @@
                                     </a></li>
                             </ul>
                         </li>
+
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-book"></i>
+                                <span>Vận chuyển</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="{{ URL::to('/delivery') }}">Quản lý vận chuyển</a></li>
+
+
+
+                            </ul>
+                        </li>
+
                         <li class="sub-menu">
                             <a href="javascript:;">
                                 <i class="fa fa-book"></i>
@@ -163,6 +181,7 @@
                     </ul>
                 </div>
                 <!-- sidebar menu end-->
+
             </div>
         </aside>
         <!--sidebar end-->
@@ -293,7 +312,8 @@
         });
     </script>
     <!-- calendar -->
-    <script type="text/javascript" src="js/monthly.js"></script>
+    <script src="{{ asset('public/backend/js/monthly.js') }}"></script>
+    {{-- <script type="text/javascript" src="js/monthly.js"></script> --}}
     <script type="text/javascript">
         $(window).load(function() {
 
@@ -325,6 +345,165 @@
     </script>
     <!-- //calendar -->
     @yield('js-custom');
+
+    <script type="text/javascript">
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $(document).ready(function() {
+            fetch_delivery();
+
+            function fetch_delivery() {
+                var _token = $('input[name="_token"]').val();
+                $.ajax({
+                    url: '{{ url('/select-feeship') }}',
+                    method: 'POST',
+                    data: {
+                        _token: _token
+                    },
+                    success: function(data) {
+                        $('#load_delivery').html(data);
+                    },
+                    error: function(xhr) {
+                        console.error('Failed to fetch delivery data:', xhr.responseText);
+                        $('#load_delivery').html(
+                            '<p class="text-danger">Failed to load delivery data</p>');
+                    }
+                });
+            }
+
+            $(document).on('blur', '.fee_feeship_edit', function() {
+                var feeship_id = $(this).data('feeship_id');
+                var fee_value = $(this).text();
+                var _token = $('input[name="_token"]').val();
+
+                // Add loading state
+                $(this).addClass('updating');
+
+                $.ajax({
+                    url: '{{ url('/update-delivery') }}',
+                    method: 'POST',
+                    data: {
+                        feeship_id: feeship_id,
+                        fee_value: fee_value,
+                        _token: _token
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            fetch_delivery();
+                        } else {
+                            alert('Update failed: ' + response.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        console.error('Update failed:', xhr.responseText);
+                        alert('Failed to update delivery fee');
+                    },
+                    complete: function() {
+                        $('.fee_feeship_edit').removeClass('updating');
+                    }
+                });
+            });
+        });
+
+
+        $(document).ready(function() {
+
+            $('.add_delivery').click(function() {
+
+                var city = $('.city').val();
+                var province = $('.province').val();
+                var wards = $('.wards').val();
+                var fee_ship = $('.fee_ship').val();
+                var _token = $('input[name="_token"]').val();
+
+                // Kiểm tra dữ liệu trước khi gửi
+                if (city == '' || province == '' || wards == '' || fee_ship == '') {
+                    alert('Vui lòng điền đầy đủ thông tin.');
+                    return;
+                }
+
+                $.ajax({
+                    url: '{{ route('insert-delivery') }}',
+                    method: 'POST',
+                    data: {
+                        city: city,
+                        province: province,
+                        wards: wards,
+                        fee_ship: fee_ship,
+                        _token: _token
+                    },
+                    success: function(data) {
+                        if (data.success) {
+                            alert(data.success);
+                            location.reload();
+                        } else {
+                            alert('Có lỗi xảy ra.');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Lỗi AJAX:', error);
+                        alert('Có lỗi xảy ra: ' + error);
+                    }
+                });
+
+            });
+
+            $('.choose').on('change', function() {
+                var action = $(this).attr('id'); // city, province, hoặc wards
+                var ma_id = $(this).val(); // Giá trị được chọn
+                var _token = $('input[name="_token"]').val(); // CSRF token
+
+                if (ma_id) {
+                    $.ajax({
+                        url: '{{ route('select-delivery') }}',
+                        method: "POST",
+                        data: {
+                            action: action,
+                            ma_id: ma_id,
+                            _token: _token
+                        },
+                        success: function(data) {
+                            if (action == 'city') {
+                                $('#province').html(data); // Cập nhật quận/huyện
+                                $('#wards').html(
+                                    '<option value="">--Chọn xã phường--</option>'
+                                ); // Reset xã/phường
+                            } else if (action == 'province') {
+                                $('#wards').html(data); // Cập nhật xã/phường
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Lỗi AJAX:', error);
+                            alert('Có lỗi xảy ra: ' + error);
+                        }
+                    });
+                } else {
+                    alert('Vui lòng chọn một giá trị hợp lệ.');
+                }
+            });
+
+
+        });
+    </script>
+    <script>
+        $.validate({
+            form: 'form',
+            language: 'vi',
+            modules: 'location, date, security, file',
+            errorMessagePosition: 'top',
+            onError: function() {
+                return false;
+            },
+            onSuccess: function() {
+                // Form is valid
+                return true;
+            }
+        });
+    </script>
 </body>
 
 </html>
