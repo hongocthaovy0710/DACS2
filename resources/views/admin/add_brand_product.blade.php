@@ -17,23 +17,23 @@
                             {{ csrf_field() }}
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Tên danh mục</label>
-                                <input type="text" name="brand_product_name" class="form-control"
-                                    data-validation="required" id="exampleInputEmail1" placeholder="Tên danh mục">
+                                <input type="text" required name="brand_product_name" class="form-control"
+                                     id="exampleInputEmail1" placeholder="Tên danh mục">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Số lượng</label>
-                                <input type="text" name="slug_brand_product" class="form-control" id="exampleInputEmail1"
+                                <input type="text" required name="slug_brand_product" class="form-control" id="exampleInputEmail1"
                                     placeholder="Slug">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Mô tả danh mục</label>
-                                <textarea style="resize: none" rows="8" class="form-control editor ckeditor" data-validation="required"
+                                <textarea style="resize: none" required rows="8" class="form-control editor ckeditor" 
                                     name="brand_product_desc" id="exampleInputPassword1" placeholder="Mô tả danh mục"></textarea>
                             </div>
 
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Từ khóa danh mục</label>
-                                <textarea style="resize: none" rows="8" class="form-control editor ckeditor" data-validation="required"
+                                <textarea style="resize: none" required rows="8" class="form-control editor ckeditor" 
                                     name="brand_product_keywords" id="exampleInputPassword1" placeholder="Từ khóa danh mục"></textarea>
                             </div>
                             <div class="form-group">

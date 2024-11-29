@@ -31,21 +31,14 @@
                             <div class="col-lg-6 ">
                                 <h4 class="fw-bold mb-3">{{ $value->product_name }}</h4>
                                 <p class="mb-3">Hoa sinh nhật</p>
-                                <h5 class="fw-bold mb-3">{{ number_format($value->product_price,0,',','.') . 'VND' }}</h5>
-                                <div class="d-flex mb-4">
-                                    <i class="fa fa-star text-secondary"></i>
-                                    <i class="fa fa-star text-secondary"></i>
-                                    <i class="fa fa-star text-secondary"></i>
-                                    <i class="fa fa-star text-secondary"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
+                                <h5 class="fw-bold mb-3">{{ number_format($value->product_price,0,',','.') . 'VND' }}</h5>                       
                                 <p class="mb-4">{{$value->product_desc }}       
                                 </p>
                                 <p class="mb-4">{{ $value->product_content }}</p>
                                 <div class="input-group quantity mb-5" style="width: 100px;">
                                     <div class="input-group-btn">
 
-                         <form action="{{url ('/save-cart') }}" method="POST">
+                                <form action="{{url ('/save-cart') }}" method="POST">
                                     @csrf    
                                         <button class="btn btn-sm btn-minus rounded-circle bg-light border" >
                                             <i class="fa fa-minus"></i>
