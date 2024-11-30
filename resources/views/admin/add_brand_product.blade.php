@@ -51,9 +51,10 @@
         </div>
     </div>
 @endsection
+
 @section('js-custom')
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        $(document).ready(function() {
             document.querySelectorAll('.editor').forEach(editor => {
                 if (!editor.getAttribute('data-ckeditor-initialized')) {
                     ClassicEditor

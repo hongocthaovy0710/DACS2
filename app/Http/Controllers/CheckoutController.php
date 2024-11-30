@@ -5,18 +5,15 @@ namespace App\Http\Controllers;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 
 
-use App\Models\Order;
-use App\Models\OrderDetail;
-use App\Models\Shipping;
-use App\Models\Feeship;
-
 session_start();
 class CheckoutController extends Controller
 {
+    
     public function AuthLogin(){
         $admin_id = Session::get('admin_id');
         if($admin_id){
@@ -26,45 +23,47 @@ class CheckoutController extends Controller
         }
     }
 
-    public function view_order($order_id){
-        $this->AuthLogin();
-        
-        // Lấy thông tin đơn hàng
-        $order_by_id = DB::table('tbl_order')
-            ->join('tbl_customers', 'tbl_order.customer_id', '=', 'tbl_customers.customer_id')
-            ->join('tbl_shipping', 'tbl_order.shipping_id', '=', 'tbl_shipping.shipping_id')
-            ->join('tbl_order_details', 'tbl_order.order_id', '=', 'tbl_order_details.order_id')
-            ->join('tbl_payment', 'tbl_order.payment_id', '=', 'tbl_payment.payment_id')
-            ->select('tbl_order.*', 'tbl_customers.customer_name', 'tbl_customers.customer_phone', 'tbl_shipping.shipping_name', 'tbl_shipping.shipping_address', 'tbl_shipping.shipping_phone', 'tbl_shipping.shipping_email', 'tbl_shipping.shipping_notes', 'tbl_payment.payment_method', 'tbl_order_details.*')
-            ->where('tbl_order.order_id', $order_id)
-            ->first();
 
-        // Lấy chi tiết đơn hàng
-        $order_details = DB::table('tbl_order_details')
-            ->where('order_id', $order_id)
-            ->get();
+ 
+    
+public function view_order($order_id){
+    $this->AuthLogin();
+    
+    // Lấy thông tin đơn hàng
+    $order_by_id = DB::table('tbl_order')
+        ->join('tbl_customers', 'tbl_order.customer_id', '=', 'tbl_customers.customer_id')
+        ->join('tbl_shipping', 'tbl_order.shipping_id', '=', 'tbl_shipping.shipping_id')
+        ->join('tbl_order_details', 'tbl_order.order_id', '=', 'tbl_order_details.order_id')
+        ->join('tbl_payment', 'tbl_order.payment_id', '=', 'tbl_payment.payment_id')
+        ->select('tbl_order.*', 'tbl_customers.customer_name', 'tbl_customers.customer_phone', 'tbl_shipping.shipping_name', 'tbl_shipping.shipping_address', 'tbl_shipping.shipping_phone', 'tbl_shipping.shipping_email', 'tbl_shipping.shipping_notes', 'tbl_payment.payment_method', 'tbl_order_details.*')
+        ->where('tbl_order.order_id', $order_id)
+        ->first();
 
-        // Kiểm tra nếu đơn hàng không tồn tại
-        if (!$order_by_id) {
-            return redirect()->route('manager-order')->with('error', 'Đơn hàng không tồn tại');
-        }
+    // Lấy chi tiết đơn hàng
+    $order_details = DB::table('tbl_order_details')
+        ->where('order_id', $order_id)
+        ->get();
 
-        // Trả về view với thông tin đơn hàng và chi tiết đơn hàng
-        return view('admin.view_order')->with(['order_by_id' => $order_by_id, 'order_details' => $order_details]);
+    // Kiểm tra nếu đơn hàng không tồn tại
+    if (!$order_by_id) {
+        return redirect()->route('manager-order')->with('error', 'Đơn hàng không tồn tại');
     }
 
-    public function update_order(Request $request, $order_id){
+    // Trả về view với thông tin đơn hàng và chi tiết đơn hàng
+    return view('admin.view_order')->with(['order_by_id' => $order_by_id, 'order_details' => $order_details]);
+}
+
+    public function update_order(Request $request,$order_id){
         $order_status = $request->select_status; 
-        DB::table('tbl_order')->where('order_id', $order_id)->update(['order_status' => $order_status]);
-        return Redirect::to('/manage-order');
-    }
-
+       DB::table('tbl_order')->where('order_id',$order_id)->update(['order_status'=>$order_status]);
+       return Redirect::to('/manage-order');
+     
+   }
     public function login_checkout(){
-        $cate_product = DB::table('tbl_category_product')->where('category_status', '0')->orderby('category_id', 'desc')->get();
-        $brand_product = DB::table('tbl_brand')->where('brand_status', '0')->orderby('brand_id', 'desc')->get();
-        return view('pages.checkout.login_checkout')->with('category', $cate_product)->with('brand', $brand_product);
+        $cate_product = DB::table('tbl_category_product')->where('category_status','0')->orderby('category_id', 'desc')->get();
+        $brand_product = DB::table('tbl_brand')->where('brand_status','0')->orderby('brand_id', 'desc')->get();
+        return view('pages.checkout.login_checkout')->with('category',$cate_product)->with('brand',$brand_product);
     }
-
     public function add_customer(Request $request){
         $data = array();
         $data['customer_name'] = $request->customer_name;
@@ -73,15 +72,16 @@ class CheckoutController extends Controller
         $data['customer_phone'] = $request->customer_phone;
         $customer_id = DB::table('tbl_customers')->insertGetId($data);
 
-        Session::put('customer_id', $customer_id);
-        Session::put('customer_name', $request->customer_name);
+        Session::put('customer_id',$customer_id);
+        Session::put('customer_name',$request->customer_name);
         return Redirect::to('/checkout');
     }
 
     public function checkout(){
-        $cate_product = DB::table('tbl_category_product')->where('category_status', '0')->orderby('category_id', 'desc')->get();
-        $brand_product = DB::table('tbl_brand')->where('brand_status', '0')->orderby('brand_id', 'desc')->get();
-        return view('pages.checkout.show_checkout')->with('category', $cate_product)->with('brand', $brand_product);
+        $cate_product = DB::table('tbl_category_product')->where('category_status','0')->orderby('category_id', 'desc')->get();
+        $brand_product = DB::table('tbl_brand')->where('brand_status','0')->orderby('brand_id', 'desc')->get();
+        return view('pages.checkout.show_checkout')->with('category',$cate_product)->with('brand',$brand_product);
+        
     }
 
     public function save_checkout_customer(Request $request){
@@ -96,15 +96,17 @@ class CheckoutController extends Controller
         Session::put('shipping_id', $shipping_id);
         return Redirect::to('/payment');
     }
-
     public function payment(Request $request){
+        //
         $meta_desc = "Đăng nhập thanh toán"; 
         $meta_keywords = "Đăng nhập thanh toán";
         $meta_title = "Đăng nhập thanh toán";
         $url_canonical = $request->url();
-        $cate_product = DB::table('tbl_category_product')->where('category_status', '1')->orderby('category_id', 'desc')->get();
-        $brand_product = DB::table('tbl_brand')->where('brand_status', '1')->orderby('brand_id', 'desc')->get(); 
-        return view('pages.checkout.payment')->with('category', $cate_product)->with('brand', $brand_product)->with('meta_desc', $meta_desc)->with('meta_keywords', $meta_keywords)->with('meta_title', $meta_title)->with('url_canonical', $url_canonical);
+        //
+        $cate_product = DB::table('tbl_category_product')->where('category_status','1')->orderby('category_id','desc')->get();
+        $brand_product = DB::table('tbl_brand')->where('brand_status','1')->orderby('brand_id','desc')->get(); 
+        return view('pages.checkout.payment')->with('category',$cate_product)->with('brand',$brand_product)->with('meta_desc',$meta_desc)->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical);
+
     }
 
     public function logout_checkout(Request $request){
@@ -115,15 +117,17 @@ class CheckoutController extends Controller
     public function login_customer(Request $request){
         $email = $request->email_account;
         $password = md5($request->password_account);
-        $result = DB::table('tbl_customers')->where('customer_email', $email)->where('customer_password', $password)->first();
+        $result = DB::table('tbl_customers')->where('customer_email',$email)->where('customer_password',$password)->first();
+        
         
         if($result){
-            Session::put('customer_id', $result->customer_id);
-            Session::put('customer_name', $result->customer_name);
-            Session::put('customer_email', $result->customer_email);
-            Session::put('customer_phone', $result->customer_phone);
+            Session::put('customer_id',$result->customer_id);
+            Session::put('customer_name',$result->customer_name);
+            Session::put('customer_email',$result->customer_email);
+           
+             Session::put('customer_phone',$result->customer_phone);
             return Redirect::to('/checkout');
-        } else {
+        }else{
             return Redirect::to('/login-checkout');
         }
         }
@@ -190,11 +194,6 @@ if($data['payment_method']==1){
        
 }
 
-        // Xử lý logic đặt hàng ở đây
-        $data = array();
-        $data['payment_method'] = $request->payment_option;
-        $data['payment_status'] = 'Đang chờ xử lý';
-        $payment_id = DB::table('tbl_payment')->insertGetId($data);
 
 public function manage_order(){
     $all_order = DB::table('tbl_order')
