@@ -34,8 +34,8 @@
 
     <script src="{{ asset('public/backend/js/raphael-min.js') }}"></script>
     <script src="{{ asset('public/backend/js/morris.js') }}"></script>
+    <script src="{{ asset('public/backend/js/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('public/backend/js/jquery.form-validator.min.js') }}"></script>
-
 
     <script>
         $.validate({

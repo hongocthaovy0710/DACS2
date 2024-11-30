@@ -76,7 +76,7 @@
 
                             </form>
 
-                            <a href="{{ URL::to('/show-cart') }}" class="position-relative me-4 my-auto">
+                            <a href="{{ URL::to('/gio-hang') }}" class="position-relative me-4 my-auto">
                                 <i class="fa fa-shopping-bag fa-2x"></i>
                                 <span
                                     class="cart position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1">
@@ -205,6 +205,55 @@
     <script src="{{ asset('public/frontend/lib/owlcarousel/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('public/frontend/js/main.js') }}"></script>
     <script src="{{ asset('public/frontend/js/logic.js') }}"></script>
+    <!-- Thêm SweetAlert 1.x -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert/dist/sweetalert.min.js"></script>
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.add-to-cart').click(function() {
+                var id = $(this).data('id_product');
+                var cart_product_id = $('.cart_product_id_' + id).val();
+                var cart_product_name = $('.cart_product_name_' + id).val();
+                var cart_product_image = $('.cart_product_image_' + id).val();
+                var cart_product_price = $('.cart_product_price_' + id).val();
+                var cart_product_qty = $('.cart_product_qty_' + id).val();
+                var _token = $('input[name="_token"]').val();
+                $.ajax({
+                    url: "{{ url('/add-cart-ajax') }}",
+                    method: 'POST',
+                    data: {
+                        cart_product_id: cart_product_id,
+                        cart_product_name: cart_product_name,
+                        cart_product_image: cart_product_image,
+                        cart_product_price: cart_product_price,
+                        cart_product_qty: cart_product_qty,
+                        _token: _token
+                    },
+                    success: function(data) {
+
+                        swal({
+                            title: "Thông báo",
+                            text: data, // Thông báo từ backend
+                            icon: "success",
+                            buttons: {
+                                cancel: "Xem tiếp",
+                                confirm: "Đi đến giỏ hàng",
+                            },
+
+                        }).then((willGoToCart) => {
+                            if (willGoToCart) {
+                                window.location.href = "{{ url('/gio-hang') }}";
+                            }
+                        });
+                    }
+
+                });
+            });
+        });
+    </script>
+
 </body>
 
 </html>
