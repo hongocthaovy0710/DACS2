@@ -30,15 +30,20 @@ class AdminController extends Controller
         $login = Login::where('admin_email', $admin_email)
             ->where('admin_password', $admin_password)->first();
     
-        if ($login) {
-            Session::put('admin_name', $login->admin_name);
-            Session::put('admin_id', $login->admin_id);
-            return Redirect::to('/dashboard');
-        } else {
-            Session::put('message', 'Mật khẩu hoặc tài khoản bị sai. Làm ơn nhập lại');
-            return Redirect::to('/admin');
+            if($login){
+                $login_count = $login->count();
+                if($login_count>0){
+                    Session::put('admin_name',$login->admin_name);
+                    Session::put('admin_id',$login->admin_id);
+                    return Redirect::to('/dashboard');
+                }
+            }else{
+                    Session::put('message','Mật khẩu hoặc tài khoản bị sai.Làm ơn nhập lại');
+                    return Redirect::to('/admin');
+            }
+           
+    
         }
-    }
 
     /*
 $admin_email = $request->admin_email;

@@ -8,6 +8,8 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\DeliveryController;
+use App\Http\Controllers\OrderController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/trang chu', 'App\Http\Controllers\HomeController@index');
@@ -100,5 +102,15 @@ Route::post('/order-place', [CheckoutController::class, 'order_place'])->name('o
 
 
 //đơn hàng
-Route::get('/manager-order', [CheckoutController::class, 'manage_order'])->name('manager-order');
-Route::get('/view-order/{order_id}', [CheckoutController::class, 'view_order'])->name('view-order');
+Route::get('/manager-order', [OrderController::class, 'manage_order'])->name('manager-order');
+Route::get('/view-order/{order_code}', [OrderController::class, 'view_order'])->name('view-order');
+
+
+
+
+// Delivery
+Route::get('/delivery', [DeliveryController::class, 'delivery'])->name('delivery');
+Route::post('/insert-delivery', [DeliveryController::class, 'insert_delivery'])->name('insert-delivery');
+Route::post('/select-delivery', [DeliveryController::class, 'select_delivery'])->name('select-delivery');
+Route::post('/select-feeship', [DeliveryController::class, 'select_feeship'])->name('select-feeship');
+Route::post('/update-delivery', [DeliveryController::class, 'update_delivery'])->name('update-delivery');

@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 
 
+use App\Models\Order;
+use App\Models\OrderDetail;
+use App\Models\Shipping;
+use App\Models\Feeship;
+
 session_start();
 class CheckoutController extends Controller
 {
