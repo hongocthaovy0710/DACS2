@@ -215,6 +215,8 @@
     <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/flot-chart/excanvas.min.js"></script><![endif]-->
     <script src="{{ asset('public/backend/js/jquery.scrollTo.js') }}"></script>
     <!-- morris JavaScript -->
+    
+
     <script>
         $(document).ready(function() {
             //BOX BUTTON SHOW AND CLOSE
@@ -295,7 +297,7 @@
                     },
                     {
                         period: '2017 Q1',
-                        iphone: 10697,
+iphone: 10697,
                         ipad: 4470,
                         itouch: 2038
                     },
@@ -315,8 +317,7 @@
         });
     </script>
     <!-- calendar -->
-    <script src="{{ asset('public/backend/js/monthly.js') }}"></script>
-    {{-- <script type="text/javascript" src="js/monthly.js"></script> --}}
+    <script type="text/javascript" src="js/monthly.js"></script>
     <script type="text/javascript">
         $(window).load(function() {
 
@@ -346,9 +347,14 @@
 
         });
     </script>
+   
+
+
+
     <!-- //calendar -->
     @yield('js-custom');
 
+  
     <script type="text/javascript">
         $.ajaxSetup({
             headers: {
@@ -362,7 +368,7 @@
             function fetch_delivery() {
                 var _token = $('input[name="_token"]').val();
                 $.ajax({
-                    url: '{{ url('/select-feeship') }}',
+                    url: "{{ url('/select-feeship') }}",
                     method: 'POST',
                     data: {
                         _token: _token
@@ -387,9 +393,9 @@
                 $(this).addClass('updating');
 
                 $.ajax({
-                    url: '{{ url('/update-delivery') }}',
+                    url: "{{ url('/update-delivery') }}",
                     method: 'POST',
-                    data: {
+data: {
                         feeship_id: feeship_id,
                         fee_value: fee_value,
                         _token: _token
@@ -430,7 +436,7 @@
                 }
 
                 $.ajax({
-                    url: '{{ route('insert-delivery') }}',
+                    url: "{{ route('insert-delivery') }}",
                     method: 'POST',
                     data: {
                         city: city,
@@ -462,12 +468,12 @@
 
                 if (ma_id) {
                     $.ajax({
-                        url: '{{ route('select-delivery') }}',
+                        url: "{{ route('select-delivery') }}",
                         method: "POST",
                         data: {
                             action: action,
                             ma_id: ma_id,
-                            _token: _token
+_token: _token
                         },
                         success: function(data) {
                             if (action == 'city') {
@@ -492,21 +498,8 @@
 
         });
     </script>
-    <script>
-        $.validate({
-            form: 'form',
-            language: 'vi',
-            modules: 'location, date, security, file',
-            errorMessagePosition: 'top',
-            onError: function() {
-                return false;
-            },
-            onSuccess: function() {
-                // Form is valid
-                return true;
-            }
-        });
-    </script>
+
+    
 </body>
 
 </html>

@@ -12,6 +12,7 @@
             </div>
             <div class="table-responsive">
                 <?php
+                use Illuminate\Support\Facades\Session;
                 $message = Session::get('message');
                 if ($message) {
                     echo '<span class="text-alert">' . $message . '</span>';
