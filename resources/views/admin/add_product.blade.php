@@ -75,18 +75,14 @@
     @endsection
 
     @section('js-custom')
+        <script src="https://cdn.ckeditor.com/ckeditor5/39.0.0/classic/ckeditor.js"></script>
         <script>
-            $(document).ready(function() {
-                document.querySelectorAll('.editor').forEach(editor => {
-                    if (!editor.getAttribute('data-ckeditor-initialized')) {
-                        ClassicEditor
-                            .create(editor)
-                            .catch(error => {
-                                console.error(error);
-                            });
-                        editor.setAttribute('data-ckeditor-initialized', true);
-                    }
-                });
+            document.querySelectorAll('.editor').forEach(editor => {
+                ClassicEditor
+                    .create(editor)
+                    .catch(error => {
+                        console.error(error);
+                    });
             });
         </script>
     @endsection

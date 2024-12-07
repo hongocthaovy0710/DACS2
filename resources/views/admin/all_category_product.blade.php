@@ -5,7 +5,7 @@
             <div class="panel-heading">
                 Liệt kê danh mục sản phẩm
             </div>
-            {{-- <div class="row w3-res-tb">
+            <div class="row w3-res-tb">
                 <div class="col-sm-5 m-b-xs">
                     <select class="input-sm form-control w-sm inline v-middle">
                         <option value="0">Bulk action</option>
@@ -25,7 +25,7 @@
                         </span>
                     </div>
                 </div>
-            </div> --}}
+            </div>
             <div class="table-responsive">
                 @if (Session::has('message'))
                     <span class="text-alert">{{ Session::get('message') }}</span>
@@ -34,11 +34,11 @@
                 <table class="table table-striped b-t b-light">
                     <thead>
                         <tr>
-                            {{-- <th style="width:20px;">
+                            <th style="width:20px;">
                                 <label class="i-checks m-b-none">
                                     <input type="checkbox"><i></i>
                                 </label>
-                            </th> --}}
+                            </th>
                             <th>Tên danh mục</th>
                             <th>Số lượng</th>
                             <th>Hiển thị</th>

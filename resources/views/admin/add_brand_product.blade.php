@@ -27,14 +27,14 @@
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Mô tả danh mục</label>
-                                <textarea style="resize: none" rows="8" class="form-control editor ckeditor" required name="brand_product_desc"
+                                <textarea style="resize: none" rows="8" class="form-control editor ckeditor" name="brand_product_desc"
                                     id="exampleInputPassword1" placeholder="Mô tả danh mục"></textarea>
                             </div>
 
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Từ khóa danh mục</label>
-                                <textarea style="resize: none" rows="8" class="form-control editor ckeditor" required
-                                    name="brand_product_keywords" id="exampleInputPassword1" placeholder="Từ khóa danh mục"></textarea>
+                                <textarea style="resize: none" rows="8" class="form-control editor ckeditor" name="brand_product_keywords"
+                                    id="exampleInputPassword1" placeholder="Từ khóa danh mục"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Hiển thị</label>
@@ -51,20 +51,15 @@
         </div>
     </div>
 @endsection
-
 @section('js-custom')
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.0/classic/ckeditor.js"></script>
     <script>
-        $(document).ready(function() {
-            document.querySelectorAll('.editor').forEach(editor => {
-                if (!editor.getAttribute('data-ckeditor-initialized')) {
-                    ClassicEditor
-                        .create(editor)
-                        .catch(error => {
-                            console.error(error);
-                        });
-                    editor.setAttribute('data-ckeditor-initialized', true);
-                }
-            });
+        document.querySelectorAll('.editor').forEach(editor => {
+            ClassicEditor
+                .create(editor)
+                .catch(error => {
+                    console.error(error);
+                });
         });
     </script>
 @endsection

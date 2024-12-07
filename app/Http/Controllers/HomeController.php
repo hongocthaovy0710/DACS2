@@ -75,25 +75,33 @@ class HomeController extends Controller
             
             
 
-            public function send_mail(){
-                //send mail
-                $to_name = "nhungdang";
-                $to_email = 'nhungdth.23it@vku.udn.vn'; // single recipient email address
-            
-                if (empty($to_email)) {
-                    throw new \Exception('Recipient email address is not set.');
-                }
-            
-                $data = array("name" => "Mail từ tài khoản Khách hàng", "body" => 'Mail gửi về vấn đề hàng hóa'); // body of mail.blade.php
-            
-                Mail::send('pages.send_mail', $data, function($message) use ($to_name, $to_email) {
-                    $message->to($to_email)->subject('kiểm tra thử gửi mail google'); // send this mail with subject
-                    $message->from('hongnhungdt136@gmail.com', $to_name); // send from this mail
-                });
-            
-                return view('pages.send_mail')->with('name', $to_name);
-                //--send mail
-            }
+
+
+                public function send_mail(){
+                    //send mail
+                           $to_name = "nhungdang";
+                          // $tam1 = 'ngolequanit@gmail.com'".','.'lequan007@gmail.com'";
+                           $tam2 = 'hongnhungdt137@gmail.com';
+                           $tam3='nhungdth.23it@vku.udn.vn';
+                          // $to_email = array();
+                              $to_email= [];
+                 $to_email[] = $tam2;
+                   $to_email[] = $tam3;
+                          //  $to_email = ['ngolequanit@gmail.com','lequan007@gmail.com'];
+                           //$to_email = "ngolequanit@gmail.com";//send to this email
+                           //$to_email = ['ngolequanit@gmail.com','lequan007@gmail.com'];
+                        
+                           $data = array("name"=>"Mail từ tài khoản Khách hàng","body"=>'Mail gửi về vấn về hàng hóa'); //body of mail.blade.php
+                           
+                           Mail::send('pages.send_mail',$data,function($message) use ($to_name,$to_email){
+           
+                               $message->to($to_email)->subject('kiểm tra thử gửi mail google');//send this mail with subject
+                               $message->from($to_email,$to_name);//send from this mail
+           
+                           });
+                            return view('pages.send_mail')->with('name',$to_name);
+                           //--send mail
+               }
 
 
             }

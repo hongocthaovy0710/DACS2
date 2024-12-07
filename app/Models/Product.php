@@ -6,11 +6,34 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+     // Tên bảng liên kết với model
+     protected $table = 'tbl_product';
+
+     // Khóa chính
+     protected $primaryKey = 'product_id';
+ 
+     // Các cột được phép gán tự động (mass assignment)
+     protected $fillable = [
+         'product_name',
+         'product_price',
+         'product_desc',
+         'product_content',
+         'category_id',
+         'brand_id',
+         'product_status',
+         'product_image',
+     ];
+ 
+     public $timestamps = false;
      
-    protected $fillable = [
-    	'product_name', 'product_slug','category_id','brand_id','product_desc','product_content','product_price','product_image','product_status'
-    ];
-    protected $primaryKey = 'product_id';
- 	protected $table = 'tbl_product';
-     
+
+     public function category()
+     {
+         return $this->belongsTo(Category::class, 'category_id');
+     }
+ 
+     public function brand()
+     {
+         return $this->belongsTo(Brand::class, 'brand_id');
+     }
 }
