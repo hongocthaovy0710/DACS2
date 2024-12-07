@@ -24,9 +24,21 @@
     <link rel="stylesheet" href="{{ asset('public/backend/css/monthly.css') }}">
     <!-- //calendar -->
     <!-- //font-awesome icons -->
-    <script src="{{ asset('public/backend/js/jquery2.0.3.min.js') }}"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.0/classic/ckeditor.js"></script>
+    {{-- <script src="{{ asset('public/backend/js/jquery2.0.3.min.js') }}"></script> --}}
+
+    {{-- <script src="{{ asset('public/backend/ckeditor/ckeditor5/ckeditor5.js') }}"></script> --}}
+    <script src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
     <script src="{{ asset('public/backend/js/raphael-min.js') }}"></script>
     <script src="{{ asset('public/backend/js/morris.js') }}"></script>
+    <script src="{{ asset('public/backend/js/jquery.form-validator.min.js') }}"></script>
+
+
+    <script>
+        $.validate({
+
+        })
+    </script>
 </head>
 
 <body>
@@ -56,6 +68,9 @@
                             <img alt="" src="{{ 'public/backend/images/2.png' }}">
                             <span class="username">
                                 <?php
+                                
+                                use Illuminate\Support\Facades\Session;
+                                
                                 $name = Session::get('admin_name');
                                 if ($name) {
                                     echo $name;
@@ -309,6 +324,7 @@
         });
     </script>
     <!-- //calendar -->
+    @yield('js-custom');
 </body>
 
 </html>

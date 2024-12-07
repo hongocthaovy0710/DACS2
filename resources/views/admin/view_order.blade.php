@@ -5,7 +5,6 @@
             <div class="panel-heading">
                 Thông tin khách hàng
             </div>
-
             <div class="table-responsive">
                 <?php
                 $message = Session::get('message');
@@ -17,31 +16,25 @@
                 <table class="table table-striped b-t b-light">
                     <thead>
                         <tr>
-
                             <th>Tên người mua</th>
                             <th>Số điện thoại</th>
-
-
                             <th style="width:30px;"></th>
                         </tr>
                     </thead>
                     <tbody>
-
-                        {{-- @if ($order_by_id)
+                        @if ($order_by_id)
                             <tr>
-                                <td></td>
-                                <td></td>
+                                <td>{{ $order_by_id->customer_name }}</td>
+                                <td>{{ $order_by_id->customer_phone }}</td>
                             </tr>
                         @else
                             <tr>
                                 <td colspan="2">Không có thông tin khách hàng</td>
                             </tr>
-                        @endif --}}
-
+                        @endif
                     </tbody>
                 </table>
             </div>
-
         </div>
     </div>
     <br>
@@ -50,7 +43,6 @@
             <div class="panel-heading">
                 Thông tin vận chuyển
             </div>
-
             <div class="table-responsive">
                 <?php
                 $message = Session::get('message');
@@ -62,58 +54,46 @@
                 <table class="table table-striped b-t b-light">
                     <thead>
                         <tr>
-
-                            <th>Tên người vận chuyển</th>
+                            <th>Tên người nhận hàng</th>
                             <th>Địa chỉ</th>
                             <th>Số điện thoại</th>
-
-
+                            <th>Email</th>
+                            <th>Ghi chú</th>
+                            <th>Hình thức thanh toán</th>
                             <th style="width:30px;"></th>
                         </tr>
                     </thead>
                     <tbody>
-
-                        <tr>
-
-                            <td></td>
-                            <td></td>
-
-
-
-                        </tr>
-
+                        @if ($order_by_id)
+                            <tr>
+                                <td>{{ $order_by_id->shipping_name }}</td>
+                                <td>{{ $order_by_id->shipping_address }}</td>
+                                <td>{{ $order_by_id->shipping_phone }}</td>
+                                <td>{{ $order_by_id->shipping_email }}</td>
+                                <td>{{ $order_by_id->shipping_notes }}</td>
+                                <td>
+                                    @if ($order_by_id->payment_method == 1)
+                                        Chuyển khoản
+                                    @else
+                                        Thanh toán khi nhận hàng
+                                    @endif
+                                </td>
+                            </tr>
+                        @else
+                            <tr>
+                                <td colspan="6">Không có thông tin vận chuyển</td>
+                            </tr>
+                        @endif
                     </tbody>
                 </table>
             </div>
-
         </div>
     </div>
-    <br>
+    <br><br>
     <div class="table-agile-info">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Thông tin khách hàng
-            </div>
-            <div class="row w3-res-tb">
-                <div class="col-sm-5 m-b-xs">
-                    <select class="input-sm form-control w-sm inline v-middle">
-                        <option value="0">Bulk action</option>
-                        <option value="1">Delete selected</option>
-                        <option value="2">Bulk edit</option>
-                        <option value="3">Export</option>
-                    </select>
-                    <button class="btn btn-sm btn-default">Apply</button>
-                </div>
-                <div class="col-sm-4">
-                </div>
-                <div class="col-sm-3">
-                    <div class="input-group">
-                        <input type="text" class="input-sm form-control" placeholder="Search">
-                        <span class="input-group-btn">
-                            <button class="btn btn-sm btn-default" type="button">Go!</button>
-                        </span>
-                    </div>
-                </div>
+                Liệt kê chi tiết đơn hàng
             </div>
             <div class="table-responsive">
                 <?php
@@ -133,48 +113,44 @@
                             </th>
                             <th>Tên sản phẩm</th>
                             <th>Số lượng</th>
-                            <th>Giá</th>
+                            <th>Giá sản phẩm</th>
                             <th>Tổng tiền</th>
-
                             <th style="width:30px;"></th>
                         </tr>
                     </thead>
                     <tbody>
-
-                        <tr>
-                            <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label>
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-
-
-
-
-                        </tr>
-
+                        @if ($order_details)
+                            @php
+                                $i = 0;
+                                $total = 0;
+                            @endphp
+                            @foreach ($order_details as $details)
+                                @php
+                                    $i++;
+                                    $subtotal = $details->product_price * $details->product_sales_quantity;
+                                    $total += $subtotal;
+                                @endphp
+                                <tr>
+                                    <td><i>{{ $i }}</i></td>
+                                    <td>{{ $details->product_name }}</td>
+                                    <td>{{ $details->product_sales_quantity }}</td>
+                                    <td>{{ number_format($details->product_price, 0, ',', '.') }}đ</td>
+                                    <td>{{ number_format($subtotal, 0, ',', '.') }}đ</td>
+                                </tr>
+                            @endforeach
+                            <tr>
+                                <td colspan="2">
+                                    Thanh toán: {{ number_format($total, 0, ',', '.') }}đ
+                                </td>
+                            </tr>
+                        @else
+                            <tr>
+                                <td colspan="5">Không có thông tin đơn hàng</td>
+                            </tr>
+                        @endif
                     </tbody>
                 </table>
             </div>
-            <footer class="panel-footer">
-                <div class="row">
-
-                    <div class="col-sm-5 text-center">
-                        <small class="text-muted inline m-t-sm m-b-sm">showing 20-30 of 50 items</small>
-                    </div>
-                    <div class="col-sm-7 text-right text-center-xs">
-                        <ul class="pagination pagination-sm m-t-none m-b-none">
-                            <li><a href=""><i class="fa fa-chevron-left"></i></a></li>
-                            <li><a href="">1</a></li>
-                            <li><a href="">2</a></li>
-                            <li><a href="">3</a></li>
-                            <li><a href="">4</a></li>
-                            <li><a href=""><i class="fa fa-chevron-right"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </footer>
         </div>
     </div>
 @endsection

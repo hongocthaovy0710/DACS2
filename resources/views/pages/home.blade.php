@@ -1,6 +1,6 @@
 @extends('layout')
 @section('content')
-    <!-- Hero Start -->
+    <!--  Start -->
     <div class="container-fluid py-5 mb-5 hero-header">
         <div class="container py-5">
             <div class="row g-5 align-items-center">
@@ -15,7 +15,7 @@
                             placeholder="Search">
                         <button type="submit"
                             class="btn btn-primary border-2 border-secondary py-3 px-4 position-absolute rounded-pill text-white h-100"
-                            style="top: 0; right: 25%;">Tìm</button>
+                            style="top: 0; right: 25%;">Tìm Kiếm</button>
                     </form>
 
                     </div>
@@ -49,10 +49,10 @@
             </div>
         </div>
     </div>
-    <!-- Hero End -->
+    <!--  End -->
 
 
-    <!-- Featurs Section Start -->
+    <!--  Section Start -->
     <div class="container-fluid featurs py-5">
         <div class="container py-5">
             <div class="row g-4">
@@ -62,8 +62,7 @@
                             <i class="fas fa-car-side fa-3x text-white"></i>
                         </div>
                         <div class="featurs-content text-center">
-                            <h5>Miễn phí ship</h5>
-                            <p class="mb-0">cho đơn >=500,000VNĐ</p>
+                            <h5> Ưu đãi miễn phí ship</h5>
                         </div>
                     </div>
                 </div>
@@ -73,8 +72,7 @@
                             <i class="fas fa-user-shield fa-3x text-white"></i>
                         </div>
                         <div class="featurs-content text-center">
-                            <h5>Thanh toán nhận hàng</h5>
-                            <p class="mb-0">100% bảo mật</p>
+                            <h5>Thanh toán nhận hàng</h5>                          
                         </div>
                     </div>
                 </div>
@@ -85,7 +83,6 @@
                         </div>
                         <div class="featurs-content text-center">
                             <h5>chính sách ưu đãi</h5>
-                            <p class="mb-0">khách quen</p>
                         </div>
                     </div>
                 </div>
@@ -95,8 +92,7 @@
                             <i class="fa fa-phone-alt fa-3x text-white"></i>
                         </div>
                         <div class="featurs-content text-center">
-                            <h5>24/7 Hỗ trợ</h5>
-                            <p class="mb-0">Hỗ trợ nhanh</p>
+                            <h5> Hỗ trợ 24/7</h5>
                         </div>
                     </div>
                 </div>
@@ -108,141 +104,63 @@
 
     <!-- Fruits Shop Start danh mục sp-->
     <div class="container-fluid fruite py-5">
-        <div class="container py-5">
-            <div class="tab-class text-center">
-                <div class="row g-4">
-                    <div class="col-lg-4 text-start">
-                        <h1>Danh mục sản phẩm</h1>
-                    </div>
-
-                    <div class="col-lg-8 text-end">
-                    @foreach($category as $key => $cate)
-                        <ul class="nav nav-pills d-inline-flex text-center mb-5">
-                     
+    <div class="container py-5">
+        <div class="tab-class text-center">
+            <div class="row g-4">
+                <div class="col-lg-4 text-start">
+                    <h1> Sản phẩm mới</h1>
+                </div>
+                <div class="col-lg-8 text-end">
+                    <ul class="nav nav-pills d-inline-flex text-center mb-5">
+                        @foreach($categories as $key => $cate)
                             <li class="nav-item">
-                                <a class="d-flex m-2 py-2 bg-light rounded-pill active" data-bs-toggle="pill"
-                                    href="{{ URL::to('/danh-muc-san-pham/' . $cate->category_id) }}">
+                                <a class="d-flex m-2 py-2 bg-light rounded-pill {{ $key == 0 ? 'active' : '' }}" data-bs-toggle="pill"
+                                    href="#tab-{{ $cate->category_id }}">
                                     <span class="text-dark" style="width: 130px;">{{$cate->category_name}}</span>
                                 </a>
                             </li>
-                            
-                        </ul>
                         @endforeach
-                        
-                    </div>
-           
+                    </ul>
                 </div>
+            </div>
 
-
-
-
-                <!-- sản phẩm         -->
-                <div class="tab-content">
-                    <div id="tab-1" class="tab-pane fade show p-0 active">
-                  
-                    @foreach ($all_product as $key=>$product)
-
-                        <div class="row g-4">
-                            <div class="col-lg-12">
-                                <div class="row g-4">
-                                    <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="{{asset ('public/uploads/product/'.$product->product_image) }}"
-                                                    class="img-fluid w-100 rounded-top" alt="">
-                                            </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
-                                                style="top: 10px; left: 10px;">Hot</div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4> {{ $product->product_name }}</h4>
-                                                <p>{{ $product->product_content }}</p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">{{number_format ((float)$product->product_price).' '.'VND' }}</p>
-                                                    <a class="btn border border-secondary rounded-pill px-3 text-primary"
-                                                        onclick="addToCart(event)"><i
-                                                            class="fa fa-shopping-bag me-2 text-primary"></i> Add to
-                                                        cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+            <!-- sản phẩm -->
+            <div class="tab-content">
+    @foreach($categories as $key => $cate)
+        <div id="tab-{{ $cate->category_id }}" class="tab-pane fade show p-0 {{ $key == 0 ? 'active' : '' }}">
+            <div class="row g-4">
+                @foreach ($new_products_by_category[$cate->category_id] as $product)
+                    <div class="col-md-6 col-lg-4 col-xl-3">
+                        <div class="rounded position-relative fruite-item">
+                            <div class="fruite-img">
+                                <a href="{{ URL::to('/chi-tiet-san-pham/' . $product->product_id) }}">
+                                    <img src="{{ asset('public/uploads/product/' . $product->product_image) }}" class="img-fluid w-100 rounded-top" alt="">
+                                </a>
                             </div>
-                        @endforeach
-                        
-                        </div>
-                    </div>
-
-
-
-
-                    <!-- <div id="tab-2" class="tab-pane fade show p-0">
-                        <div class="row g-4">
-                            <div class="col-lg-12">
-                                <div class="row g-4">
-                                    <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="img/9.1.jpg.webp" class="img-fluid w-100 rounded-top"
-                                                    alt="">
-                                            </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
-                                                style="top: 10px; left: 10px;">Flower</div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>Mùa Thu (Mẫu Đơn)</h4>
-                                                <p>Một ngày có nắng, có gió, có cả mây và sương, anh đã được gặp em.</p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">999,000VNĐ</p>
-                                                    <a href="#"
-                                                        class="btn border border-secondary rounded-pill px-3 text-primary"><i
-                                                            class="fa fa-shopping-bag me-2 text-primary"></i> Add to
-                                                        cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-
-                                </div>
+                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
+                                {{ $product->category_id }} <!-- Hiển thị category_id -->
+                            </div>
+                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                <h4>{{ $product->product_name }}</h4>
+                                <p>{{ $product->product_content }}</p>
+                                <p class="text-dark fs-5 fw-bold mb-0">{{ number_format((float)$product->product_price) }} VND</p>
+                                <form action="{{ URL::to('/save-cart') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="productid_hidden" value="{{ $product->product_id }}">
+                                    <input type="hidden" name="qty" value="1">
+                                    <button type="submit" class="btn border border-secondary rounded-pill px-3 text-primary">
+                                        <i class="fa fa-shopping-bag me-2 text-primary"></i>Thêm vào giỏ hàng
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
-
-
-
-                    <div id="tab-5" class="tab-pane fade show p-0">
-                        <div class="row g-4">
-                            <div class="col-lg-12">
-                                <div class="row g-4">
-                                    <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="img/9.8.jpg.webp" class="img-fluid w-100 rounded-top"
-                                                    alt="">
-                                            </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
-                                                style="top: 10px; left: 10px;">Hot</div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>Hoa Cưới New Beginning</h4>
-                                                <p>Bó hoa cưới là sự kết hợp hoàn hảo giữa hoa mao lương và hoa tulip</p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">860,000VNĐ</p>
-                                                    <a href="#"
-                                                        class="btn border border-secondary rounded-pill px-3 text-primary"><i
-                                                            class="fa fa-shopping-bag me-2 text-primary"></i> Add to
-                                                        cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
+                @endforeach
+            </div>
+        </div>
+    @endforeach
+</div>
+                     
                 </div>
             </div>
         </div>
@@ -252,47 +170,27 @@
 
     <!-- Featurs Start -->
     <div class="container-fluid service py-5">
-        <div class="container py-5">
+        <div class="container py-5">   
+        <h1 class="mb-0"> chậu hoa </h1>        
             <div class="row g-4 justify-content-center">
+            @foreach($flower_pots as $flower_pot)
                 <div class="col-md-6 col-lg-4">
                     <a href="#">
                         <div class="service-item bg-secondary rounded border border-secondary">
-                            <img src="img/lan-ho-diep-cl001-dep.jpg" class="img-fluid rounded-top w-100" alt="">
+                        <a href="{{ URL::to('/chi-tiet-san-pham/' . $flower_pot->product_id) }}">
+                            <img src="{{ asset('public/uploads/product/' . $flower_pot->product_image) }}" class="img-fluid rounded-top w-100" alt="">
+                        </a>
                             <div class="px-4 rounded-bottom">
                                 <div class="service-content bg-primary text-center p-4 rounded">
-                                    <h5 class="text-white">Chậu Lan Dịu Dàng</h5>
-                                    <h3 class="mb-0">20% OFF</h3>
+                                    <h5 class="text-white">{{ $flower_pot->product_name }}</h5>
+                                    <h3 class="mb-0">{{ number_format((float)$flower_pot->product_price) }} VND</h3>
                                 </div>
                             </div>
                         </div>
                     </a>
                 </div>
-                <div class="col-md-6 col-lg-4">
-                    <a href="#">
-                        <div class="service-item bg-dark rounded border border-dark">
-                            <img src="img/lan-ho-diep2.jpg" class="img-fluid rounded-top w-100" alt="">
-                            <div class="px-4 rounded-bottom">
-                                <div class="service-content bg-light text-center p-4 rounded">
-                                    <h5 class="text-primary">Chậu Lan Hồ Điệp 2 Cành Trắng</h5>
-                                    <h3 class="mb-0">Free delivery</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <a href="#">
-                        <div class="service-item bg-primary rounded border border-primary">
-                            <img src="img/lan-ho-diep3.jpg" class="img-fluid rounded-top w-100" alt="">
-                            <div class="px-4 rounded-bottom">
-                                <div class="service-content bg-secondary text-center p-4 rounded">
-                                    <h5 class="text-white">Chậu Lan Hồ Điệp Vàng Chúc Mừng</h5>
-                                    <h3 class="mb-0"></h3>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
+            @endforeach
+                
             </div>
         </div>
     </div>
@@ -301,175 +199,40 @@
 
     <!-- Vesitable Shop Start-->
     <div class="container-fluid vesitable py-5">
-        <div class="container py-5">
-            <h1 class="mb-0">Kệ hoa </h1>
-            <div class="owl-carousel vegetable-carousel justify-content-center">
+    <div class="container py-5">
+        <h1 class="mb-0">Kệ hoa</h1>
+        <div class="owl-carousel vegetable-carousel justify-content-center">
+            @foreach($flower_stands as $flower_stand)
                 <div class="border border-primary rounded position-relative vesitable-item">
                     <div class="vesitable-img">
-                        <img src="img/5.1.webp" class="img-fluid w-100 rounded-top" alt="">
+                    <a href="{{ URL::to('/chi-tiet-san-pham/' . $flower_stand->product_id) }}">
+                        <img src="{{ asset('public/uploads/product/' . $flower_stand->product_image) }}" class="img-fluid w-100 rounded-top" alt="">
+                    </a>
                     </div>
-                    <div class="text-white bg-primary px-3 py-1 rounded position-absolute"
-                        style="top: 10px; right: 10px;">-10%</div>
+                   
                     <div class="p-4 rounded-bottom">
-                        <h4>Kệ hoa Vạn Sự May Mắn</h4>
-
+                        <h4>{{ $flower_stand->product_name }}</h4>
                         <div class="d-flex justify-content-between flex-lg-wrap">
-                            <p class="text-dark fs-5 fw-bold mb-0">750,000VNĐ</p>
-                            <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i
-                                    class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                            <p class="text-dark fs-5 fw-bold mb-0">{{ number_format((float)$flower_stand->product_price) }} VND</p>
+                            <form action="{{ URL::to('/save-cart') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="productid_hidden" value="{{ $flower_stand->product_id }}">
+                    <input type="hidden" name="qty" value="1">
+                    <button type="submit" class="btn border border-secondary rounded-pill px-3 text-primary">
+                        <i class="fa fa-shopping-bag me-2 text-primary"></i> Thêm vào giỏ hàng
+                    </button>
+                </form>
                         </div>
                     </div>
                 </div>
-                <div class="border border-primary rounded position-relative vesitable-item">
-                    <div class="vesitable-img">
-                        <img src="img/5.2.jpg.webp" class="img-fluid w-100 rounded-top" alt="">
-                    </div>
-                    <div class="text-white bg-primary px-3 py-1 rounded position-absolute"
-                        style="top: 10px; right: 10px;">-15%</div>
-                    <div class="p-4 rounded-bottom">
-                        <h4>Kệ Hoa Khai Trương Đại Lợi</h4>
-
-                        <div class="d-flex justify-content-between flex-lg-wrap">
-                            <p class="text-dark fs-5 fw-bold mb-0">950,000VNĐ</p>
-                            <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i
-                                    class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="border border-primary rounded position-relative vesitable-item">
-                    <div class="vesitable-img">
-                        <img src="img/5.3g.jpg.webp" class="img-fluid w-100 rounded-top bg-light" alt="">
-                    </div>
-                    <div class="text-white bg-primary px-3 py-1 rounded position-absolute"
-                        style="top: 10px; right: 10px;">-6</div>
-                    <div class="p-4 rounded-bottom">
-                        <h4>Kệ Hoa Khai Trương Đại Thắng</h4>
-
-                        <div class="d-flex justify-content-between flex-lg-wrap">
-                            <p class="text-dark fs-5 fw-bold mb-0">870,000VNĐ</p>
-                            <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i
-                                    class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="border border-primary rounded position-relative vesitable-item">
-                    <div class="vesitable-img">
-                        <img src="img/5.4.jpg.webp" class="img-fluid w-100 rounded-top" alt="">
-                    </div>
-                    <div class="text-white bg-primary px-3 py-1 rounded position-absolute"
-                        style="top: 10px; right: 10px;">flower</div>
-                    <div class="p-4 rounded-bottom">
-                        <h4> Khai Trương Khởi Đầu Mới....</h4>
-
-                        <div class="d-flex justify-content-between flex-lg-wrap">
-                            <p class="text-dark fs-5 fw-bold mb-0">830,000VNĐ</p>
-                            <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i
-                                    class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="border border-primary rounded position-relative vesitable-item">
-                    <div class="vesitable-img">
-                        <img src="img/5.6.jpg.webp" class="img-fluid w-100 rounded-top" alt="">
-                    </div>
-                    <div class="text-white bg-primary px-3 py-1 rounded position-absolute"
-                        style="top: 10px; right: 10px;">flower</div>
-                    <div class="p-4 rounded-bottom">
-                        <h4>Kệ Hoa Trang Trọng, khai trương </h4>
-                        <!-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p> -->
-                        <div class="d-flex justify-content-between flex-lg-wrap">
-                            <p class="text-dark fs-5 fw-bold mb-0">990,000VNĐ</p>
-                            <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i
-                                    class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="border border-primary rounded position-relative vesitable-item">
-                    <div class="vesitable-img">
-                        <img src="img/5.5i.jpg.webp" class="img-fluid w-100 rounded-top" alt="">
-                    </div>
-                    <div class="text-white bg-primary px-3 py-1 rounded position-absolute"
-                        style="top: 10px; right: 10px;">Vegetable</div>
-                    <div class="p-4 rounded-bottom">
-                        <h4>
-                            Kệ hoa Nấc Thang Mới vạn sự </h4>
-
-                        <div class="d-flex justify-content-between flex-lg-wrap">
-                            <p class="text-dark fs-5 fw-bold mb-0">860,000VNĐ</p>
-                            <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i
-                                    class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="border border-primary rounded position-relative vesitable-item">
-                    <div class="vesitable-img">
-                        <img src="img/6.7.jpg.webp" class="img-fluid w-100 rounded-top" alt="">
-                    </div>
-                    <div class="text-white bg-primary px-3 py-1 rounded position-absolute"
-                        style="top: 10px; right: 10px;">-5%</div>
-                    <div class="p-4 rounded-bottom">
-                        <h4>
-                            Kệ Hoa Chúc Mừng Tấn Tới</h4>
-
-                        <div class="d-flex justify-content-between flex-lg-wrap">
-                            <p class="text-dark fs-5 fw-bold mb-0">690,000VNĐ</p>
-                            <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i
-                                    class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="border border-primary rounded position-relative vesitable-item">
-                    <div class="vesitable-img">
-                        <img src="img/5.8.jpg.webp" class="img-fluid w-100 rounded-top" alt="">
-                    </div>
-                    <div class="text-white bg-primary px-3 py-1 rounded position-absolute"
-                        style="top: 10px; right: 10px;">-2%</div>
-                    <div class="p-4 rounded-bottom">
-                        <h4>Hoa Khai Trương Vang Danh</h4>
-
-                        <div class="d-flex justify-content-between flex-lg-wrap">
-                            <p class="text-dark fs-5 fw-bold mb-0">690,000VNĐ</p>
-                            <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i
-                                    class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
     </div>
+</div>
     <!-- Vesitable Shop End -->
 
 
-    <!-- Banner Section Start-->
-    <div class="container-fluid banner bg-secondary my-5">
-        <div class="container py-5">
-            <div class="row g-4 align-items-center">
-                <div class="col-lg-6">
-                    <div class="py-4">
-                        <h1 class="display-3 text-white">NỤ CƯỜI HẠNH PHÚC</h1>
-                        <p class="fw-normal display-3 text-dark mb-4">Giảm Giá</p>
-                        <p class="mb-4 text-dark">Khi mua tại cửa hàng</p>
-                        <a href="#"
-                            class="banner-btn btn border-2 border-white rounded-pill text-dark py-3 px-5">BUY</a>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="position-relative">
-                        <img src="img/3.1.jpg" class="img-fluid w-100 rounded" alt="">
-                        <div class="d-flex align-items-center justify-content-center bg-white rounded-circle position-absolute"
-                            style="width: 140px; height: 140px; top: 0; left: 0;">
-                            <h1 style="font-size: 100px;"></h1>
-                            <div class="d-flex flex-column">
-                                <span class="h2 mb-0">-15%</span>
-                                <span class="h4 text-muted mb-0"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Banner Section End -->
+    
 
 
     <!-- Bestsaler Product Start -->

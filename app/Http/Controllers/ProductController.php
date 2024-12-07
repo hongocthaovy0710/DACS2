@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -127,6 +127,50 @@ class ProductController extends Controller
 
         return view('admin.product_list', compact('products'));
     }
+
+     // Hiển thị trang chủ
+
+  
+     public function showNewProducts() {
+        // Lấy danh sách category
+        $categories = DB::table('tbl_category_product')->get();
+    
+        // Lấy danh sách sản phẩm mới nhất theo từng category, giới hạn 8 sản phẩm mỗi category
+        $new_products_by_category = [];
+        foreach ($categories as $category) {
+            $new_products_by_category[$category->category_id] = DB::table('tbl_product')
+                ->where('category_id', $category->category_id)
+                ->orderBy('created_at', 'desc')
+                ->limit(8)
+                ->get();
+        }
+        // lấy ra chậu hoa mới nhất
+        $flower_pots = DB::table('tbl_product')
+        ->join('tbl_category_product', 'tbl_product.category_id', '=', 'tbl_category_product.category_id')
+        ->where('tbl_category_product.category_name', 'Chậu hoa')
+        ->orderBy('tbl_product.created_at', 'desc')
+        ->limit(3)
+        ->get();
+
+        // lấy ra kệ hoa mới nhất
+        $flower_stands = DB::table('tbl_product')
+        ->join('tbl_category_product', 'tbl_product.category_id', '=', 'tbl_category_product.category_id')
+        ->where('tbl_category_product.category_name', 'Kệ hoa')
+        ->orderBy('tbl_product.created_at', 'desc')
+        ->limit(3)
+        ->get();
+
+        
+
+        // Truyền dữ liệu sang view
+        return view('pages.home', [
+            'categories' => $categories,
+            'new_products_by_category' => $new_products_by_category, 
+            'flower_pots' => $flower_pots,
+            'flower_stands' => $flower_stands
+        ]);
+    }
+    
 
     public function details_product($product_id){
         $cate_product = DB::table('tbl_category_product')->where('category_status','0')->orderby('category_id', 'desc')->get();

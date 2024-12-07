@@ -1,6 +1,15 @@
 @extends('layout')
 @section('content')
    
+<!-- Single Page Header start -->
+<div class="container-fluid page-header py-5">
+            <h1 class="text-center text-white display-6">Contract</h1>
+            <ol class="breadcrumb justify-content-center mb-0">
+                <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                <li class="breadcrumb-item active text-white">Liên hệ</li>
+            </ol>
+        </div>
+        <!-- Single Page Header End -->
 
 <div class="container-fluid contact py-5">
             <div class="container py-5">
@@ -9,7 +18,7 @@
                         <div class="col-12">
                             <div class="text-center mx-auto" style="max-width: 700px;">
                                 <h1 class="text-primary">Đến ngay địa chỉ cửa hàng</h1>
-                                <p class="mb-4">Bạn đang cần đặt một bó hoa tặng sinh nhật người thân, bạn bè? Gọi ngay 1900 633 045 để được tư vấn lựa chọn mẫu hoa hoặc đặt hoa sinh nhật giao nhanh trong 90 phút trên toàn quốc. </p>
+                                <p class="mb-4">Bạn đang cần đặt một bó hoa tặng sinh nhật người thân, bạn bè? Gọi ngay 012 8643 439 để được tư vấn lựa chọn mẫu hoa hoặc đặt hoa sinh nhật giao nhanh trong 90 phút trên toàn quốc. </p>
                             </div>
                         </div>
                         <div class="col-lg-12">
@@ -19,63 +28,34 @@
                                     loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                             </div>
                         </div>
-                        <div class="col-lg-7">
-                            <form id="contactForm" action="#">
-                                <input type="text" id="contactName" class="w-100 form-control border-0 py-3 mb-4" placeholder="Your Name" required>
-                                <input type="email" id="contactEmail" class="w-100 form-control border-0 py-3 mb-4" placeholder="Enter Your Email" required>
-                                <textarea id="contactMessage" class="w-100 form-control border-0 mb-4" rows="5" cols="10" placeholder="Your Message" required></textarea>
-                                <button class="w-100 btn form-control border-secondary py-3 bg-white text-primary" type="button" onclick="validateContactForm()">Submit</button>
-                            </form>
-                        </div>
-                        <div class="col-lg-5">
+                      
+                        <div class="col-lg-12" id="map"> 
                             <div class="d-flex p-4 rounded mb-4 bg-white">
                                 <i class="fas fa-map-marker-alt fa-2x text-primary me-4"></i>
                                 <div>
-                                    <h4>Address</h4>
+                                    <h4>Địa chỉ</h4>
                                     <p class="mb-2">180 Phan Châu Trinh Đà Nẵng</p>
                                 </div>
                             </div>
                             <div class="d-flex p-4 rounded mb-4 bg-white">
                                 <i class="fas fa-envelope fa-2x text-primary me-4"></i>
                                 <div>
-                                    <h4>Mail Us</h4>
-                                    <p class="mb-2">nn@example.com</p>
+                                    <h4>Mail chúng tôi</h4>
+                                    <p class="mb-2">nv@example.com</p>
                                 </div>
-                            </div>
-                            <div class="d-flex p-4 rounded bg-white">
-                                <i class="fa fa-phone-alt fa-2x text-primary me-4"></i>
+                            </div>                         
+                            <div class="d-flex p-4 rounded mb-4 bg-white">
+                                <i class="fas fa-phone-alt fa-2x text-primary me-4"></i>
                                 <div>
-                                    <h4>Telephone</h4>
-                                    <p class="mb-2">(+078) 3456 7890</p>
+                                    <h4>Liên hệ</h4>
+                                    <p class="mb-2">(+84) 12 8643 439    </p>
                                 </div>
-                            </div>
+                           
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         
-        <script>
-            function validateContactForm() {
-                let name = document.getElementById('contactName').value;
-                let email = document.getElementById('contactEmail').value;
-                let message = document.getElementById('contactMessage').value;
-        
-                if (name === "" || email === "" || message === "") {
-                    alert("Please fill in all required fields.");
-                    return false;
-                }
-        
-                // Email format validation
-                let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!emailPattern.test(email)) {
-                    alert("Please enter a valid email address.");
-                    return false;
-                }
-        
-                // If all validations pass, submit the form
-                document.getElementById('contactForm').submit();
-            }
-        </script>
-
+       
 @endsection
