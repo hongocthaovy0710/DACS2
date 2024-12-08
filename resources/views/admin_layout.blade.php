@@ -121,6 +121,21 @@
                             </ul>
                         </li>
 
+
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-book"></i>
+                                <span>Mã giảm giá</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="{{ URL::to('/insert-coupon') }}">Quản lý mã giảm giá
+                                    </a></li>
+                                <li><a href="{{ URL::to('/list-coupon') }}">Liệt kê mã giảm giá
+                                    </a></li>
+
+                            </ul>
+                        </li>
+
                         <li class="sub-menu">
                             <a href="javascript:;">
                                 <i class="fa fa-book"></i>
@@ -215,7 +230,7 @@
     <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/flot-chart/excanvas.min.js"></script><![endif]-->
     <script src="{{ asset('public/backend/js/jquery.scrollTo.js') }}"></script>
     <!-- morris JavaScript -->
-    
+
 
     <script>
         $(document).ready(function() {
@@ -297,7 +312,7 @@
                     },
                     {
                         period: '2017 Q1',
-iphone: 10697,
+                        iphone: 10697,
                         ipad: 4470,
                         itouch: 2038
                     },
@@ -347,14 +362,14 @@ iphone: 10697,
 
         });
     </script>
-   
+
 
 
 
     <!-- //calendar -->
     @yield('js-custom');
 
-  
+
     <script type="text/javascript">
         $.ajaxSetup({
             headers: {
@@ -395,7 +410,7 @@ iphone: 10697,
                 $.ajax({
                     url: "{{ url('/update-delivery') }}",
                     method: 'POST',
-data: {
+                    data: {
                         feeship_id: feeship_id,
                         fee_value: fee_value,
                         _token: _token
@@ -473,7 +488,7 @@ data: {
                         data: {
                             action: action,
                             ma_id: ma_id,
-_token: _token
+                            _token: _token
                         },
                         success: function(data) {
                             if (action == 'city') {
@@ -499,7 +514,7 @@ _token: _token
         });
     </script>
 
-    
+
 </body>
 
 </html>
