@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 
+<?php use Illuminate\Support\Facades\Session; ?>
+
 <head>
     <title>Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">

@@ -118,8 +118,6 @@ class DeliveryController extends Controller
 
     public function select_delivery(Request $request)
     {
-
-        dd($request->all()); // Kiểm tra dữ liệu yêu cầu
         if ($request->action == 'city') {
             $provinces = Province::where('matp', $request->ma_id)->orderby('maqh','ASC')->get();
             $output = '<option value="">--Chọn quận huyện--</option>';

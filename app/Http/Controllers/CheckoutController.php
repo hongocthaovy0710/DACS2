@@ -5,9 +5,15 @@ namespace App\Http\Controllers;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Mail;
+
+
+use App\Models\Order;
+use App\Models\OrderDetail;
+use App\Models\Shipping;
+use App\Models\Feeship;
 
 session_start();
 class CheckoutController extends Controller
@@ -121,77 +127,81 @@ class CheckoutController extends Controller
         } else {
             return Redirect::to('/login-checkout');
         }
+        }
+
+
+
+public function order_place(Request $request){
+    // $content = Cart::content();
+    // echo $content;
+  
+//--seo 
+$data = array();
+$data['payment_method'] = $request->payment_option;
+$data['payment_status'] = 'Đang chờ xử lý';
+$payment_id = DB::table('tbl_payment')->insertGetId($data);
+
+//insert order
+$order_data = array();
+$order_data['customer_id'] = Session::get('customer_id');
+$order_data['shipping_id'] = Session::get('shipping_id');
+$order_data['payment_id'] = $payment_id;
+$order_data['order_total'] = Cart::subtotal();
+$order_data['order_status'] = '1';
+$order_id = DB::table('tbl_order')->insertGetId($order_data);
+$body_massage = 'mã đơn hàng  '.$order_id.'tổng tiền: '.$order_data['order_total']; 
+ //insert order_details
+$content = Cart::content();
+foreach($content as $v_content){
+    $order_d_data['order_id'] = $order_id;
+    $order_d_data['product_id'] = $v_content->id;
+    $order_d_data['product_name'] = $v_content->name;
+    $order_d_data['product_price'] = $v_content->price;
+    $order_d_data['product_sales_quantity'] = $v_content->qty;
+    DB::table('tbl_order_details')->insert($order_d_data);
+}
+
+
+
+
+if($data['payment_method']==1){
+
+    echo 'Thanh toán bằng hình thức chuyển khoản';
+
+}else{     
+    Cart::destroy();
+
+    // gui email o
+    $to_name = Session::get('customer_name');
+    $to_email = Session::get('shipping_email');//send to this email
+       
+     
+        $data = array("name"=>$body_massage,"body"=>'Mail gửi về vấn về hàng hóa'); //body of mail.blade.php
+        
+        Mail::send('pages.send_mail',$data,function($message) use ($to_name,$to_email){
+
+            $message->to($to_email)->subject('đơn hàng được gửi từ shop laravel');//send this mail with subject
+            $message->from($to_email,$to_name);//send from this mail
+
+        });
+        echo 'Thanh toán khi nhận hàng';
+
+
     }
+       
+}
 
-    public function order_place(Request $request){
-        // Kiểm tra nếu payment_option không được gửi
-        if (!$request->has('payment_option')) {
-            return redirect()->back()->with('error', 'Vui lòng chọn phương thức thanh toán');
-        }
 
-        // Xử lý logic đặt hàng ở đây
-        $data = array();
-        $data['payment_method'] = $request->payment_option;
-        $data['payment_status'] = 'Đang chờ xử lý';
-        $payment_id = DB::table('tbl_payment')->insertGetId($data);
+public function manage_order(){
+    $all_order = DB::table('tbl_order')
+        ->join('tbl_customers', 'tbl_order.customer_id', '=', 'tbl_customers.customer_id')
+        ->select('tbl_order.*', 'tbl_customers.customer_name')
+        ->orderby('tbl_order.order_id', 'desc')
+        ->get();
 
-        // Lấy shipping_id từ session
-        $shipping_id = Session::get('shipping_id');
-        if (!$shipping_id) {
-            return redirect()->back()->with('error', 'Thông tin vận chuyển không tồn tại');
-        }
+    $manager_order = view('admin.manage_order')->with('all_order', $all_order);
+    return view('admin_layout')->with('admin.manage_order', $manager_order);
+}
 
-        // Insert order
-        $order_data = array();
-        $order_data['customer_id'] = Session::get('customer_id');
-        $order_data['shipping_id'] = $shipping_id;
-        $order_data['payment_id'] = $payment_id;
-        $order_data['order_total'] = Cart::subtotal();
-        $order_data['order_status'] = 'Đang chờ xử lý';
-        $order_id = DB::table('tbl_order')->insertGetId($order_data);
 
-        // Insert order details
-        $content = Cart::content();
-        foreach($content as $v_content){
-            $order_d_data['order_id'] = $order_id;
-            $order_d_data['product_id'] = $v_content->id;
-            $order_d_data['product_name'] = htmlspecialchars($v_content->name); // Đảm bảo rằng đây là chuỗi
-            $order_d_data['product_price'] = $v_content->price;
-            $order_d_data['product_sales_quantity'] = $v_content->qty;
-            DB::table('tbl_order_details')->insert($order_d_data);
-        }
-
-        // Xóa giỏ hàng sau khi đặt hàng thành công
-        Cart::destroy();
-
-        if($data['payment_method'] == 1){
-            echo 'Thanh toán bằng hình thức chuyển khoản';
-        } else {     
-            // Gửi email (comment lại nếu chưa làm chức năng này)
-            // $to_name = Session::get('customer_name');
-            // $to_email = Session::get('shipping_email'); // Gửi đến email này
-                       
-            // $data = array("name" => $to_name, "body" => 'Mail gửi về vấn đề hàng hóa'); // Nội dung của mail.blade.php
-                        
-            // Mail::send('pages.send_mail', $data, function($message) use ($to_name, $to_email) {
-            //     $message->to($to_email)->subject('Đơn hàng được gửi từ shop Laravel'); // Tiêu đề email
-            //     $message->from('your-email@example.com', $to_name); // Gửi từ email này
-            // });
-
-            echo 'Thanh toán khi nhận hàng';
-        }
-
-        return redirect()->route('home')->with('message', 'Đặt hàng thành công');
-    }
-
-    public function manage_order(){
-        $all_order = DB::table('tbl_order')
-            ->join('tbl_customers', 'tbl_order.customer_id', '=', 'tbl_customers.customer_id')
-            ->select('tbl_order.*', 'tbl_customers.customer_name')
-            ->orderby('tbl_order.order_id', 'desc')
-            ->get();
-
-        $manager_order = view('admin.manage_order')->with('all_order', $all_order);
-        return view('admin_layout')->with('admin.manage_order', $manager_order);
-    }
 }

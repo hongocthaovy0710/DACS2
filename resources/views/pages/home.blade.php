@@ -144,11 +144,14 @@
                                 <h4>{{ $product->product_name }}</h4>
                                 <p>{{ $product->product_content }}</p>
                                 <p class="text-dark fs-5 fw-bold mb-0">{{ number_format((float)$product->product_price) }} VND</p>
-                                <form action="{{ URL::to('/save-cart') }}" method="POST">
+                                <form>
                                     @csrf
-                                    <input type="hidden" name="productid_hidden" value="{{ $product->product_id }}">
-                                    <input type="hidden" name="qty" value="1">
-                                    <button type="submit" class="btn border border-secondary rounded-pill px-3 text-primary">
+                                    <input type="hidden" value="{{ $product->product_id }}" class="cart_product_id_{{ $product->product_id }}">
+                                    <input type="hidden" value="{{ $product->product_name }}" class="cart_product_name_{{ $product->product_id }}">
+                                    <input type="hidden" value="{{ $product->product_image }}" class="cart_product_image_{{ $product->product_id }}">
+                                    <input type="hidden" value="{{ $product->product_price }}" class="cart_product_price_{{ $product->product_id }}">
+                                    <input type="hidden" value="1" class="cart_product_qty_{{ $product->product_id }}">
+                                    <button type="button" class="btn border border-secondary rounded-pill px-3 text-primary add-to-cart" data-id_product="{{ $product->product_id }}" name="add-to-cart">
                                         <i class="fa fa-shopping-bag me-2 text-primary"></i>Thêm vào giỏ hàng
                                     </button>
                                 </form>
@@ -214,14 +217,17 @@
                         <h4>{{ $flower_stand->product_name }}</h4>
                         <div class="d-flex justify-content-between flex-lg-wrap">
                             <p class="text-dark fs-5 fw-bold mb-0">{{ number_format((float)$flower_stand->product_price) }} VND</p>
-                            <form action="{{ URL::to('/save-cart') }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="productid_hidden" value="{{ $flower_stand->product_id }}">
-                    <input type="hidden" name="qty" value="1">
-                    <button type="submit" class="btn border border-secondary rounded-pill px-3 text-primary">
-                        <i class="fa fa-shopping-bag me-2 text-primary"></i> Thêm vào giỏ hàng
-                    </button>
-                </form>
+                            <form>
+                        @csrf
+                        <input type="hidden" value="{{ $product->product_id }}" class="cart_product_id_{{ $product->product_id }}">
+                        <input type="hidden" value="{{ $product->product_name }}" class="cart_product_name_{{ $product->product_id }}">
+                        <input type="hidden" value="{{ $product->product_image }}" class="cart_product_image_{{ $product->product_id }}">
+                        <input type="hidden" value="{{ $product->product_price }}" class="cart_product_price_{{ $product->product_id }}">
+                        <input type="hidden" value="1" class="cart_product_qty_{{ $product->product_id }}">
+                        <button type="button" class="btn border border-secondary rounded-pill px-3 text-primary add-to-cart" data-id_product="{{ $product->product_id }}" name="add-to-cart">
+                            <i class="fa fa-shopping-bag me-2 text-primary"></i>Thêm vào giỏ hàng
+                        </button>
+                    </form>
                         </div>
                     </div>
                 </div>

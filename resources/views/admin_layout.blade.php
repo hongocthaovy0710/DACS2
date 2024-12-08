@@ -8,6 +8,7 @@
     <!-- Link đến file CSS tùy chỉnh -->
 
     <link rel="stylesheet" href="{{ asset('public/backend/css/bootstrap.min.css') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- //bootstrap-css -->
     <!-- Custom CSS -->
     <link href="{{ asset('public/backend/css/style.css') }}" rel='stylesheet' type='text/css' />
@@ -25,10 +26,12 @@
     <!-- //calendar -->
     <!-- //font-awesome icons -->
     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.0/classic/ckeditor.js"></script>
-    {{-- <script src="{{ asset('public/backend/js/jquery2.0.3.min.js') }}"></script> --}}
+
 
     {{-- <script src="{{ asset('public/backend/ckeditor/ckeditor5/ckeditor5.js') }}"></script> --}}
-    <script src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
+    {{-- <script src="https://code.jquery.com/jquery-2.0.3.min.js"></script> --}}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script src="{{ asset('public/backend/js/raphael-min.js') }}"></script>
     <script src="{{ asset('public/backend/js/morris.js') }}"></script>
     <script src="{{ asset('public/backend/js/jquery.form-validator.min.js') }}"></script>
@@ -39,6 +42,7 @@
 
         })
     </script>
+
 </head>
 
 <body>
@@ -59,9 +63,9 @@
             <div class="top-nav clearfix">
                 <!--search & user info start-->
                 <ul class="nav pull-right top-menu">
-                    <li>
+                    {{-- <li>
                         <input type="text" class="form-control search" placeholder=" Search">
-                    </li>
+                    </li> --}}
                     <!-- user login dropdown start-->
                     <li class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
@@ -80,8 +84,8 @@
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu extended logout">
-                            <li><a href="#"><i class=" fa fa-suitcase"></i>cá nhân</a></li>
-                            <li><a href="#"><i class="fa fa-cog"></i> cài đặt</a></li>
+                            <li><a href="{{ URL::to('/') }}"><i class=" fa fa-suitcase"></i>Trang Web</a></li>
+                            {{-- <li><a href="#"><i class="fa fa-cog"></i> cài đặt</a></li> --}}
                             <li><a href="{{ URL::to('/logout') }}"><i class="fa fa-key"></i> Đăng xuất</a></li>
                         </ul>
                     </li>
@@ -117,27 +121,44 @@
                             </ul>
                         </li>
 
+
                         <li class="sub-menu">
                             <a href="javascript:;">
                                 <i class="fa fa-book"></i>
-                                <span>Danh mục Hoa</span>
+                                <span>Mã giảm giá</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="{{ URL::to('/add-category-product') }}">Thêm loại Hoa</a></li>
-                                <li><a href="{{ URL::to('/all-category-product') }}">Liệt kê hoa các loại
+                                <li><a href="{{ URL::to('/insert-coupon') }}">Quản lý mã giảm giá
                                     </a></li>
+                                <li><a href="{{ URL::to('/list-coupon') }}">Liệt kê mã giảm giá
+                                    </a></li>
+
                             </ul>
                         </li>
+
                         <li class="sub-menu">
                             <a href="javascript:;">
                                 <i class="fa fa-book"></i>
                                 <span>Danh mục sản phẩm</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="{{ URL::to('/add-brand-product') }}">Thêm kiểu bó hoa
+                                <li><a href="{{ URL::to('/add-category-product') }}">Thêm kiểu bó hoa</a></li>
+                                <li><a href="{{ URL::to('/all-category-product') }}">Liệt kê sản phẩm
                                     </a></li>
-                                <li><a href="{{ URL::to('/all-brand-product') }}">Liệt kê sản
-                                        phẩm</a></li>
+                            </ul>
+                        </li>
+
+
+
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-book"></i>
+                                <span>Danh mục hoa</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="{{ URL::to('/add-brand-product') }}">Thêm loại hoa
+                                    </a></li>
+                                <li><a href="{{ URL::to('/all-brand-product') }}">Liệt kê hoa các loại</a></li>
                             </ul>
                         </li>
 
@@ -154,6 +175,7 @@
 
                             </ul>
                         </li>
+
 
                         <li class="sub-menu">
                             <a href="javascript:;">
@@ -177,6 +199,7 @@
                     </ul>
                 </div>
                 <!-- sidebar menu end-->
+
             </div>
         </aside>
         <!--sidebar end-->
@@ -207,6 +230,8 @@
     <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/flot-chart/excanvas.min.js"></script><![endif]-->
     <script src="{{ asset('public/backend/js/jquery.scrollTo.js') }}"></script>
     <!-- morris JavaScript -->
+
+
     <script>
         $(document).ready(function() {
             //BOX BUTTON SHOW AND CLOSE
@@ -337,8 +362,14 @@
 
         });
     </script>
+
+
+
+
     <!-- //calendar -->
     @yield('js-custom');
+
+
     <script type="text/javascript">
         $.ajaxSetup({
             headers: {
@@ -352,7 +383,7 @@
             function fetch_delivery() {
                 var _token = $('input[name="_token"]').val();
                 $.ajax({
-                    url: '{{ url('/select-feeship') }}',
+                    url: "{{ url('/select-feeship') }}",
                     method: 'POST',
                     data: {
                         _token: _token
@@ -377,7 +408,7 @@
                 $(this).addClass('updating');
 
                 $.ajax({
-                    url: '{{ url('/update-delivery') }}',
+                    url: "{{ url('/update-delivery') }}",
                     method: 'POST',
                     data: {
                         feeship_id: feeship_id,
@@ -404,7 +435,9 @@
 
 
         $(document).ready(function() {
+
             $('.add_delivery').click(function() {
+
                 var city = $('.city').val();
                 var province = $('.province').val();
                 var wards = $('.wards').val();
@@ -418,7 +451,7 @@
                 }
 
                 $.ajax({
-                    url: '{{ route('insert-delivery') }}',
+                    url: "{{ route('insert-delivery') }}",
                     method: 'POST',
                     data: {
                         city: city,
@@ -440,6 +473,7 @@
                         alert('Có lỗi xảy ra: ' + error);
                     }
                 });
+
             });
 
             $('.choose').on('change', function() {
@@ -449,7 +483,7 @@
 
                 if (ma_id) {
                     $.ajax({
-                        url: '{{ route('select-delivery') }}',
+                        url: "{{ route('select-delivery') }}",
                         method: "POST",
                         data: {
                             action: action,
@@ -457,7 +491,6 @@
                             _token: _token
                         },
                         success: function(data) {
-                            console.log(data); // Kiểm tra dữ liệu trả về
                             if (action == 'city') {
                                 $('#province').html(data); // Cập nhật quận/huyện
                                 $('#wards').html(
@@ -476,8 +509,12 @@
                     alert('Vui lòng chọn một giá trị hợp lệ.');
                 }
             });
+
+
         });
     </script>
+
+
 </body>
 
 </html>

@@ -9,6 +9,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DeliveryController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\CouponController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/trang chu', 'App\Http\Controllers\HomeController@index');
@@ -75,9 +77,18 @@ Route::get('/', [ProductController::class, 'showNewProducts']);
 
 //cart
 Route::post('/save-cart', [CartController::class, 'save_cart']);
+Route::post('/add-cart-ajax', [CartController::class, 'add_cart_ajax']);
+Route::get('/gio-hang', [CartController::class, 'gio_hang']);
 Route::get('/show-cart', [CartController::class, 'show_cart']);
 Route::get('/delete-to-cart/{rowID}', [CartController::class, 'delete_to_cart']);
 Route::post('/update-cart-quantity', [CartController::class, 'update_cart_quantity']);
+Route::post('/update-cart', [CartController::class, 'update_cart']);
+Route::get('/del-product/{session_id}', [CartController::class, 'delete_product']);
+Route::get('/del-all-product',[CartController::class,'delete_all_product']);
+
+
+//coupon
+Route::post('/check-coupon',[CartController::class,'check_coupon']);
 
 //Checkout
 Route::get('/login-checkout', [CheckoutController::class, 'login_checkout']);
@@ -92,8 +103,10 @@ Route::post('/order-place', [CheckoutController::class, 'order_place'])->name('o
 
 
 //đơn hàng
-Route::get('/manager-order', [CheckoutController::class, 'manage_order'])->name('manager-order');
-Route::get('/view-order/{order_id}', [CheckoutController::class, 'view_order'])->name('view-order');
+Route::get('/manager-order', [OrderController::class, 'manage_order'])->name('manager-order');
+Route::get('/view-order/{order_code}', [OrderController::class, 'view_order'])->name('view-order');
+
+
 
 
 // Delivery
@@ -102,3 +115,13 @@ Route::post('/insert-delivery', [DeliveryController::class, 'insert_delivery'])-
 Route::post('/select-delivery', [DeliveryController::class, 'select_delivery'])->name('select-delivery');
 Route::post('/select-feeship', [DeliveryController::class, 'select_feeship'])->name('select-feeship');
 Route::post('/update-delivery', [DeliveryController::class, 'update_delivery'])->name('update-delivery');
+
+//coupon
+
+Route::post('/check-coupon', [CartController::class, 'check_coupon']);
+
+Route::get('/unset-coupon', [CouponController::class, 'unset_coupon']);
+Route::get('/insert-coupon', [CouponController::class, 'insert_coupon']);
+Route::get('/delete-coupon/{coupon_id}', [CouponController::class, 'delete_coupon']);
+Route::get('/list-coupon', [CouponController::class, 'list_coupon']);
+Route::post('/insert-coupon-code', [CouponController::class, 'insert_coupon_code']);

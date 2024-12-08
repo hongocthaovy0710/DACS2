@@ -78,40 +78,8 @@
                             </div>
 
 
-                            <div class="col-lg-12">
-                                <div class="position-relative">
-                                    <img src="./anhHoaxunngoc/Poster2.jpg" class="img-fluid w-100 rounded" alt="">
-                                    <div class="position-absolute" style="top: 50%; left: 10px; transform: translateY(-50%);">
-                                        <h3 class="text-secondary fw-bold">Feel <br> Flower <br> Love</h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <h4 class="mb-3">Khuyến mãi</h4>
-                                <div class="d-flex align-items-center justify-content-start">
-                                    <div class="rounded me-4" style="width: 100px; height: 100px;">
-                                        <img src="./anhHoaxunngoc/13262_tinh-dau-tho-ngay.jpg" class="img-fluid rounded" alt="">
-                                    </div>
-                                    <div>
-                                        <h6 class="mb-2">Tình Đầu</h6>
-                                        <div class="d-flex mb-2">
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <div class="d-flex mb-2">
-                                            <h5 class="fw-bold me-2">250 k</h5>
-                                            <h5 class="text-danger text-decoration-line-through">340 k</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                               
-                                <div class="d-flex justify-content-center my-4">
-                                    <a href="shopkhuyenmai.html" class="btn border border-secondary px-4 py-3 rounded-pill text-primary w-100">View More</a>
-                                </div>
-                            </div>
+                            
+                           
                           
                             <div class="col-lg-12">
                                 <div class="mb-3">
@@ -138,28 +106,38 @@
 
                     <div class="col-lg-9">
                         <div class="row g-4 justify-content-center">
-                        @foreach ($all_product as $key=>$product)
-                        <!-- <a href="{{ URL::to('/chi-tiet-san-pham/' . $product->product_id) }}"> -->
-                            <div class="col-md-6 col-lg-6 col-xl-4">
-                                <div class="rounded position-relative fruite-item">
-                                    <div class="fruite-img">
-                                       
-                                        <a href="{{ URL::to('/chi-tiet-san-pham/' . $product->product_id) }}"><img src="{{asset ('public/uploads/product/'.$product->product_image) }}" class="img-fluid w-100 rounded-top" alt=""></a>
-                                    </div>
-                                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Hoa sinh nhật</div>
-                                    <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                        <h4>{{ $product->product_name }}</h4>
-                                        <p>{{ $product->product_content }}</p>
-                                        <div class="d-flex justify-content-between flex-lg-wrap">
-                                            <p class="text-dark fs-5 fw-bold mb-0">{{number_format ((float)$product->product_price).' '.'VND' }}</p>
-                                            <a href="shop-detail.html" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                      <!-- </a> -->
-                      @endforeach
-                            
+                        @foreach ($all_product as $key => $product)
+    <div class="col-md-6 col-lg-6 col-xl-4">
+        <div class="rounded position-relative fruite-item">
+            <div class="fruite-img">
+                <a href="{{ URL::to('/chi-tiet-san-pham/' . $product->product_id) }}">
+                    <img src="{{ asset('public/uploads/product/' . $product->product_image) }}" class="img-fluid w-100 rounded-top" alt="">
+                </a>
+            </div>
+            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Hoa sinh nhật</div>
+            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                <h4>{{ $product->product_name }}</h4>
+                <p>{{ $product->product_content }}</p>
+                <div class="d-flex justify-content-between flex-lg-wrap">
+                    <p class="text-dark fs-5 fw-bold mb-0">{{ number_format((float)$product->product_price) . ' ' . 'VND' }}</p>
+                    <form>
+                        @csrf
+                        <input type="hidden" value="{{ $product->product_id }}" class="cart_product_id_{{ $product->product_id }}">
+                        <input type="hidden" value="{{ $product->product_name }}" class="cart_product_name_{{ $product->product_id }}">
+                        <input type="hidden" value="{{ $product->product_image }}" class="cart_product_image_{{ $product->product_id }}">
+                        <input type="hidden" value="{{ $product->product_price }}" class="cart_product_price_{{ $product->product_id }}">
+                        <input type="hidden" value="1" class="cart_product_qty_{{ $product->product_id }}">
+                        <button type="button" class="btn border border-secondary rounded-pill px-3 text-primary add-to-cart" data-id_product="{{ $product->product_id }}" name="add-to-cart">
+                            <i class="fa fa-shopping-bag me-2 text-primary"></i>Thêm vào giỏ hàng
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+@endforeach
+
+
 
                             <div class="col-12">
                                 <div class="pagination d-flex justify-content-center mt-5">
@@ -177,5 +155,7 @@
     </div>
 </div>
 <!-- Flowers Shop End-->
+
+
 
 @endsection
