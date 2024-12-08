@@ -95,7 +95,7 @@
                            
                             <input type ="submit" class="btn border-secondary rounded-pill px-4 py-3 text-primary calculate_delivery" name="" value="Tính phí vận chuyển">
                         </form>
-                        {{Session::get('fee')}}
+
 
                 </div>
 
@@ -121,6 +121,7 @@
            @if(Session::get('cart')==true)
 
                 @php
+                
                 $total =0;
                 @endphp
 
@@ -162,6 +163,9 @@
                                 <td>
                                     <p class="mb-0 mt-4">
                                     <?php
+
+
+
                                         $subtotal = $cart['product_price'] * $cart['product_qty'];
                                         $total += $subtotal;
                                        
@@ -186,6 +190,9 @@
                                
                             class="btn rounded-pill px-4 py-3 text-primary">Xóa tất cả</a> </td>
                             </tr>
+
+
+                           
                            
                          <tr>
                             <td colspan="5">
@@ -202,29 +209,87 @@
                                    
                                 </div>
 
+                                @if(Session::get('coupon'))
+							
+								
+                            @foreach(Session::get('coupon') as $key => $cou)
+                            @if($cou['coupon_condition'] == 1)
+                            <div class="d-flex justify-content-between">
+                                <h5 class="mb-0 me-4">Mã giảm:</h5>
+                                <p class="mb-0">{{$cou['coupon_number']}} %</p>
+                            </div>
+                            <p>
+									@php 
+								$total_coupon = ($total*$cou['coupon_number'])/100;													
+									@endphp
+								</p>
+							<p>
+								@php 
+									$total_after_coupon = $total-$total_coupon;
+									@endphp
+							</p>
+
+                            @elseif($cou['coupon_condition'] == 2)
+                            <div class="d-flex justify-content-between">
+                                <h5 class="mb-0 me-4">Mã giảm:</h5>
+                                <p class="mb-0">{{number_format($cou['coupon_number'], 0, ',', '.')}} k</p>
+                                </div>
+                                <p>
+								@php 
+									$total_coupon = $total - $cou['coupon_number'];														
+								@endphp
+								</p>
+								@php 
+								$total_after_coupon = $total_coupon;
+								@endphp
+                            @endif
+                        @endforeach
+
+                    @endif 
+
                                 @if(Session::get('fee'))							
                                 <div class="d-flex justify-content-between">
                        
                                     <h5 class="mb-0 me-4">Ship</h5>
                                     <div class="">
-                                        <p class="mb-0"> {{number_format(Session::get('fee'),0,',','.')}}VND</p>
+                                        <p class="mb-0"> {{number_format(Session::get('fee'),0,',','.')}} VND</p>
                                     </div>
+                                    <?php $total_after_fee = $total + Session::get('fee') ; ?>
                                 </div>
                                 @endif 
+
+                              
 
                                 <p class="mb-0 text-end"></p>
                             </div>
                             <div class="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
                                 <h5 class="mb-0 ps-4 me-4">Thành tiền</h5>
-                                <p class="mb-0 pe-4">{{ number_format($total) . ' ' . 'VND' }}</p>
+                                @php 
+											if(Session::get('fee') && !Session::get('coupon')){
+												$total_after = $total_after_fee;
+												echo number_format($total_after,0,',','.').' VND';
+											}elseif(!Session::get('fee') && Session::get('coupon')){
+												$total_after = $total_after_coupon;
+												echo number_format($total_after,0,',','.').'VND';
+											}elseif(Session::get('fee') && Session::get('coupon')){
+												$total_after = $total_after_coupon;
+												$total_after = $total_after + Session::get('fee');
+												echo number_format($total_after,0,',','.').' VND';
+											}elseif(!Session::get('fee') && !Session::get('coupon')){
+												$total_after = $total;
+												echo number_format($total_after,0,',','.').' VND';
+											}
+
+										@endphp
+                                        
                             </div>
 
                        
                       
 
-                        <a class="btn btn-default check_out" href="">
-                        <button class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="button">Thanh toán</button>
-                        </a>
+                        <!-- <a class="btn btn-default check_out" href="">
+                        <button class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="button">Xác nhận đơn hàng</button>
+                        </a> -->
 
    
                         </div>
@@ -246,18 +311,29 @@
 @endif
                         </tbody>
                         </form>
+
                         <tr>
-                                <td >
+                                
                                 <form action="{{url('/check-coupon')}}" method="POST">
                                 @csrf
                                 <div class="mt-5">
+                                <td colspan="2">
                                 <input type="text" class="border-0 border-bottom rounded me-5 py-3 mb-4" name="coupon" placeholder="Nhập mã giảm giá">
+                                </td>
+                                <td colspan="2">
                                 <input type ="submit" class="btn border-secondary rounded-pill px-4 py-3 text-primary check_coupon" name="check_coupon" value="áp dụng khuyến mãi">
+                                </td>
+                                <td>
+                                @if(Session::get('coupon'))
+	                          	<a class="btn btn-default check_out" href="{{url('/unset-coupon')}}">Xóa mã khuyến mãi</a>
+								@endif
+                                </td>
                             </div>
                             </form>
 
-                                </td>
+                               
                             </tr>
+                       
                     </table>
                     </div>
 
@@ -265,7 +341,7 @@
 
                     <!-- Nút đặt hàng -->
                     <div class="row g-4 text-center align-items-center justify-content-center pt-4">
-                        <button type="submit" value="Đặt hàng" name="send_order_place" class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary">Order</button>
+                        <button type="submit" value="Đặt hàng" name="send_order_place" class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary">Xác nhận đơn hàng</button>
                     </div>
                 </div>
             </div>

@@ -88,6 +88,7 @@ Route::get('/del-all-product',[CartController::class,'delete_all_product']);
 
 
 //coupon
+
 Route::post('/check-coupon',[CartController::class,'check_coupon']);
 
 //Checkout
