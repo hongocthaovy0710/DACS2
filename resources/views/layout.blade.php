@@ -243,6 +243,69 @@
         });
     </script>
 
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.choose').on('change', function() {
+            var action = $(this).attr('id'); // city, province, hoặc wards
+            var ma_id = $(this).val(); // Giá trị được chọn
+            var _token = $('input[name="_token"]').val(); // CSRF token
+
+            if (ma_id) {
+                $.ajax({
+                    url: "{{ route('select-delivery-home') }}",
+                    method: "POST",
+                    data: {
+                        action: action,
+                        ma_id: ma_id,
+                        _token: _token
+                    },
+                    success: function(data) {
+                        if (action == 'city') {
+                            $('#province').html(data); // Cập nhật quận/huyện
+                            $('#wards').html('<option value="">--Chọn xã phường--</option>'); // Reset xã/phường
+                        } else if (action == 'province') {
+                            $('#wards').html(data); // Cập nhật xã/phường
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Lỗi AJAX:', error);
+                        alert('Có lỗi xảy ra: ' + error);
+                    }
+                });
+            } else {
+                alert('Vui lòng chọn một giá trị hợp lệ.');
+            }
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.calculate_delivery').click(function(){
+            var matp = $('.city').val();
+            var maqh = $('.province').val();
+            var xaid = $('.wards').val();
+            var _token = $('input[name="_token"]').val();
+            if(matp == '' || maqh =='' || xaid ==''){
+                alert('Làm ơn chọn để tính phí vận chuyển');
+            }else{
+                $.ajax({
+                    url : "{{ route('calculate-fee') }}",
+                    method: 'POST',
+                    data: {matp: matp, maqh: maqh, xaid: xaid, _token: _token},
+                    success: function(response){
+                        location.reload(); 
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Lỗi AJAX:', error);
+                        alert('Có lỗi xảy ra: ' + error);
+                    }
+                });
+            } 
+        });
+    });
+</script>
+
 </body>
 
 </html>

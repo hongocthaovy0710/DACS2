@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\City;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
+use App\Models\Province;
+use App\Models\Wards;
 
 
 use App\Models\Order;
@@ -54,6 +57,44 @@ class CheckoutController extends Controller
         return view('admin.view_order')->with(['order_by_id' => $order_by_id, 'order_details' => $order_details]);
     }
 
+    public function select_delivery_home(Request $request){
+        if ($request->action == 'city') {
+            $provinces = Province::where('matp', $request->ma_id)->orderby('maqh','ASC')->get();
+            $output = '<option value="">--Chọn quận huyện--</option>';
+            foreach($provinces as $province){
+                $output .= '<option value="'.$province->maqh.'">'.$province->name_quanhuyen.'</option>';
+            }
+            echo $output;
+        } elseif ($request->action == 'province') {
+            $wards = Wards::where('maqh', $request->ma_id)->orderby('xaid','ASC')->get();
+            $output = '<option value="">--Chọn xã phường--</option>';
+            foreach($wards as $ward){
+                $output .= '<option value="'.$ward->xaid.'">'.$ward->name_xaphuong.'</option>';
+            }
+            echo $output;
+        }
+    }
+
+    public function calculate_fee(Request $request){
+        $data = $request->all();
+        if($data['matp']){
+            $feeship = Feeship::where('fee_matp',$data['matp'])->where('fee_maqh',$data['maqh'])->where('fee_xaid',$data['xaid'])->get();
+            if($feeship){
+                $count_feeship = $feeship->count();
+                if($count_feeship>0){
+                     foreach($feeship as $key => $fee){
+                        Session::put('fee',$fee->fee_feeship);
+                        Session::save();
+                    }
+                }else{ 
+                    Session::put('fee',25000);
+                    Session::save();
+                }
+            }
+           
+        }
+    }
+
     public function update_order(Request $request, $order_id){
         $order_status = $request->select_status; 
         DB::table('tbl_order')->where('order_id', $order_id)->update(['order_status' => $order_status]);
@@ -82,7 +123,9 @@ class CheckoutController extends Controller
     public function checkout(){
         $cate_product = DB::table('tbl_category_product')->where('category_status', '0')->orderby('category_id', 'desc')->get();
         $brand_product = DB::table('tbl_brand')->where('brand_status', '0')->orderby('brand_id', 'desc')->get();
-        return view('pages.checkout.show_checkout')->with('category', $cate_product)->with('brand', $brand_product);
+        $city = City::orderby('matp','ASC')->get();
+      
+        return view('pages.checkout.show_checkout')->with('category', $cate_product)->with('brand', $brand_product)->with('city',$city);
     }
 
     public function save_checkout_customer(Request $request){
