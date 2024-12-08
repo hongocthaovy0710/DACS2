@@ -10,6 +10,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DeliveryController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\CouponController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/trang chu', 'App\Http\Controllers\HomeController@index');
@@ -116,3 +117,13 @@ Route::post('/insert-delivery', [DeliveryController::class, 'insert_delivery'])-
 Route::post('/select-delivery', [DeliveryController::class, 'select_delivery'])->name('select-delivery');
 Route::post('/select-feeship', [DeliveryController::class, 'select_feeship'])->name('select-feeship');
 Route::post('/update-delivery', [DeliveryController::class, 'update_delivery'])->name('update-delivery');
+
+//coupon
+
+Route::post('/check-coupon', [CartController::class, 'check_coupon']);
+
+Route::get('/unset-coupon', [CouponController::class, 'unset_coupon']);
+Route::get('/insert-coupon', [CouponController::class, 'insert_coupon']);
+Route::get('/delete-coupon/{coupon_id}', [CouponController::class, 'delete_coupon']);
+Route::get('/list-coupon', [CouponController::class, 'list_coupon']);
+Route::post('/insert-coupon-code', [CouponController::class, 'insert_coupon_code']);
