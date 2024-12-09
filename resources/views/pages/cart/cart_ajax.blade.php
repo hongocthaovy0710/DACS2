@@ -205,9 +205,21 @@
                        
                       
 
-                        <a class="btn btn-default check_out" href="">
+                        <!-- <a class="btn btn-default check_out" href="">
                         <button class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="button">Thanh toán</button>
-                        </a>
+                        </a> -->
+
+                     
+								@if(Session::get('customer_id'))
+	                          	<a class="btn btn-default check_out" href="{{url('/checkout')}}">
+                                  <button class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="button">Đặt hàng</button>
+                                </a>
+	                          	@else 
+	                          	<a class="btn btn-default check_out" href="{{url('/login-checkout')}}">
+                                  <button class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="button">Đặt hàng</button>
+                                </a>
+								@endif
+						
 
    
                         </div>

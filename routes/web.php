@@ -102,6 +102,7 @@ Route::get('/checkout', [CheckoutController::class, 'checkout']);
 Route::get('/payment', [CheckoutController::class, 'payment']);
 Route::post('/save-checkout-customer',[CheckoutController::class,'save_checkout_customer']);
 Route::post('/order-place', [CheckoutController::class, 'order_place'])->name('order-place');
+Route::post('/confirm-order', [CheckoutController::class, 'confirm_order'])->name('confirm-order');
 
 
 

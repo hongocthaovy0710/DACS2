@@ -24,7 +24,7 @@
 <div class="container-fluid py-5">
     <div class="container py-5">
         <h1 class="mb-4">Thông tin đơn hàng</h1>
-        <form id="billingForm" action="{{ URL::to('/save-checkout-customer') }}" method="POST">
+   <form id="billingForm"  method="POST">
             @csrf
             <div class="row g-5">
                 <!-- Thông tin gửi hàng -->
@@ -32,69 +32,89 @@
                     <div class="row">
                         <div class="col-md-12 col-lg-6">
                             <div class="form-item">
-                                <label class="form-label my-3">Tên<sup>*</sup></label>
-                                <input type="text" name="shipping_name" class="form-control" 
+                                <label class="form-label fw-bold my-3">Tên<sup>*</sup></label>
+                                <input type="text" name="shipping_name" class="form-control shipping_name" 
                                        value="{{ Session::get('customer_name') }}" required>
                             </div>
                         </div>
                     </div>
 
                     <div class="form-item">
-                        <label class="form-label my-3">Địa chỉ <sup>*</sup></label>
-                        <input type="text" name="shipping_address" class="form-control" placeholder="Số nhà" required>
+                        <label class="form-label fw-bold my-3">Địa chỉ <sup>*</sup></label>
+                        <input type="text" name="shipping_address" class="form-control shipping_address" placeholder="Số nhà" required>
                     </div>
 
                     <div class="form-item">
-                        <label class="form-label my-3">Số điện thoại<sup>*</sup></label>
-                        <input type="tel" name="shipping_phone" class="form-control" 
-                               value="{{ Session::get('customer_phone') }}" pattern="[0-9]*" required title="Please enter digits only">
+                        <label class="form-label fw-bold my-3">Số điện thoại<sup>*</sup></label>
+                        <input type="tel" name="shipping_phone" class="form-control shipping_phone" 
+                               value="{{ Session::get('customer_phone') }}" pattern="[0-10]*" required title="Please enter digits only">
                     </div>
 
                     <div class="form-item">
-                        <label class="form-label my-3">Email <sup>*</sup></label>
-                        <input type="email" name="shipping_email" class="w-100 form-control border-1 py-3 mb-4" 
+                        <label class="form-label fw-bold my-3">Email <sup>*</sup></label>
+                        <input type="email" name="shipping_email" class="w-100 form-control border-1 py-3 mb-4 shipping_email" 
                                value="{{ Session::get('customer_email') }}" required>
                     </div>
 
                     <div class="form-item">
-                        <textarea name="shipping_notes" class="form-control" spellcheck="false" cols="30" rows="6" placeholder="Ghi chú"></textarea>
+                        <textarea name="shipping_notes" class="form-control shipping_notes" spellcheck="false" cols="30" rows="6" placeholder="Ghi chú"></textarea>
                     </div>
 
-                    <div class="form-item">
-                        <label class="form-label my-3">Chọn hình thức giao hàng</label>
-                        <select name="shipping_method" class="form-control">
+                    @if(Session::get('fee'))
+										<input type="hidden" name="order_fee" class="order_fee" value="{{Session::get('fee')}}">
+									@else 
+										<input type="hidden" name="order_fee" class="order_fee" value="10000">
+									@endif
+
+									@if(Session::get('coupon'))
+										@foreach(Session::get('coupon') as $key => $cou)
+											<input type="hidden" name="order_coupon" class="order_coupon" value="{{$cou['coupon_code']}}">
+										@endforeach
+									@else 
+										<input type="hidden" name="order_coupon" class="order_coupon" value="no">
+									@endif
+
+                    <div class="form-item mb-3">
+                        <label class="form-label fw-bold my-3">Chọn hình thức giao hàng</label>
+                        <select name="shipping_method" class="form-select form-select-sm choose shipping_method">
                             <option value="0">Giao theo địa chỉ</option>
                             <option value="1">Nhận tại shop</option>
                         </select>
                     </div>
-<!-- phí vaanj chuyển -->
-                    <form >
-                            @csrf
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Chọn thành phố</label>
-                                <select name="city" id="city" class="form-control input-sm m-bot15 choose city">
-                                    <option value="">--Chọn tỉnh thành phố--</option>
-                                    @foreach ($city as $key => $ci)
-                                        <option value="{{ $ci->matp }}">{{ $ci->name_city }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Chọn quận huyện</label>
-                                <select name="province" id="province"
-                                    class="form-control input-sm m-bot15 province choose">
-                                    <option value="">--Chọn quận huyện--</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Chọn xã phường</label>
-                                <select name="wards" id="wards" class="form-control input-sm m-bot15 wards">
-                                    <option value="">--Chọn xã phường--</option>
-                                </select>
-                            </div>
-                           
-                            <input type ="submit" class="btn border-secondary rounded-pill px-4 py-3 text-primary calculate_delivery" name="" value="Tính phí vận chuyển">
-                        </form>
+
+ 
+                    
+            <!-- phí vaanj chuyển -->
+                    <form>
+                        @csrf
+                        <div class="form-group mb-3">
+                            <label for="city" class="form-label fw-bold ">Chọn thành phố</label>
+                            <select name="city" id="city" class="form-select form-select-sm choose city ">
+                                <option value="">-- Chọn tỉnh/thành phố --</option>
+                                @foreach ($city as $key => $ci)
+                                    <option value="{{ $ci->matp }}">{{ $ci->name_city }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="province" class="form-label fw-bold">Chọn quận/huyện</label>
+                            <select name="province" id="province" class="form-select form-select-sm province choose">
+                                <option value="">-- Chọn quận/huyện --</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="wards" class="form-label fw-bold">Chọn xã/phường</label>
+                            <select name="wards" id="wards" class="form-select form-select-sm wards">
+                                <option value="">-- Chọn xã/phường --</option>
+                            </select>
+                        </div>
+
+                        <div class="text-center">
+                        <input type ="submit" class="btn border-secondary rounded-pill px-4 py-3 text-primary calculate_delivery" name="" value="Tính phí vận chuyển">
+                        </div>
+                    </form>
 
 
                 </div>
@@ -338,14 +358,19 @@
                     </div>
 
                    
-
-                    <!-- Nút đặt hàng -->
-                    <div class="row g-4 text-center align-items-center justify-content-center pt-4">
-                        <button type="submit" value="Đặt hàng" name="send_order_place" class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary">Xác nhận đơn hàng</button>
-                    </div>
+                  
                 </div>
             </div>
+            <div class="row g-4 text-center align-items-center justify-content-center pt-4">
+          <input type="button" value="Xác nhận đơn hàng" name="send_order" class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary send_order">
+                        
+                    </div>
         </form>
+        
+        
+          <!-- Nút đặt hàng -->
+        
+                  
     </div>
 </div>
 @endsection
