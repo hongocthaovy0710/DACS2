@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\Province;
 use App\Models\Wards;
+use App\Models\Customer;
 
 
 use App\Models\Order;

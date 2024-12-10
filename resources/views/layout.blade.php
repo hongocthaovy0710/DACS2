@@ -374,7 +374,7 @@ $(document).ready(function(){
               var _token = $('input[name="_token"]').val();
 
               $.ajax({
-                  url: "{{route('confirm-order')}}",
+                url : "{{ route('confirm-order') }}",
                   method: 'POST',
                   data:{shipping_email:shipping_email,shipping_name:shipping_name,shipping_address:shipping_address,shipping_phone:shipping_phone,shipping_notes:shipping_notes,_token:_token,order_fee:order_fee,order_coupon:order_coupon,shipping_method:shipping_method},
                   success:function(){
