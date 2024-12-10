@@ -47,7 +47,7 @@
                     <div class="form-item">
                         <label class="form-label fw-bold my-3">Số điện thoại<sup>*</sup></label>
                         <input type="tel" name="shipping_phone" class="form-control shipping_phone" 
-                               value="{{ Session::get('customer_phone') }}" pattern="[0-10]*" required title="Please enter digits only">
+                               value="{{ Session::get('customer_phone') }}" pattern="[0-11]*" required title="Please enter digits only">
                     </div>
 
                     <div class="form-item">
