@@ -42,7 +42,8 @@
                             <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between mb-4">
                                 <label for="flowers">Chủ đề:</label>
                                 <select id="flowers" name="flowerlist" class="border-0 form-select-sm bg-light me-3" onchange="navigateToPage()">
-                                    @foreach ($brand as $key => $brand)
+                                    <option value="tab-all">All</option>
+                                    @foreach ($brands_with_products as $brand)
                                         <option value="tab-{{ $brand->brand_id }}">{{ $brand->brand_name }}</option>
                                     @endforeach
                                 </select>
@@ -59,7 +60,7 @@
                                             <li class="nav-item" role="presentation">
                                                 <a class="nav-link active" id="tab-all-tab" data-bs-toggle="pill" href="#tab-all" role="tab" aria-controls="tab-all" aria-selected="true">All</a>
                                             </li>
-                                            @foreach ($categories_with_products as $key => $category)
+                                            @foreach ($categories_with_products as $category)
                                                 <li class="nav-item" role="presentation">
                                                     <a class="nav-link" id="tab-{{ $category->category_id }}-tab" data-bs-toggle="pill" href="#tab-{{ $category->category_id }}" role="tab" aria-controls="tab-{{ $category->category_id }}" aria-selected="false"  style="color: grey";>{{ $category->category_name }}</a>
                                                 </li>
@@ -122,10 +123,45 @@
                                         @endforeach
                                     </div>
                                 </div>
-                                @foreach ($categories_with_products as $key => $category)
+                                @foreach ($categories_with_products as $category)
                                     <div class="tab-pane fade" id="tab-{{ $category->category_id }}" role="tabpanel" aria-labelledby="tab-{{ $category->category_id }}-tab">
                                         <div class="row g-4 justify-content-center">
                                             @foreach ($all_product->where('category_id', $category->category_id) as $product)
+                                                <div class="col-md-6 col-lg-6 col-xl-4">
+                                                    <div class="rounded position-relative fruite-item">
+                                                        <div class="fruite-img">
+                                                            <a href="{{ URL::to('/chi-tiet-san-pham/' . $product->product_id) }}">
+                                                                <img src="{{ asset('public/uploads/product/' . $product->product_image) }}" class="img-fluid w-100 rounded-top" alt="">
+                                                            </a>
+                                                        </div>
+                                                        <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                            <h4>{{ $product->product_name }}</h4>
+                                                            <p>{{ $product->product_content }}</p>
+                                                            <div class="d-flex justify-content-between flex-lg-wrap">
+                                                                <p class="text-dark fs-5 fw-bold mb-0">{{ number_format((float)$product->product_price) . ' ' . 'VND' }}</p>
+                                                                <form>
+                                                                    @csrf
+                                                                    <input type="hidden" value="{{ $product->product_id }}" class="cart_product_id_{{ $product->product_id }}">
+                                                                    <input type="hidden" value="{{ $product->product_name }}" class="cart_product_name_{{ $product->product_id }}">
+                                                                    <input type="hidden" value="{{ $product->product_image }}" class="cart_product_image_{{ $product->product_id }}">
+                                                                    <input type="hidden" value="{{ $product->product_price }}" class="cart_product_price_{{ $product->product_id }}">
+                                                                    <input type="hidden" value="1" class="cart_product_qty_{{ $product->product_id }}">
+                                                                    <button type="button" class="btn border border-secondary rounded-pill px-3 text-primary add-to-cart" data-id_product="{{ $product->product_id }}" name="add-to-cart">
+                                                                        <i class="fa fa-shopping-bag me-2 text-primary"></i>Thêm vào giỏ hàng
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endforeach
+                                @foreach ($brands_with_products as $brand)
+                                    <div class="tab-pane fade" id="tab-{{ $brand->brand_id }}" role="tabpanel" aria-labelledby="tab-{{ $brand->brand_id }}-tab">
+                                        <div class="row g-4 justify-content-center">
+                                            @foreach ($all_product->where('brand_id', $brand->brand_id) as $product)
                                                 <div class="col-md-6 col-lg-6 col-xl-4">
                                                     <div class="rounded position-relative fruite-item">
                                                         <div class="fruite-img">
@@ -168,9 +204,17 @@
     <script>
         function navigateToPage() {
             var select = document.getElementById("flowers");
-            var brandId = select.options[select.selectedIndex].value;
-            if (brandId) {
-                window.location.href = "{{ url('/thuong-hieu-san-pham') }}/" + brandId;
+            var tabId = select.options[select.selectedIndex].value;
+
+            // Ẩn tất cả các tab
+            document.querySelectorAll('.tab-pane').forEach(function(tab) {
+                tab.classList.remove('active', 'show');
+            });
+
+            // Hiển thị tab được chọn
+            var selectedTab = document.getElementById(tabId);
+            if (selectedTab) {
+                selectedTab.classList.add('active', 'show');
             }
         }
 

@@ -42,9 +42,17 @@ class HomeController extends Controller
             ->select('tbl_category_product.*')
             ->distinct()
             ->get();
+
+            $brands_with_products = DB::table('tbl_brand')
+            ->join('tbl_product', 'tbl_brand.brand_id', '=', 'tbl_product.brand_id')
+            ->select('tbl_brand.*')
+            ->distinct()
+            ->get();
+
             return view('pages.category.show_category')->with('category',$cate_product)->with('brand',$brand_product)->with('all_product',$all_product)
-            ->with('categories_with_products', $categories_with_products);;
+            ->with('categories_with_products', $categories_with_products) ->with('brands_with_products', $brands_with_products);
             }
+
 
             public function  contact(){
                 return view('pages.contact');
