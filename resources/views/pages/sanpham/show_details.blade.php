@@ -81,7 +81,7 @@
     <div class="border border-primary rounded position-relative vesitable-item">
         <div class="vesitable-img">
             <a href="{{ URL::to('/chi-tiet-san-pham/' . $lienquan->product_id) }}">
-                <img src="{{ asset('public/uploads/product/' . $lienquan->product_image) }}" class="img-fluid w-100 rounded-top" alt="">
+                <img src="{{ asset('public/uploads/product/' . $lienquan->product_image) }}" class="img-fluid w-100 rounded-top" alt="" >
             </a>
         </div>
         <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">{{$lienquan->brand_name}}</div>

@@ -133,8 +133,9 @@ class ProductController extends Controller
   
      public function showNewProducts() {
         // Lấy danh sách category
-        $categories = DB::table('tbl_category_product')->get();
-    
+        $categories = DB::table('tbl_category_product')
+            ->whereIn('category_name', ['Hoa cầm tay', 'Bó hoa', 'Giỏ hoa', 'Hộp hoa'])
+            ->get();
         // Lấy danh sách sản phẩm mới nhất theo từng category, giới hạn 8 sản phẩm mỗi category
         $new_products_by_category = [];
         foreach ($categories as $category) {

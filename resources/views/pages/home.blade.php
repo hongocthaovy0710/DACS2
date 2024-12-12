@@ -136,7 +136,7 @@
                         <div class="rounded position-relative fruite-item">
                             <div class="fruite-img">
                                 <a href="{{ URL::to('/chi-tiet-san-pham/' . $product->product_id) }}">
-                                    <img src="{{ asset('public/uploads/product/' . $product->product_image) }}" class="img-fluid w-100 rounded-top" alt="">
+                                    <img src="{{ asset('public/uploads/product/' . $product->product_image) }}" class="img-fluid w-100 rounded-top" alt="" >
                                 </a>
                             </div>
 
@@ -178,10 +178,10 @@
     <!-- Featurs Start -->
     <div class="container-fluid service py-5">
         <div class="container py-5">   
-        <h1 class="mb-0"> chậu hoa </h1>        
+        <!-- <h1 class="mb-0"> chậu hoa </h1>         -->
             <div class="row g-4 justify-content-center">
             @foreach($flower_pots as $flower_pot)
-                <div class="col-md-6 col-lg-3">
+                <div class="col-md-6 col-lg-4">
                     <a href="#">
                         <div class="service-item bg-secondary rounded border border-secondary">
                         <a href="{{ URL::to('/chi-tiet-san-pham/' . $flower_pot->product_id) }}">
@@ -219,6 +219,7 @@
                    
                     <div class="p-4 rounded-bottom">
                         <h4>{{ $flower_stand->product_name }}</h4>
+                        <p>{{  $flower_stand->product_content }}</p>
                         <div class="d-flex justify-content-between flex-lg-wrap">
                             <p class="text-dark fs-5 fw-bold mb-0">{{ number_format((float)$flower_stand->product_price) }} VND</p>
                             <form>

@@ -113,7 +113,7 @@
 
                         <div class="text-center">
                         
-                        <input type="button" value="Tính phí vận chuyển" name="" class="btn border-secondary rounded-pill px-4 py-3 text-primary calculate_delivery">  
+                        <input type="submit" value="Tính phí vận chuyển" name="" class="btn border-secondary rounded-pill px-4 py-3 text-primary calculate_delivery">  
                     </div>
                     </form>
 
