@@ -58,6 +58,7 @@ class CheckoutController extends Controller
         if(Session::get('cart')==true){
            foreach(Session::get('cart') as $key => $cart){
                $order_details = new OrderDetails();
+               $order_details->order_id = $order->order_id;
                $order_details->order_code = $checkout_code;
                $order_details->product_id = $cart['product_id'];
                $order_details->product_name = $cart['product_name'];
