@@ -41,19 +41,19 @@
 
                     <div class="position-center">
                         <form role="form" action="{{ URL::to('/update-brand-product/' . $edit_brand_product->brand_id) }}"
-                            method="post">
+                            method="post" class="form-validate">
                             {{ csrf_field() }}
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Tên danh mục</label>
                                 <input type="text" value="{{ $edit_brand_product->brand_name }}"
-                                    name="brand_product_name" class="form-control" id="exampleInputEmail1"
+                                    name="brand_product_name" required class="form-control" id="exampleInputEmail1"
                                     placeholder="Tên danh mục">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Số lượng</label>
                                 <input type="text" name ="slug_brand_product"
                                     value="{{ $edit_brand_product->slug_brand_product }}" class="form-control"
-                                    id="exampleInputEmail1" placeholder="Số lượng">
+                                    id="exampleInputEmail1" required placeholder="Số lượng">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Mô tả danh mục</label>
