@@ -88,9 +88,12 @@ Route::get('/del-all-product',[CartController::class,'delete_all_product']);
 
 
 //coupon
+
 Route::post('/check-coupon',[CartController::class,'check_coupon']);
 
 //Checkout
+Route::post('/calculate-fee', [CheckoutController::class, 'calculate_fee'])->name('calculate-fee');
+Route::post('/select-delivery-home', [CheckoutController::class, 'select_delivery_home'])->name('select-delivery-home');
 Route::get('/login-checkout', [CheckoutController::class, 'login_checkout']);
 Route::get('/logout-checkout', [CheckoutController::class, 'logout_checkout']);
 Route::post('login-customer',[CheckoutController::class,'login_customer']);
@@ -99,6 +102,7 @@ Route::get('/checkout', [CheckoutController::class, 'checkout']);
 Route::get('/payment', [CheckoutController::class, 'payment']);
 Route::post('/save-checkout-customer',[CheckoutController::class,'save_checkout_customer']);
 Route::post('/order-place', [CheckoutController::class, 'order_place'])->name('order-place');
+Route::post('/confirm-order', [CheckoutController::class, 'confirm_order'])->name('confirm-order');
 
 
 

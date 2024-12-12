@@ -39,8 +39,24 @@
 
     <script>
         $.validate({
-
-        })
+            form: '.form-validate', // Add this class to your forms
+            modules: 'security, date, file',
+            validateOnBlur: true,
+            errorMessagePosition: 'top',
+            rules: {
+                // Common validation rules
+                required: 'Trường này là bắt buộc!!!',
+                email: 'Vui lòng điền email vào!!!',
+                length: 'Độ dài không hợp lệ!!',
+                min: 'Enter a value greater than or equal to [min]',
+                max: 'Enter a value less than or equal to [max]',
+                number: 'Vui lòng nhập số hợp lệ!!!!'
+            },
+            onSuccess: function($form) {
+                // Optional callback when validation succeeds
+                return true;
+            }
+        });
     </script>
 
 </head>
