@@ -207,12 +207,12 @@
                             </ul>
                         </li>
 
-                        <li>
+                        {{-- <li>
                             <a href="login.html">
                                 <i class="fa fa-user"></i>
                                 <span>Đăng nhập</span>
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </div>
                 <!-- sidebar menu end-->

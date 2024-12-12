@@ -95,7 +95,7 @@ class DeliveryController extends Controller
             'city' => 'required|integer',
             'province' => 'required|integer',
             'wards' => 'required|integer',
-            'fee_ship' => 'required|numeric',
+            'fee_ship' => 'required|max:1000000',
         ]);
 
         try {
