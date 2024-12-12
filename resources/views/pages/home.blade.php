@@ -253,53 +253,37 @@
                 <p>Nếu bạn đang cần đặt hoa tặng sinh nhật người thân, bạn bè hay đối tác,hoa cưới nhưng vẫn chưa tìm được
                     một shop hoa ưng ý, thì FlowerCorner.vn là sự lựa chọn đáng tin cậy dành cho bạn.</p>
             </div>
+
             <div class="row g-4">
+            @foreach($bestsellers as $bestseller)
                 <div class="col-lg-6 col-xl-4">
                     <div class="p-4 rounded bg-light">
                         <div class="row align-items-center">
                             <div class="col-6">
-                                <img src="img/8.2t.jpg.webp" class="img-fluid rounded-circle w-100" alt="">
+                                <a href="{{ URL::to('/chi-tiet-san-pham/' . $bestseller->product_id) }}">
+                                    <img src="{{ asset('public/uploads/product/' . $bestseller->product_image) }}" class="img-fluid rounded-circle w-100" alt="{{ $bestseller->product_name }}">
+                                </a>
                             </div>
                             <div class="col-6">
-                                <a href="#" class="h5">Hạnh Phúc Tinh Khiết</a>
-                                <div class="d-flex my-3">
-                                    <i class="fas fa-star text-primary"></i>
-                                    <i class="fas fa-star text-primary"></i>
-                                    <i class="fas fa-star text-primary"></i>
-                                    <i class="fas fa-star text-primary"></i>
-                                    <i class="fas fa-star"></i>
-                                </div>
-                                <h4 class="mb-3">560,000VNĐ</h4>
-                                <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i
-                                        class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                <a href="{{ URL::to('/chi-tiet-san-pham/' . $bestseller->product_id) }}" class="h5">{{ $bestseller->product_name }}</a>
+                                <h4 class="mb-3">{{ number_format((float)$bestseller->product_price) }} VND</h4>
+                                <form>
+                                    @csrf
+                                    <input type="hidden" value="{{ $bestseller->product_id }}" class="cart_product_id_{{ $bestseller->product_id }}">
+                                    <input type="hidden" value="{{ $bestseller->product_name }}" class="cart_product_name_{{ $bestseller->product_id }}">
+                                    <input type="hidden" value="{{ $bestseller->product_image }}" class="cart_product_image_{{ $bestseller->product_id }}">
+                                    <input type="hidden" value="{{ $bestseller->product_price }}" class="cart_product_price_{{ $bestseller->product_id }}">
+                                    <input type="hidden" value="1" class="cart_product_qty_{{ $bestseller->product_id }}">
+                                    <button type="button" class="btn border border-secondary rounded-pill px-3 text-primary add-to-cart" data-id_product="{{ $bestseller->product_id }}" name="add-to-cart">
+                                        <i class="fa fa-shopping-bag me-2 text-primary"></i>Thêm vào giỏ hàng
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
-
-
-
-                <div class="col-md-6 col-lg-6 col-xl-3">
-                    <div class="text-center">
-                        <img src="img/6.1n.jpg" class="img-fluid rounded" alt="">
-                        <div class="py-4">
-                            <a href="#" class="h5">Ốc quế tú cầu </a>
-                            <div class="d-flex my-3 justify-content-center">
-                                <i class="fas fa-star text-primary"></i>
-                                <i class="fas fa-star text-primary"></i>
-                                <i class="fas fa-star text-primary"></i>
-                                <i class="fas fa-star text-primary"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <h4 class="mb-3">290,000VNĐ</h4>
-                            <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i
-                                    class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                        </div>
-                    </div>
-                </div>
-
+            @endforeach
+        </div>
 
             </div>
         </div>

@@ -160,6 +160,13 @@ class ProductController extends Controller
         ->limit(3)
         ->get();
 
+        $bestsellers = DB::table('tbl_order_details')
+        ->join('tbl_product', 'tbl_order_details.product_id', '=', 'tbl_product.product_id')
+        ->select('tbl_product.product_id', 'tbl_product.product_name', 'tbl_product.product_image', 'tbl_product.product_price', DB::raw('SUM(tbl_order_details.product_sales_quantity) as total_sales'))
+        ->groupBy('tbl_product.product_id', 'tbl_product.product_name', 'tbl_product.product_image', 'tbl_product.product_price')
+        ->orderBy('total_sales', 'desc')
+        ->limit(6)
+        ->get();
         
 
         // Truyền dữ liệu sang view
@@ -167,7 +174,8 @@ class ProductController extends Controller
             'categories' => $categories,
             'new_products_by_category' => $new_products_by_category, 
             'flower_pots' => $flower_pots,
-            'flower_stands' => $flower_stands
+            'flower_stands' => $flower_stands,
+            'bestsellers' => $bestsellers
         ]);
     }
     
