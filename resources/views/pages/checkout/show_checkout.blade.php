@@ -47,7 +47,7 @@
                     <div class="form-item">
                         <label class="form-label fw-bold my-3">Số điện thoại<sup>*</sup></label>
                         <input type="tel" name="shipping_phone" class="form-control shipping_phone" 
-                               value="{{ Session::get('customer_phone') }}" pattern="[0-10]*" required title="Please enter digits only">
+                               value="{{ Session::get('customer_phone') }}" pattern="[0-11]*" required title="Please enter digits only">
                     </div>
 
                     <div class="form-item">
@@ -57,7 +57,7 @@
                     </div>
 
                     <div class="form-item">
-                        <textarea name="shipping_notes" class="form-control shipping_notes" spellcheck="false" cols="30" rows="6" placeholder="Ghi chú"></textarea>
+                        <textarea require name="shipping_notes" class="form-control shipping_notes" spellcheck="false" cols="30" rows="6" placeholder="Ghi chú"> </textarea>
                     </div>
 
                     @if(Session::get('fee'))
@@ -112,8 +112,9 @@
                         </div>
 
                         <div class="text-center">
-                        <input type ="submit" class="btn border-secondary rounded-pill px-4 py-3 text-primary calculate_delivery" name="" value="Tính phí vận chuyển">
-                        </div>
+                        
+                        <input type="button" value="Tính phí vận chuyển" name="" class="btn border-secondary rounded-pill px-4 py-3 text-primary calculate_delivery">  
+                    </div>
                     </form>
 
 
@@ -274,7 +275,9 @@
                                     <div class="">
                                         <p class="mb-0"> {{number_format(Session::get('fee'),0,',','.')}} VND</p>
                                     </div>
-                                    <?php $total_after_fee = $total + Session::get('fee') ; ?>
+                                    <?php
+                                    
+                                    $total_after_fee = $total + Session::get('fee') ; ?>
                                 </div>
                                 @endif 
 

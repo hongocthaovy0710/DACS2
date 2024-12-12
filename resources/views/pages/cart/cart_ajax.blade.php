@@ -117,7 +117,7 @@
                     <div class="col-sm-8 col-md-7 col-lg-6 col-xl-4">
                         <div class="bg-light rounded">
                             <div class="p-4">
-                                <h1 class="display-6 mb-4">Hóa đơn</h1>
+                                <h1 class="display-6 mb-">Hóa đơn</h1>
                                 <div class="d-flex justify-content-between mb-4">
                                 <h5 class="mb-0 me-4">Tổng:</h5>
                                     <p class="mb-0">{{ number_format($total) . ' ' . 'VND' }}</p>
@@ -241,7 +241,7 @@
 @endif
                         </tbody>
                         </form>
-                        <tr>
+                        <!-- <tr>
                                 <td >
                                 <form action="{{url('/check-coupon')}}" method="POST">
                                 @csrf
@@ -255,7 +255,7 @@
                             </form>
 
                                 </td>
-                            </tr>
+                            </tr> -->
                     </table>
                   
 
