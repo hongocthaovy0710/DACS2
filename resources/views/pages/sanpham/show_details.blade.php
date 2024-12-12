@@ -19,6 +19,7 @@
                     <div class="col-lg-8 col-xl-9">
                         <div class="row g-4">
                         @foreach($product_details as $key => $value)
+                    
                             <div class="col-lg-6 ">
                                 <div class="border rounded text-center ">
                                     <a href="#">
@@ -26,8 +27,7 @@
                                     </a>
                                 </div>
                             </div>
-
-                          
+   
                             <div class="col-lg-6 ">
                                 <h4 class="fw-bold mb-3">{{ $value->product_name }}</h4>
                                 <p class="mb-3">Hoa sinh nhật</p>
@@ -35,26 +35,17 @@
                                 <p class="mb-4">{{$value->product_desc }}       
                                 </p>
                                 <p class="mb-4">{{ $value->product_content }}</p>
-                                <div class="input-group quantity mb-5" style="width: 100px;">
-                                    <div class="input-group-btn">
-
-                                <form action="{{url ('/save-cart') }}" method="POST">
+                               
+                                <form>
                                     @csrf    
-                                        <button class="btn btn-sm btn-minus rounded-circle bg-light border" >
-                                            <i class="fa fa-minus"></i>
-                                        </button>
-                                    </div>
-                                    <input type="number" name="qty" class="form-control form-control-sm text-center border-0" value="1" min="1">
-                                    <input type="hidden" name="productid_hidden" min="1" value="{{ $value->product_id }}" />
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-plus rounded-circle bg-light border">
-                                            <i class="fa fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <button type="submit" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary">
-                                <i class="fa fa-shopping-bag me-2 text-primary"></i>Thêm vào giỏ hàng
-                                </button>
+                                    <input type="hidden" value="{{ $value->product_id }}" class="cart_product_id_{{ $value->product_id }}">
+                                    <input type="hidden" value="{{ $value->product_name }}" class="cart_product_name_{{ $value->product_id }}">
+                                    <input type="hidden" value="{{ $value->product_image }}" class="cart_product_image_{{ $value->product_id }}">
+                                    <input type="hidden" value="{{ $value->product_price }}" class="cart_product_price_{{ $value->product_id }}">
+                                    <input type="hidden" value="1" class="cart_product_qty_{{  $value->product_id }}">
+                                <button type="button" class="btn border border-secondary rounded-pill px-3 text-primary add-to-cart" data-id_product="{{  $value->product_id }}" name="add-to-cart">
+                                        <i class="fa fa-shopping-bag me-2 text-primary"></i>Thêm vào giỏ hàng
+                                    </button>
                             </div>
                          </form>   
                         @endforeach
@@ -87,32 +78,33 @@
                 <div class="vesitable">
                     <div class="owl-carousel vegetable-carousel justify-content-center">
                     @foreach ($relate as $key => $lienquan)
-                        <div class="border border-primary rounded position-relative vesitable-item">
-                            <div class="vesitable-img">
-                            <a href="{{ URL::to('/chi-tiet-san-pham/' . $lienquan->product_id) }}">
-                                <img src="{{ asset('public/uploads/product/' . $lienquan->product_image) }}" class="img-fluid w-100 rounded-top" alt="">
-                            </a>
-                            </div>
-                            <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">{{$lienquan->brand_name}}</div>
-                            <div class="p-4 pb-0 rounded-bottom">
-                                <h4>{{ $lienquan->product_name }}</h4>
-                                <p>{{$lienquan->product_content}}</p>
-                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                    <p class="text-dark fs-5 fw-bold">{{ number_format((float) $lienquan->product_price) . ' ' . 'VND' }}</p>
-                                    <form action="{{ URL::to('/save-cart') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="productid_hidden" value="{{ $lienquan->product_id }}">
-                                    <input type="hidden" name="qty" value="1">
-                                    <button type="submit" class="btn border border-secondary rounded-pill px-3 text-primary">
-                                        <i class="fa fa-shopping-bag me-2 text-primary"></i>Thêm vào giỏ hàng
-                                    </button>
-                                </form>
-                             </div>
-                            </div>
-                        </div>
-                      
-                       
-                       @endforeach
+    <div class="border border-primary rounded position-relative vesitable-item">
+        <div class="vesitable-img">
+            <a href="{{ URL::to('/chi-tiet-san-pham/' . $lienquan->product_id) }}">
+                <img src="{{ asset('public/uploads/product/' . $lienquan->product_image) }}" class="img-fluid w-100 rounded-top" alt="">
+            </a>
+        </div>
+        <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">{{$lienquan->brand_name}}</div>
+        <div class="p-4 pb-0 rounded-bottom">
+            <h4>{{ $lienquan->product_name }}</h4>
+            <p>{{$lienquan->product_content}}</p>
+            <div class="d-flex justify-content-between flex-lg-wrap">
+                <p class="text-dark fs-5 fw-bold">{{ number_format((float) $lienquan->product_price) . ' ' . 'VND' }}</p>
+                <form >
+                    @csrf
+                    <input type="hidden" value="{{ $lienquan->product_id }}" class="cart_product_id_{{ $lienquan->product_id }}">
+                    <input type="hidden" value="{{ $lienquan->product_name }}" class="cart_product_name_{{ $lienquan->product_id }}">
+                    <input type="hidden" value="{{ $lienquan->product_image }}" class="cart_product_image_{{ $lienquan->product_id }}">
+                    <input type="hidden" value="{{ $lienquan->product_price }}" class="cart_product_price_{{ $lienquan->product_id }}">
+                    <input type="hidden" value="1" class="cart_product_qty_{{ $lienquan->product_id }}">
+                    <button type="button" class="btn border border-secondary rounded-pill px-3 text-primary add-to-cart" data-id_product="{{ $lienquan->product_id }}" name="add-to-cart">
+                        <i class="fa fa-shopping-bag me-2 text-primary"></i>Thêm vào giỏ hàng
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+@endforeach
                         
                     </div>
                 </div>
