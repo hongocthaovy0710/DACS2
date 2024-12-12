@@ -118,7 +118,10 @@ class BrandProduct extends Controller
         $products = Product::where('brand_id', $brand_id)->get();
         $brands = Brand::all();
         $categories = Category::all();
-        return view('show_category', compact('products', 'brands', 'categories', 'brand_id'));
+        return view('pages.category.show_category', compact('products', 'brands', 'categories', 'brand_id'))  ->with('category', $cate_product)
+        ->with('brand', $brand_product)
+        ->with('brand_by_id', $brand_by_id)
+        ->with('brand_name', $brand_name);
         return view('pages.brand.show_brand')
         ->with('category',$cate_product)->with('brand',$brand_product)
         ->with('brand_by_id',$brand_by_id)

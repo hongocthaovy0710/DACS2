@@ -29,14 +29,21 @@ class HomeController extends Controller
         //     return view('home');
         //     }
 
-       
+       // hiển thị ra trang shop
         
         public function  show_category(){
             $cate_product = DB::table('tbl_category_product')->where('category_status','0')->orderby('category_id', 'desc')->get();
             $brand_product = DB::table('tbl_brand')->where('brand_status','0')->orderby('brand_id', 'desc')->get();
          
-            $all_product = DB::table('tbl_product')->where('product_status','0')->orderby('product_id', 'desc')->limit(4)->get();
-            return view('pages.category.show_category')->with('category',$cate_product)->with('brand',$brand_product)->with('all_product',$all_product);
+            $all_product = DB::table('tbl_product')->where('product_status','0')->orderby('product_id', 'desc')->limit(9)->get();
+//lấy danh mục chứa sản phẩm
+            $categories_with_products = DB::table('tbl_category_product')
+            ->join('tbl_product', 'tbl_category_product.category_id', '=', 'tbl_product.category_id')
+            ->select('tbl_category_product.*')
+            ->distinct()
+            ->get();
+            return view('pages.category.show_category')->with('category',$cate_product)->with('brand',$brand_product)->with('all_product',$all_product)
+            ->with('categories_with_products', $categories_with_products);;
             }
 
             public function  contact(){
