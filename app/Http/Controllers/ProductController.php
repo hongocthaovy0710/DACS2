@@ -197,4 +197,11 @@ class ProductController extends Controller
         ->with('relate', $related_product);
     }
 
+
+    public function bestSellingProducts()
+    {
+        $bestSellingProducts = Product::orderBy('product_sold', 'desc')->take(10)->get();
+        return view('admin.dashboard', compact('bestSellingProducts'));
+    }
+
 }

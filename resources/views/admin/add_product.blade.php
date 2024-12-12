@@ -44,7 +44,7 @@
                                     id="exampleInputPassword1" placeholder="Mô tả sản phẩm"></textarea>
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputPassword1">Danh mục Hoa</label>
+                                <label for="exampleInputPassword1">Danh mục sản phẩm</label>
                                 <select name="product_cate" class="form-control input-sm m-bot15">
                                     @foreach ($cate_product as $key => $cate)
                                         <option value="{{ $cate->category_id }}">{{ $cate->category_name }}</option>
@@ -52,7 +52,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputPassword1">Danh mục sản phẩm</label>
+                                <label for="exampleInputPassword1">Danh mục hoa</label>
                                 <select name="product_brand" class="form-control input-sm m-bot15">
                                     @foreach ($brand_product as $key => $brand)
                                         <option value="{{ $brand->brand_id }}">{{ $brand->brand_name }}</option>

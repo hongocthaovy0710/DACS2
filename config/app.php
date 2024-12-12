@@ -172,10 +172,14 @@ return [
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,
-      
         // App\Providers\BroadcastServiceProvider::class,
         // App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+        /*
+         * Package Service Providers...
+         */
+       
         Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class,
 
     ],
@@ -228,8 +232,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-       
         'Cart' => Gloudemans\Shoppingcart\Facades\Cart::class,
+        
     ],
 
 ];

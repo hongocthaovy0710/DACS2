@@ -27,11 +27,10 @@ Route::get('/trang-tin', 'App\Http\Controllers\NewsController@index');
 Route::get('/gioi-thieu', 'App\Http\Controllers\NewsController@index2');
 
 // phan code cho admin
-Route::get('/admin', 'App\Http\Controllers\AdminController@index');
-Route::post('/admin-dashboard', 'App\Http\Controllers\AdminController@dashboard');
-Route::get('/logout', 'App\Http\Controllers\AdminController@logout');
-Route::get('/dashboard', 'App\Http\Controllers\AdminController@dashboard')->name('dashboard');
-Route::get('/dashboard', 'App\Http\Controllers\AdminController@show_dashboard')->name('dashboard');
+Route::get('/admin', [AdminController::class, 'index']);
+Route::post('/admin-dashboard', [AdminController::class, 'dashboard']);
+Route::get('/logout', [AdminController::class, 'logout']);
+Route::get('/dashboard', [AdminController::class, 'show_dashboard'])->name('dashboard');
 
 Route::group(['middleware' => ['web']], function () {
     Route::get('/login-facebook', [AdminController::class, 'login_facebook']);
@@ -109,6 +108,10 @@ Route::post('/confirm-order', [CheckoutController::class, 'confirm_order'])->nam
 
 
 //đơn hàng
+Route::post('/update-order-qty', [OrderController::class, 'update_order_qty']);
+Route::post('/update-qty', [OrderController::class, 'update_qty']);
+Route::get('/print-order/{checkout_code}', [OrderController::class, 'print_order']);
+Route::get('/delete-order/{order_code}', [OrderController::class, 'order_code']);
 Route::get('/manager-order', [OrderController::class, 'manage_order'])->name('manager-order');
 Route::get('/view-order/{order_code}', [OrderController::class, 'view_order'])->name('view-order');
 
