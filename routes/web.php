@@ -107,6 +107,10 @@ Route::post('/confirm-order', [CheckoutController::class, 'confirm_order'])->nam
 
 
 //đơn hàng
+Route::post('/update-order-qty', [OrderController::class, 'update_order_qty']);
+Route::post('/update-qty', [OrderController::class, 'update_qty']);
+Route::get('/print-order/{checkout_code}', [OrderController::class, 'print_order']);
+Route::get('/delete-order/{order_code}', [OrderController::class, 'order_code']);
 Route::get('/manager-order', [OrderController::class, 'manage_order'])->name('manager-order');
 Route::get('/view-order/{order_code}', [OrderController::class, 'view_order'])->name('view-order');
 
