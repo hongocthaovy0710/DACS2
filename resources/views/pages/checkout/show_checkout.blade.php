@@ -274,7 +274,9 @@
                                     <div class="">
                                         <p class="mb-0"> {{number_format(Session::get('fee'),0,',','.')}} VND</p>
                                     </div>
-                                    <?php $total_after_fee = $total + Session::get('fee') ; ?>
+                                    <?php
+                                    
+                                    $total_after_fee = $total + Session::get('fee') ; ?>
                                 </div>
                                 @endif 
 
