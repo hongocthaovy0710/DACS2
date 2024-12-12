@@ -57,7 +57,7 @@
                     </div>
 
                     <div class="form-item">
-                        <textarea name="shipping_notes" class="form-control shipping_notes" spellcheck="false" cols="30" rows="6" placeholder="Ghi chú"></textarea>
+                        <textarea require name="shipping_notes" class="form-control shipping_notes" spellcheck="false" cols="30" rows="6" placeholder="Ghi chú"> </textarea>
                     </div>
 
                     @if(Session::get('fee'))

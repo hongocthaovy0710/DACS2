@@ -26,29 +26,38 @@
                     </div>
                     <div class="col-6"></div>
                     <div class="col-xl-3">
-                     
-                        <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between mb-4">
-                            <label for="fruits">Chủ đề:</label>
-                            <select id="fruits" name="fruitlist" class="border-0 form-select-sm bg-light me-3" form="fruitform" onchange="navigateToPage()">
-                            <!-- <option value="">Chọn chủ đề</option> -->
-                            @foreach ($brand as $key => $brand)
-                          
-                                <option value="" >{{  $brand->brand_name}}</option>
-                            @endforeach
-                            </select>
-                        </div>
-                    
-                        <script>
-                            function navigateToPage() {
-                                const select = document.getElementById('fruits');
-                                const selectedValue = select.value;
-                                if (selectedValue) {
-                                    window.location.href = selectedValue;
-                                }
-                            }
-                        </script>
-                    </div>
-                </div>
+    <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between mb-4">
+        <label for="fruits">Chủ đề:</label>
+        <select id="fruits" name="flowerlist" class="border-0 form-select-sm bg-light me-3" onchange="navigateToPage()">
+            @foreach ($brand as $key => $brand)
+                <option value="tab-{{ $brand->brand_id }}">{{ $brand->brand_name }}</option>
+            @endforeach
+        </select>
+    </div>
+</div>
+
+<script>
+    function navigateToPage() {
+        var select = document.getElementById("fruits");
+        var tabId = select.options[select.selectedIndex].value;
+
+        if (tabId) {
+            // Ẩn tất cả các tab
+            document.querySelectorAll('.tab-pane').forEach(function(tab) {
+                tab.classList.remove('active', 'show');
+            });
+
+            // Hiển thị tab được chọn
+            var selectedTab = document.getElementById(tabId);
+            if (selectedTab) {
+                selectedTab.classList.add('active', 'show');
+            }
+        }
+    }
+</script>
+
+
+                
                 <div class="row g-4">
                     <div class="col-lg-3">
                         <div class="row g-4">
@@ -56,22 +65,23 @@
                             <div class="col-lg-12">
                                 <div class="mb-3">
                                     <h4>Chủ đề</h4>
-                                    <div class="mb-2">
+                                    <div class="mb-2 category-products">
                                         <input type="radio" class="me-2" id="Categories-1" name="Categories-1" value="shop.html" onclick="navigateToPage(this)">
-                                        <label for="Categories-1">Hoa sinh nhật</label>
+                                    
+
                                     </div>
                                   
 
 
 
-                                    <script>
+                                    <!-- <script>
                                         function navigateToPage(radio) {
                                             if (radio.checked) {
                                                 var url = radio.value;
                                                 window.location.href = url;
                                             }
                                         }
-                                    </script>
+                                    </script> -->
 
 
                                 </div>
@@ -104,7 +114,7 @@
                   
       <!-- h tới sản phẩm ở shopp nek -->
 
-                    <div class="col-lg-9">
+                    <div class="col-lg-9 tab-content">
                         <div class="row g-4 justify-content-center">
                         @foreach ($all_product as $key => $product)
     <div class="col-md-6 col-lg-6 col-xl-4">
@@ -114,7 +124,7 @@
                     <img src="{{ asset('public/uploads/product/' . $product->product_image) }}" class="img-fluid w-100 rounded-top" alt="">
                 </a>
             </div>
-            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Hoa sinh nhật</div>
+            <!-- <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Hoa sinh nhật</div> -->
             <div class="p-4 border border-secondary border-top-0 rounded-bottom">
                 <h4>{{ $product->product_name }}</h4>
                 <p>{{ $product->product_content }}</p>

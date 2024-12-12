@@ -75,6 +75,8 @@ Route::get('/chi-tiet-san-pham/{product_id}',[ProductController::class,'details_
 Route::get('/', [ProductController::class, 'showNewProducts']);
 
 
+
+
 //cart
 Route::post('/save-cart', [CartController::class, 'save_cart']);
 Route::post('/add-cart-ajax', [CartController::class, 'add_cart_ajax']);

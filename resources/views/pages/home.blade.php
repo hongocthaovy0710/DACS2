@@ -111,8 +111,8 @@
                     <h1> Sản phẩm mới</h1>
                 </div>
                 <div class="col-lg-8 text-end">
-                    <ul class="nav nav-pills d-inline-flex text-center mb-5">
-                        @foreach($categories as $key => $cate)
+                    <ul class="  nav nav-pills d-inline-flex text-center mb-5">
+                        @foreach($categories->take(4) as $key => $cate)
                             <li class="nav-item">
                                 <a class="d-flex m-2 py-2 bg-light rounded-pill {{ $key == 0 ? 'active' : '' }}" data-bs-toggle="pill"
                                     href="#tab-{{ $cate->category_id }}">
@@ -123,6 +123,8 @@
                     </ul>
                 </div>
             </div>
+
+            
 
             <!-- sản phẩm -->
             <div class="tab-content">
@@ -137,8 +139,10 @@
                                     <img src="{{ asset('public/uploads/product/' . $product->product_image) }}" class="img-fluid w-100 rounded-top" alt="">
                                 </a>
                             </div>
+
+                            
                             <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
-                                {{ $product->category_id }} <!-- Hiển thị category_id -->
+                                {{ $cate->category_name }}
                             </div>
                             <div class="p-4 border border-secondary border-top-0 rounded-bottom">
                                 <h4>{{ $product->product_name }}</h4>
@@ -177,7 +181,7 @@
         <h1 class="mb-0"> chậu hoa </h1>        
             <div class="row g-4 justify-content-center">
             @foreach($flower_pots as $flower_pot)
-                <div class="col-md-6 col-lg-4">
+                <div class="col-md-6 col-lg-3">
                     <a href="#">
                         <div class="service-item bg-secondary rounded border border-secondary">
                         <a href="{{ URL::to('/chi-tiet-san-pham/' . $flower_pot->product_id) }}">

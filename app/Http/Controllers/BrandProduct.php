@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Models\Brand;
+use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -113,7 +115,10 @@ class BrandProduct extends Controller
         ->where('tbl_product.brand_id',$brand_id)->get();
 
         $brand_name = DB::table('tbl_brand')->where('tbl_brand.brand_id',$brand_id)->limit(1)->get(); 
-
+        $products = Product::where('brand_id', $brand_id)->get();
+        $brands = Brand::all();
+        $categories = Category::all();
+        return view('show_category', compact('products', 'brands', 'categories', 'brand_id'));
         return view('pages.brand.show_brand')
         ->with('category',$cate_product)->with('brand',$brand_product)
         ->with('brand_by_id',$brand_by_id)

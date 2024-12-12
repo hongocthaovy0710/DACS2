@@ -72,10 +72,10 @@
                                 <img src="{{ URL::to('public/uploads/product/' . $product->product_image) }}" 
                                      class="card-img-top rounded-top" alt="">
                             </a>
-                            <div class="badge bg-secondary text-white position-absolute" 
+                            <!-- <div class="badge bg-secondary text-white position-absolute" 
                                  style="top: 10px; left: 10px; font-size: 0.9rem;">
                                 Hoa sinh nhật
-                            </div>
+                            </div> -->
                         </div>
                         <div class="card-body text-center">
                             <h5 class="card-title text-dark fw-bold">{{ $product->product_name }}</h5>
