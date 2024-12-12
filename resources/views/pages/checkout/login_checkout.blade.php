@@ -14,6 +14,11 @@
         </div>
         <!-- Single Page Header End -->
 
+        @if(session('message'))
+    <div class="alert alert-warning">
+        {{ session('message') }}
+    </div>
+@endif
 
 
 
@@ -28,11 +33,11 @@
                     @csrf
                     <div class="mb-3">
                         <label for="email_account" class="form-label">Tài khoản</label>
-                        <input type="text" id="email_account" name="email_account" class="form-control" placeholder="Nhập địa chỉ email" required>
+                        <input type="email" id="email_account" name="email_account" class="form-control" required placeholder="Nhập địa chỉ email" >
                     </div>
                     <div class="mb-3">
                         <label for="password_account" class="form-label">Mật khẩu</label>
-                        <input type="password" id="password_account" name="password_account" class="form-control" placeholder="Nhập mật khẩu" required>
+                        <input type="password" id="password_account" name="password_account" class="form-control" required placeholder="Nhập mật khẩu" >
                     </div>
                     <div class="form-check mb-3">
                         <input type="checkbox" id="remember" class="form-check-input">

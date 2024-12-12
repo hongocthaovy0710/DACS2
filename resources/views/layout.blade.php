@@ -326,6 +326,7 @@
                 swal("Lỗi", "Vui lòng nhập đầy đủ thông tin", "error");
                 return false;
             }
+            
 
             $.ajax({
                 url: "{{ route('confirm-order') }}",
@@ -345,8 +346,8 @@
                     swal("Đơn hàng", "Đơn hàng của bạn đã được gửi thành công", "success");
                 },
                 error: function(xhr, status, error) {
-                    console.error('Lỗi AJAX:', xhr.responseText);
-                    swal("Lỗi", "Có lỗi xảy ra: " + xhr.responseText, "error");
+                    console.error('Lỗi AJAX:', );
+                    swal("Lỗi", "Có lỗi xảy ra: " + "vui lòng kiểm tra lại thông tin giỏ hàng", "error");
                 }
             });
         });

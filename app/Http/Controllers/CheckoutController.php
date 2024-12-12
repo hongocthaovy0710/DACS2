@@ -260,7 +260,7 @@ class CheckoutController extends Controller
             Session::put('customer_phone', $result->customer_phone);
             return Redirect::to('/checkout');
         } else {
-            return Redirect::to('/login-checkout');
+            return Redirect::to('/login-checkout')->with('message', 'Thông tin đăng nhập của bạn không chính xác. Vui lòng nhập lại.');
         }
         }
 
