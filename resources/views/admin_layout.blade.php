@@ -67,7 +67,7 @@
         <header class="header fixed-top clearfix">
             <!--logo start-->
             <div class="brand">
-                <a href="index.html" class="logo">
+                <a href="dashboard" class="logo">
                     ADMIN
                 </a>
                 <div class="sidebar-toggle-box">
@@ -100,7 +100,8 @@
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu extended logout">
-                            <li><a href="{{ URL::to('/') }}"><i class=" fa fa-suitcase"></i>Trang Web</a></li>
+                            <li><a target="blank" href="{{ URL::to('/') }}"><i class=" fa fa-suitcase"></i>Trang
+                                    Web</a></li>
                             {{-- <li><a href="#"><i class="fa fa-cog"></i> cài đặt</a></li> --}}
                             <li><a href="{{ URL::to('/logout') }}"><i class="fa fa-key"></i> Đăng xuất</a></li>
                         </ul>
@@ -119,7 +120,7 @@
                 <div class="leftside-navigation">
                     <ul class="sidebar-menu" id="nav-accordion">
                         <li>
-                            <a class="active" href="index.html">
+                            <a class="active" href="dashboard">
                                 <i class="fa fa-dashboard"></i>
                                 <span>Tổng quan</span>
                             </a>
@@ -529,6 +530,7 @@
 
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
 </body>

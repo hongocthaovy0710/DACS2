@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\Login;
+use App\Models\Product;
 
 class AdminController extends Controller
 {
@@ -18,9 +19,13 @@ class AdminController extends Controller
         return view('admin_login');
     }
 
+    
     public function show_dashboard() {
-    //    $this->AuthLogin();
-        return view('admin.dashboard');
+        $bestSellingProducts = Product::withSum('orderDetails', 'product_sales_quantity')
+            ->orderBy('order_details_sum_product_sales_quantity', 'desc')
+            ->take(10)
+            ->get();
+        return view('admin.dashboard', compact('bestSellingProducts'));
     }
    
     public function dashboard(Request $request) {

@@ -7,75 +7,137 @@
                 font-size: 20px;
                 font-weight: bold;
             }
+
+            .chart-container {
+                width: 100%;
+                max-width: 400px;
+                /* Giới hạn chiều rộng của biểu đồ */
+                margin: auto;
+            }
+
+            .color-box {
+                display: inline-block;
+                width: 20px;
+                height: 20px;
+                margin-right: 10px;
+            }
+
+            .info-box {
+                display: none;
+                width: 100px;
+                height: 100px;
+                background-color: #f0f0f0;
+                border: 1px solid #ccc;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                text-align: center;
+                line-height: 100px;
+                font-weight: bold;
+            }
         </style>
         <div class="row">
-            <p class="title_thongke">Thống kê đơn hàng doanh số</p>
-            <form autocomplete="off">
-                @csrf
-                <div class="col-md-2">
-                    <p>Từ ngày: <input type="text" id="datepicker" class="form-control"></p>
-                    <input type="button" id="btn-dashboard-filter" class="btn btn-primary btn-sm" value="Lọc kết quả">
-                </div>
-                <div class="col-md-2">
-                    <p>Đến ngày: <input type="text" id="datepicker2" class="form-control"></p>
-                </div>
-                {{-- <div class="col-md-2">
-                    <p>Lọc theo:
-                        <select class="dashboard-filter form-control">
-                            <option>-- Chọn --</option>
-                            <option value="7ngay">7 ngày qua</option>
-                            <option value="thangtruoc">Tháng trước</option>
-                            <option value="thangnay">Tháng này</option>
-                            <option value="365ngayqua">365 ngày qua</option>
-                        </select>
-                    </p>
-                </div> --}}
-            </form>
-            <div class="col-md-12">
-                <div id="myfirstchart" style="height: 250px;"></div>
+            <div class="col-md-6">
+                <p class="title_thongke">Thống kê sản phẩm bán chạy</p>
+                <ul class="list-group">
+                    @foreach ($bestSellingProducts as $index => $product)
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div class="color-box"
+                                style="background-color: {{ ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(100, 159, 64, 0.2)', 'rgba(200, 100, 64, 0.2)', 'rgba(100, 100, 255, 0.2)', 'rgba(200, 200, 100, 0.2)'][$index] }}">
+                            </div>
+                            {{ $product->product_name }}
+                            <span
+                                class="badge bg-primary rounded-pill">{{ $product->order_details_sum_product_sales_quantity }}</span>
+                        </li>
+                    @endforeach
+                </ul>
             </div>
+            <div class="col-md-6">
+                <div class="chart-container">
+                    <canvas id="bestSellingProductsChart"></canvas>
+                </div>
+                <div id="infoBox" class="info-box"></div>
+            </div>
+        </div>
+    </div>
+@endsection
 
-            <div class="row">
-                <style type="text/css">
-                    table.table-bordered.table-dark {
-                        background: #32383e;
+@section('js-custom')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var ctx = document.getElementById('bestSellingProductsChart').getContext('2d');
+            var bestSellingProducts = @json($bestSellingProducts);
+            var productNames = bestSellingProducts.map(product => product.product_name);
+            var productSold = bestSellingProducts.map(product => product.order_details_sum_product_sales_quantity);
+
+            var chart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: productNames,
+                    datasets: [{
+                        label: 'Số lượng đã bán',
+                        data: productSold,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)',
+                            'rgba(100, 159, 64, 0.2)',
+                            'rgba(200, 100, 64, 0.2)',
+                            'rgba(100, 100, 255, 0.2)',
+                            'rgba(200, 200, 100, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(100, 159, 64, 1)',
+                            'rgba(200, 100, 64, 1)',
+                            'rgba(100, 100, 255, 1)',
+                            'rgba(200, 200, 100, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    var label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                        label += context.parsed + ' sản phẩm';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    onClick: function(evt, elements) {
+                        if (elements.length > 0) {
+                            var index = elements[0].index;
+                            var product = bestSellingProducts[index];
+                            var infoBox = document.getElementById('infoBox');
+                            infoBox.style.display = 'block';
+                            infoBox.innerHTML = product.product_name + '<br>' + product
+                                .order_details_sum_product_sales_quantity + ' sản phẩm';
+                        }
                     }
-
-                    table.table-bordered.table-dark tr th {
-                        color: #fff;
-                    }
-                </style>
-                <p class="title_thongke">Thống kê truy cập</p>
-                <table class="table table-bordered table-dark">
-                    <thead>
-                        <tr>
-                            <th scope="col">Đang online</th>
-                            <th scope="col">Tổng tháng trước</th>
-                            <th scope="col">Tổng tháng này</th>
-                            <th scope="col">Tổng một năm</th>
-                            <th scope="col">Tổng truy cập</th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-
-
-            <div class="row">
-                <div class="col-md-4 col-xs-12">
-                    <p class="title_thongke">Thống kê tổng sản phẩm bài viết đơn hàng</p>
-                    <div id="donut" class="morris-donut-inverse"></div>
-                </div>
-                <div class="col-md-4 col-xs-12">
-                    <h3>Bài viết xem nhiều</h3>
-                    <ul class="list_views">
-                        @foreach ($post_views as $key => $post)
-                            <li>
-                                <a target="_blank" href="{{ url('/bai-viet/' . $post->post_slug) }}">
-                                    {{ $post->post_title }} |
-                                    <span style="color: black;">{{ $post->post_views }}</span>
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
+                }
+            });
+        });
+    </script>
+@endsection

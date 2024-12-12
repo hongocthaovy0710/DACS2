@@ -12,5 +12,10 @@ class Product extends Model
     ];
     protected $primaryKey = 'product_id';
  	protected $table = 'tbl_product';
+
+     public function orderDetails()
+     {
+         return $this->hasMany('App\Models\OrderDetails', 'product_id');
+     }
      
 }
