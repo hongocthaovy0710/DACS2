@@ -6,13 +6,9 @@
                 Liệt kê đơn hàng
             </div>
             <div class="row w3-res-tb">
-
-
-
             </div>
             <div class="table-responsive">
                 <?php
-                use Illuminate\Support\Facades\Session;
                 $message = Session::get('message');
                 if ($message) {
                     echo '<span class="text-alert">' . $message . '</span>';
@@ -58,8 +54,8 @@
                                         <i class="fa fa-eye text-success text-active"></i></a>
 
                                     <a onclick="return confirm('Bạn có chắc là muốn xóa đơn hàng này ko?')"
-                                        href="{{ URL::to('/delete-order/' . $ord->order_code) }}" class="active styling-edit"
-                                        ui-toggle-class="">
+                                        href="{{ URL::to('/delete-order/' . $ord->order_code) }}"
+                                        class="active styling-edit" ui-toggle-class="">
                                         <i class="fa fa-times text-danger text"></i>
                                     </a>
 
