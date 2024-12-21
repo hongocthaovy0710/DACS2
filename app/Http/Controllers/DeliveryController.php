@@ -105,7 +105,7 @@ class DeliveryController extends Controller
             $fee_ship->fee_maqh = $request->province;
             $fee_ship->fee_xaid = $request->wards;
             $fee_ship->fee_feeship = $request->fee_ship;
-            $fee_ship->save();
+$fee_ship->save();
 
             // 3. Trả về phản hồi JSON thành công
             return response()->json(['success' => 'Thêm phí vận chuyển thành công']);

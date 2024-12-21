@@ -21,10 +21,12 @@ class AdminController extends Controller
 
     
     public function show_dashboard() {
+        $this->AuthLogin();
         $bestSellingProducts = Product::withSum('orderDetails', 'product_sales_quantity')
             ->orderBy('order_details_sum_product_sales_quantity', 'desc')
             ->take(10)
             ->get();
+            
         return view('admin.dashboard', compact('bestSellingProducts'));
     }
    
