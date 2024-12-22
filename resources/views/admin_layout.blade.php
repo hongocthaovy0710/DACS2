@@ -577,7 +577,14 @@
                     },
                     success: function(data) {
                         alert('Thay đổi tình trạng đơn hàng thành công');
+                        if (order_status == 2) {
+                            alert('Đã gửi email thông báo cho khách hàng');
+                        }
                         location.reload();
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Lỗi AJAX:', error);
+                        alert('Có lỗi xảy ra: ' + error);
                     }
                 });
 

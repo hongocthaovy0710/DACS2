@@ -12,6 +12,8 @@ use App\Models\Coupon;
 use App\Models\Product;
 use App\Models\Feeship;
 use Barryvdh\DomPDF\ServiceProvider;
+use Illuminate\Support\Facades\Mail;
+
 
 class OrderController extends Controller
 {
@@ -49,6 +51,23 @@ class OrderController extends Controller
 						}
 				}
 			}
+
+
+
+			$customer = Customer::find($order->customer_id);
+			$to_email = $customer->customer_email;
+			$to_name = $customer->customer_name;
+	
+			$data = [
+				'name' => $to_name,
+				'order_code' => $order->order_code,
+			];
+	
+			Mail::send('admin.emails.order_processed', $data, function($message) use ($to_email, $to_name) {
+				$message->to($to_email)->subject('Đơn hàng của bạn đã được xử lý và giao hàng');
+				$message->from('no-reply@yourwebsite.com', 'Your Website');
+			});
+
 		}elseif($order->order_status!=2 && $order->order_status!=3){
 			foreach($data['order_product_id'] as $key => $product_id){
 				
@@ -65,7 +84,7 @@ class OrderController extends Controller
 				}
 			}
 		}
-
+		return response()->json(['success' => 'Cập nhật trạng thái đơn hàng thành công']);
 
 	}
 	// public function print_order($checkout_code){
