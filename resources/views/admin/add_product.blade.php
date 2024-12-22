@@ -24,6 +24,13 @@
                                 <input type="text" name="product_name" required class="form-control"
                                     id="exampleInputEmail1" placeholder="Tên sản phẩm">
                             </div>
+
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Số lượng sản phẩm</label>
+                                <input type="text" required name="product_quantity" class="form-control"
+                                    id="exampleInputEmail1" placeholder="Điền số lượng">
+                            </div>
+
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Giá sản phẩm</label>
                                 <input type="text" required name="product_price" class="form-control"

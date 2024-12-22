@@ -16,15 +16,15 @@ class ProductController extends Controller
         return view('admin.add_product')->with('cate_product', $cate_product)->with('brand_product', $brand_product);
     }
 
-    public function all_product()
-    {
+     public function all_product(){
         $this->AuthLogin();
-        $all_product = DB::table('tbl_product')
-            ->join('tbl_category_product', 'tbl_category_product.category_id', '=', 'tbl_product.category_id')
-            ->join('tbl_brand', 'tbl_brand.brand_id', '=', 'tbl_product.brand_id')
-            ->orderBy('tbl_product.product_id', 'desc')->get();
-        $manager_product = view('admin.all_product')->with('all_product', $all_product);
-        return view('admin_layout')->with('admin.all_product', $manager_product);
+    	$all_product = DB::table('tbl_product')
+        ->join('tbl_category_product','tbl_category_product.category_id','=','tbl_product.category_id')
+        ->join('tbl_brand','tbl_brand.brand_id','=','tbl_product.brand_id')
+        ->orderby('tbl_product.product_id','desc')->paginate(5);
+    	$manager_product  = view('admin.all_product')->with('all_product',$all_product);
+    	return view('admin_layout')->with('admin.all_product', $manager_product);
+
     }
 
     public function save_product(Request $request)
@@ -32,6 +32,8 @@ class ProductController extends Controller
         $this->AuthLogin();
         $data = array();
         $data['product_name'] = $request->product_name;
+        $data['product_quantity'] = $request->product_quantity;
+        // $data['product_slug'] = $request->product_slug;
         $data['product_price'] = $request->product_price;
         $data['product_desc'] = $request->product_desc;
         $data['product_content'] = $request->product_content;
@@ -93,6 +95,8 @@ class ProductController extends Controller
         $this->AuthLogin();
         $data = array();
         $data['product_name'] = $request->product_name;
+        $data['product_quantity'] = $request->product_quantity;
+        // $data['product_slug'] = $request->product_slug;
         $data['product_price'] = $request->product_price;
         $data['product_desc'] = $request->product_desc;
         $data['product_content'] = $request->product_content;
@@ -213,4 +217,4 @@ class ProductController extends Controller
         return view('admin.dashboard', compact('bestSellingProducts'));
     }
 
-}
+}   

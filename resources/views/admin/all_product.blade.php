@@ -17,6 +17,7 @@
                     <thead>
                         <tr>
                             <th>Tên sản phẩm</th>
+                            <th>Số lượng</th>
                             <th>Giá</th>
                             <th>Hình ảnh sản phẩm</th>
                             <th>Danh mục Hoa</th>
@@ -30,7 +31,9 @@
                         @foreach ($all_product as $key => $pro)
                             <tr>
                                 <td>{{ $pro->product_name }}</td>
-                                <td>{{ $pro->product_price }}</td>
+                                <td>{{ $pro->product_quantity }}</td>
+                                {{-- <td>{{ $pro->product_price }}</td> --}}
+                                <td>{{ number_format($pro->product_price, 0, ',', '.') }}vnđ</td>
                                 <td><img src="public/uploads/product/{{ $pro->product_image }}" height="100px" width="100px">
                                 </td>
                                 <td>{{ $pro->category_name }}</td>

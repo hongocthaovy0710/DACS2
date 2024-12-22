@@ -121,11 +121,12 @@
                 <table class="table table-striped b-t b-light">
                     <thead>
                         <tr>
-                            <th style="width:20px;">
+                            {{-- <th style="width:20px;">
                                 <label class="i-checks m-b-none">
                                     <input type="checkbox"><i></i>
                                 </label>
-                            </th>
+                            </th> --}}
+                            <th>Thứ tự</th>
                             <th>Tên sản phẩm</th>
                             <th>Số lượng kho còn</th>
                             <th>Mã giảm giá</th>

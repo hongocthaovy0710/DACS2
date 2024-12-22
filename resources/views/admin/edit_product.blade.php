@@ -25,6 +25,13 @@
                                     <input type="text" name="product_name" class="form-control" id="exampleInputEmail1"
                                         value="{{ $pro->product_name }}" required>
                                 </div>
+
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Số lượng sản phẩm</label>
+                                    <input type="text" required name="product_quantity" class="form-control"
+                                        id="convert_slug" value="{{ $pro->product_quantity }}">
+                                </div>
+
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Giá sản phẩm</label>
                                     <input type="text" value="{{ $pro->product_price }}" name="product_price"
