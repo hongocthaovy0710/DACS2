@@ -16,15 +16,15 @@ class ProductController extends Controller
         return view('admin.add_product')->with('cate_product', $cate_product)->with('brand_product', $brand_product);
     }
 
-    public function all_product()
-    {
+     public function all_product(){
         $this->AuthLogin();
-        $all_product = DB::table('tbl_product')
-            ->join('tbl_category_product', 'tbl_category_product.category_id', '=', 'tbl_product.category_id')
-            ->join('tbl_brand', 'tbl_brand.brand_id', '=', 'tbl_product.brand_id')
-            ->orderBy('tbl_product.product_id', 'desc')->get();
-        $manager_product = view('admin.all_product')->with('all_product', $all_product);
-        return view('admin_layout')->with('admin.all_product', $manager_product);
+    	$all_product = DB::table('tbl_product')
+        ->join('tbl_category_product','tbl_category_product.category_id','=','tbl_product.category_id')
+        ->join('tbl_brand','tbl_brand.brand_id','=','tbl_product.brand_id')
+        ->orderby('tbl_product.product_id','desc')->paginate(5);
+    	$manager_product  = view('admin.all_product')->with('all_product',$all_product);
+    	return view('admin_layout')->with('admin.all_product', $manager_product);
+
     }
 
     public function save_product(Request $request)
@@ -32,6 +32,8 @@ class ProductController extends Controller
         $this->AuthLogin();
         $data = array();
         $data['product_name'] = $request->product_name;
+        $data['product_quantity'] = $request->product_quantity;
+        // $data['product_slug'] = $request->product_slug;
         $data['product_price'] = $request->product_price;
         $data['product_desc'] = $request->product_desc;
         $data['product_content'] = $request->product_content;
@@ -93,6 +95,8 @@ class ProductController extends Controller
         $this->AuthLogin();
         $data = array();
         $data['product_name'] = $request->product_name;
+        $data['product_quantity'] = $request->product_quantity;
+        // $data['product_slug'] = $request->product_slug;
         $data['product_price'] = $request->product_price;
         $data['product_desc'] = $request->product_desc;
         $data['product_content'] = $request->product_content;
@@ -114,7 +118,7 @@ class ProductController extends Controller
         return Redirect::to('/all-product');
     }
 
-    public function delete_product_product($product_id){
+    public function delete_product($product_id){
         DB::table('tbl_product')->where('product_id',$product_id) ->delete();
         Session::put('message', 'Xóa danh mục sản phẩm thành công');
         return Redirect::to('all-product');
@@ -133,8 +137,9 @@ class ProductController extends Controller
   
      public function showNewProducts() {
         // Lấy danh sách category
-        $categories = DB::table('tbl_category_product')->get();
-    
+        $categories = DB::table('tbl_category_product')
+            ->whereIn('category_name', ['Hoa cầm tay', 'Bó hoa', 'Giỏ hoa', 'Hộp hoa'])
+            ->get();
         // Lấy danh sách sản phẩm mới nhất theo từng category, giới hạn 8 sản phẩm mỗi category
         $new_products_by_category = [];
         foreach ($categories as $category) {
@@ -160,6 +165,13 @@ class ProductController extends Controller
         ->limit(3)
         ->get();
 
+        $bestsellers = DB::table('tbl_order_details')
+        ->join('tbl_product', 'tbl_order_details.product_id', '=', 'tbl_product.product_id')
+        ->select('tbl_product.product_id', 'tbl_product.product_name', 'tbl_product.product_image', 'tbl_product.product_price', DB::raw('SUM(tbl_order_details.product_sales_quantity) as total_sales'))
+        ->groupBy('tbl_product.product_id', 'tbl_product.product_name', 'tbl_product.product_image', 'tbl_product.product_price')
+        ->orderBy('total_sales', 'desc')
+        ->limit(6)
+        ->get();
         
 
         // Truyền dữ liệu sang view
@@ -167,7 +179,8 @@ class ProductController extends Controller
             'categories' => $categories,
             'new_products_by_category' => $new_products_by_category, 
             'flower_pots' => $flower_pots,
-            'flower_stands' => $flower_stands
+            'flower_stands' => $flower_stands,
+            'bestsellers' => $bestsellers
         ]);
     }
     
@@ -197,4 +210,11 @@ class ProductController extends Controller
         ->with('relate', $related_product);
     }
 
-}
+
+    public function bestSellingProducts()
+    {
+        $bestSellingProducts = Product::orderBy('product_sold', 'desc')->take(10)->get();
+        return view('admin.dashboard', compact('bestSellingProducts'));
+    }
+
+}   

@@ -18,17 +18,24 @@
                     <div class="position-center">
                         @foreach ($edit_product as $key => $pro)
                             <form role="form" action="{{ asset('/update-product/' . $pro->product_id) }}" method="post"
-                                enctype="multipart/form-data">
+                                enctype="multipart/form-data" class="form-validate">
                                 {{ csrf_field() }}
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Tên sản phẩm</label>
                                     <input type="text" name="product_name" class="form-control" id="exampleInputEmail1"
-                                        value="{{ $pro->product_name }}">
+                                        value="{{ $pro->product_name }}" required>
                                 </div>
+
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Số lượng sản phẩm</label>
+                                    <input type="text" required name="product_quantity" class="form-control"
+                                        id="convert_slug" value="{{ $pro->product_quantity }}">
+                                </div>
+
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Giá sản phẩm</label>
                                     <input type="text" value="{{ $pro->product_price }}" name="product_price"
-                                        class="form-control" id="exampleInputEmail1" placeholder="Tên ">
+                                        class="form-control" id="exampleInputEmail1" required placeholder="Tên ">
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Hình ảnh sản phẩm</label>

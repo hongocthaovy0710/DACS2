@@ -13,17 +13,18 @@
                 @endif
                 <div class="panel-body">
                     <div class="position-center">
-                        <form role="form" action="{{ URL::to('/save-category-product') }}" method="post">
+                        <form role="form" action="{{ URL::to('/save-category-product') }}" method="post"
+                            class="form-validate">
                             {{ csrf_field() }}
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Tên danh mục</label>
-                                <input type="text" name="category_product_name" class="form-control"
-                                    data-validation="required" id="exampleInputEmail1" placeholder="Tên danh mục">
+                                <input type="text" name="category_product_name" class="form-control" required
+                                    id="exampleInputEmail1" placeholder="Tên danh mục">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Số lượng</label>
-                                <input type="text" name="slug_category_product" class="form-control"
-                                    data-validation="required" id="exampleInputEmail1" placeholder="Slug">
+                                <input type="text" name="slug_category_product" class="form-control" required
+                                    id="exampleInputEmail1" placeholder="Slug">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Mô tả</label>

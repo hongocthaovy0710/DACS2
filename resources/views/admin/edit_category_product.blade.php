@@ -10,17 +10,17 @@
                     <div class="position-center">
                         <form role="form"
                             action="{{ URL::to('/update-category-product/' . $edit_category_product->category_id) }}"
-                            method="post">
+                            method="post" class="form-validate">
                             {{ csrf_field() }}
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Tên danh mục</label>
                                 <input type="text" value="{{ $edit_category_product->category_name }}"
-                                    name="category_product_name" class="form-control" id="exampleInputEmail1"
+                                    name="category_product_name" required class="form-control" id="exampleInputEmail1"
                                     placeholder="Tên danh mục">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Slug</label>
-                                <input type="text" name="slug_category_product" class="form-control"
+                                <input type="text" name="slug_category_product" required class="form-control"
                                     value="{{ $edit_category_product->slug_category_product }}" id="exampleInputEmail1"
                                     placeholder="Slug">
                             </div>

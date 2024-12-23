@@ -8,6 +8,7 @@
     <!-- Link đến file CSS tùy chỉnh -->
 
     <link rel="stylesheet" href="{{ asset('public/backend/css/bootstrap.min.css') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- //bootstrap-css -->
     <!-- Custom CSS -->
     <link href="{{ asset('public/backend/css/style.css') }}" rel='stylesheet' type='text/css' />
@@ -25,10 +26,12 @@
     <!-- //calendar -->
     <!-- //font-awesome icons -->
     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.0/classic/ckeditor.js"></script>
-    {{-- <script src="{{ asset('public/backend/js/jquery2.0.3.min.js') }}"></script> --}}
+
 
     {{-- <script src="{{ asset('public/backend/ckeditor/ckeditor5/ckeditor5.js') }}"></script> --}}
-    <script src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
+    {{-- <script src="https://code.jquery.com/jquery-2.0.3.min.js"></script> --}}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script src="{{ asset('public/backend/js/raphael-min.js') }}"></script>
     <script src="{{ asset('public/backend/js/morris.js') }}"></script>
     <script src="{{ asset('public/backend/js/jquery.form-validator.min.js') }}"></script>
@@ -36,9 +39,26 @@
 
     <script>
         $.validate({
-
-        })
+            form: '.form-validate', // Add this class to your forms
+            modules: 'security, date, file',
+            validateOnBlur: true,
+            errorMessagePosition: 'top',
+            rules: {
+                // Common validation rules
+                required: 'Trường này là bắt buộc!!!',
+                email: 'Vui lòng điền email vào!!!',
+                length: 'Độ dài không hợp lệ!!',
+                min: 'Enter a value greater than or equal to [min]',
+                max: 'Enter a value less than or equal to [max]',
+                number: 'Vui lòng nhập số hợp lệ!!!!'
+            },
+            onSuccess: function($form) {
+                // Optional callback when validation succeeds
+                return true;
+            }
+        });
     </script>
+
 </head>
 
 <body>
@@ -47,7 +67,7 @@
         <header class="header fixed-top clearfix">
             <!--logo start-->
             <div class="brand">
-                <a href="index.html" class="logo">
+                <a href="dashboard" class="logo">
                     ADMIN
                 </a>
                 <div class="sidebar-toggle-box">
@@ -59,9 +79,9 @@
             <div class="top-nav clearfix">
                 <!--search & user info start-->
                 <ul class="nav pull-right top-menu">
-                    <li>
+                    {{-- <li>
                         <input type="text" class="form-control search" placeholder=" Search">
-                    </li>
+                    </li> --}}
                     <!-- user login dropdown start-->
                     <li class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
@@ -80,8 +100,9 @@
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu extended logout">
-                            <li><a href="#"><i class=" fa fa-suitcase"></i>cá nhân</a></li>
-                            <li><a href="#"><i class="fa fa-cog"></i> cài đặt</a></li>
+                            <li><a target="blank" href="{{ URL::to('/') }}"><i class=" fa fa-suitcase"></i>Trang
+                                    Web</a></li>
+                            {{-- <li><a href="#"><i class="fa fa-cog"></i> cài đặt</a></li> --}}
                             <li><a href="{{ URL::to('/logout') }}"><i class="fa fa-key"></i> Đăng xuất</a></li>
                         </ul>
                     </li>
@@ -99,7 +120,7 @@
                 <div class="leftside-navigation">
                     <ul class="sidebar-menu" id="nav-accordion">
                         <li>
-                            <a class="active" href="index.html">
+                            <a class="active" href="dashboard">
                                 <i class="fa fa-dashboard"></i>
                                 <span>Tổng quan</span>
                             </a>
@@ -117,29 +138,61 @@
                             </ul>
                         </li>
 
+
                         <li class="sub-menu">
                             <a href="javascript:;">
                                 <i class="fa fa-book"></i>
-                                <span>Danh mục Hoa</span>
+                                <span>Mã giảm giá</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="{{ URL::to('/add-category-product') }}">Thêm loại Hoa</a></li>
-                                <li><a href="{{ URL::to('/all-category-product') }}">Liệt kê hoa các loại
+                                <li><a href="{{ URL::to('/insert-coupon') }}">Quản lý mã giảm giá
                                     </a></li>
+                                <li><a href="{{ URL::to('/list-coupon') }}">Liệt kê mã giảm giá
+                                    </a></li>
+
                             </ul>
                         </li>
+
                         <li class="sub-menu">
                             <a href="javascript:;">
                                 <i class="fa fa-book"></i>
                                 <span>Danh mục sản phẩm</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="{{ URL::to('/add-brand-product') }}">Thêm kiểu bó hoa
+                                <li><a href="{{ URL::to('/add-category-product') }}">Thêm kiểu bó hoa</a></li>
+                                <li><a href="{{ URL::to('/all-category-product') }}">Liệt kê sản phẩm
                                     </a></li>
-                                <li><a href="{{ URL::to('/all-brand-product') }}">Liệt kê sản
-                                        phẩm</a></li>
                             </ul>
                         </li>
+
+
+
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-book"></i>
+                                <span>Danh mục hoa</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="{{ URL::to('/add-brand-product') }}">Thêm loại hoa
+                                    </a></li>
+                                <li><a href="{{ URL::to('/all-brand-product') }}">Liệt kê hoa các loại</a></li>
+                            </ul>
+                        </li>
+
+
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-book"></i>
+                                <span>Vận chuyển</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="{{ URL::to('/delivery') }}">Quản lý vận chuyển</a></li>
+
+
+
+                            </ul>
+                        </li>
+
 
                         <li class="sub-menu">
                             <a href="javascript:;">
@@ -154,15 +207,16 @@
                             </ul>
                         </li>
 
-                        <li>
+                        {{-- <li>
                             <a href="login.html">
                                 <i class="fa fa-user"></i>
                                 <span>Đăng nhập</span>
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </div>
                 <!-- sidebar menu end-->
+
             </div>
         </aside>
         <!--sidebar end-->
@@ -193,6 +247,8 @@
     <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/flot-chart/excanvas.min.js"></script><![endif]-->
     <script src="{{ asset('public/backend/js/jquery.scrollTo.js') }}"></script>
     <!-- morris JavaScript -->
+
+
     <script>
         $(document).ready(function() {
             //BOX BUTTON SHOW AND CLOSE
@@ -323,8 +379,257 @@
 
         });
     </script>
+
+
+
+
     <!-- //calendar -->
     @yield('js-custom');
-</body>
 
-</html>
+
+    <script type="text/javascript">
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $(document).ready(function() {
+            fetch_delivery();
+
+            function fetch_delivery() {
+                var _token = $('input[name="_token"]').val();
+                $.ajax({
+                    url: "{{ url('/select-feeship') }}",
+                    method: 'POST',
+                    data: {
+                        _token: _token
+                    },
+                    success: function(data) {
+                        $('#load_delivery').html(data);
+                    },
+                    error: function(xhr) {
+                        console.error('Failed to fetch delivery data:', xhr.responseText);
+                        $('#load_delivery').html(
+                            '<p class="text-danger">Failed to load delivery data</p>');
+                    }
+                });
+            }
+
+            $(document).on('blur', '.fee_feeship_edit', function() {
+                var feeship_id = $(this).data('feeship_id');
+                var fee_value = $(this).text();
+                var _token = $('input[name="_token"]').val();
+
+                // Add loading state
+                $(this).addClass('updating');
+
+                $.ajax({
+                    url: "{{ url('/update-delivery') }}",
+                    method: 'POST',
+                    data: {
+                        feeship_id: feeship_id,
+                        fee_value: fee_value,
+                        _token: _token
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            fetch_delivery();
+                        } else {
+                            alert('Update failed: ' + response.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        console.error('Update failed:', xhr.responseText);
+                        alert('Failed to update delivery fee');
+                    },
+                    complete: function() {
+                        $('.fee_feeship_edit').removeClass('updating');
+                    }
+                });
+            });
+        });
+
+
+        $(document).ready(function() {
+
+            $('.add_delivery').click(function() {
+
+                var city = $('.city').val();
+                var province = $('.province').val();
+                var wards = $('.wards').val();
+                var fee_ship = $('.fee_ship').val();
+                var _token = $('input[name="_token"]').val();
+
+                // Kiểm tra dữ liệu trước khi gửi
+                if (city == '' || province == '' || wards == '' || fee_ship == '') {
+                    alert('Vui lòng điền đầy đủ thông tin.');
+                    return;
+                }
+
+                $.ajax({
+                    url: "{{ route('insert-delivery') }}",
+                    method: 'POST',
+                    data: {
+                        city: city,
+                        province: province,
+                        wards: wards,
+                        fee_ship: fee_ship,
+                        _token: _token
+                    },
+                    success: function(data) {
+                        if (data.success) {
+                            alert(data.success);
+                            location.reload();
+                        } else {
+                            alert('Có lỗi xảy ra.');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Lỗi AJAX:', error);
+                        alert('Có lỗi xảy ra: ' + error);
+                    }
+                });
+
+            });
+
+            $('.choose').on('change', function() {
+                var action = $(this).attr('id'); // city, province, hoặc wards
+                var ma_id = $(this).val(); // Giá trị được chọn
+                var _token = $('input[name="_token"]').val(); // CSRF token
+
+                if (ma_id) {
+                    $.ajax({
+                        url: "{{ route('select-delivery') }}",
+                        method: "POST",
+                        data: {
+                            action: action,
+                            ma_id: ma_id,
+                            _token: _token
+                        },
+                        success: function(data) {
+                            if (action == 'city') {
+                                $('#province').html(data); // Cập nhật quận/huyện
+                                $('#wards').html(
+                                    '<option value="">--Chọn xã phường--</option>'
+                                ); // Reset xã/phường
+                            } else if (action == 'province') {
+                                $('#wards').html(data); // Cập nhật xã/phường
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Lỗi AJAX:', error);
+                            alert('Có lỗi xảy ra: ' + error);
+                        }
+                    });
+                } else {
+                    alert('Vui lòng chọn một giá trị hợp lệ.');
+                }
+            });
+
+
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script type="text/javascript">
+        $('.order_details').change(function() {
+            var order_status = $(this).val();
+            var order_id = $(this).children(":selected").attr("id");
+            var _token = $('input[name="_token"]').val();
+
+            //lay ra so luong
+            quantity = [];
+            $("input[name='product_sales_quantity']").each(function() {
+                quantity.push($(this).val());
+            });
+            //lay ra product id
+            order_product_id = [];
+            $("input[name='order_product_id']").each(function() {
+                order_product_id.push($(this).val());
+            });
+            j = 0;
+            for (i = 0; i < order_product_id.length; i++) {
+                //so luong khach dat
+                var order_qty = $('.order_qty_' + order_product_id[i]).val();
+                //so luong ton kho
+                var order_qty_storage = $('.order_qty_storage_' + order_product_id[i]).val();
+
+                if (parseInt(order_qty) > parseInt(order_qty_storage)) {
+                    j = j + 1;
+                    if (j == 1) {
+                        alert('Số lượng bán trong kho không đủ');
+                    }
+                    $('.color_qty_' + order_product_id[i]).css('background', '#000');
+                }
+            }
+            if (j == 0) {
+
+                $.ajax({
+                    url: '{{ url('/update-order-qty') }}',
+                    method: 'POST',
+                    data: {
+                        _token: _token,
+                        order_status: order_status,
+                        order_id: order_id,
+                        quantity: quantity,
+                        order_product_id: order_product_id
+                    },
+                    success: function(data) {
+                        alert('Thay đổi tình trạng đơn hàng thành công');
+                        if (order_status == 2) {
+                            alert('Đã gửi email thông báo cho khách hàng');
+                        }
+                        location.reload();
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Lỗi AJAX:', error);
+                        alert('Có lỗi xảy ra: ' + error);
+                    }
+                });
+
+            }
+
+        });
+    </script>
+
+    <script type="text/javascript">
+        $('.update_quantity_order').click(function() {
+            var order_product_id = $(this).data('product_id');
+            var order_qty = $('.order_qty_' + order_product_id).val();
+            var order_code = $('.order_code').val();
+            var _token = $('input[name="_token"]').val();
+            // alert(order_product_id);
+            // alert(order_qty);
+            // alert(order_code);
+            $.ajax({
+                url: '{{ url('/update-qty') }}',
+
+                method: 'POST',
+
+                data: {
+                    _token: _token,
+                    order_product_id: order_product_id,
+                    order_qty: order_qty,
+                    order_code: order_code
+                },
+                // dataType:"JSON",
+                success: function(data) {
+
+                    alert('Cập nhật số lượng thành công');
+
+                    location.reload();
+
+
+
+
+                }
+            });
+
+        });
+    </script>
+
+
+    < /body>
+
+        < /html>
