@@ -34,39 +34,23 @@ class AdminController extends Controller
         $data = $request->all();
         $admin_email = $data['admin_email'];
         $admin_password = md5($data['admin_password']);
+    
         $login = Login::where('admin_email', $admin_email)
-            ->where('admin_password', $admin_password)->first();
+            ->where('admin_password', $admin_password)
+            ->first();
     
-            if($login){
-                $login_count = $login->count();
-                if($login_count>0){
-                    Session::put('admin_name',$login->admin_name);
-                    Session::put('admin_id',$login->admin_id);
-                    return Redirect::to('/dashboard');
-                }
-            }else{
-                    Session::put('message','Mật khẩu hoặc tài khoản bị sai.Làm ơn nhập lại');
-                    return Redirect::to('/admin');
+            if ($login) {
+                Session::put('admin_name', $login->admin_name);
+                Session::put('admin_id', $login->admin_id);
+                return response()->json(['success' => true, 'redirect' => url('/dashboard')]);
+            } else {
+                return response()->json(['success' => false, 'message' => 'Mật khẩu hoặc tài khoản bị sai. Làm ơn nhập lại']);
             }
-           
+            
+    }
     
-        }
 
-    /*
-$admin_email = $request->admin_email;
-        $admin_password = md5($request->admin_password);
-        $result = DB::table('tbl_admin')->where('admin_email', $admin_email)
-            ->where('admin_password', $admin_password)->first();
-        if ($result) {
-            Session::put('admin_name', $result->admin_name);
-            Session::put('admin_id', $result->admin_id);
-            return view('admin.dashboard');
-        } else {
-            Session::put('message', 'mat khau hoac email khong dung, nhap lai nhe');
-            return Redirect::to('/admin');
-        }
-
-    */
+   
 
     public function logout(){
         Session::put('admin_name', null);

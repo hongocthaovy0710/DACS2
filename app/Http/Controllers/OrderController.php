@@ -65,7 +65,7 @@ class OrderController extends Controller
 	
 			Mail::send('admin.emails.order_processed', $data, function($message) use ($to_email, $to_name) {
 				$message->to($to_email)->subject('Đơn hàng của bạn đã được xử lý và giao hàng');
-				$message->from('no-reply@yourwebsite.com', 'Your Website');
+				$message->from('no-reply@yourwebsite.com', 'Shop Hoa 10đ DACS2');
 			});
 
 		}elseif($order->order_status!=2 && $order->order_status!=3){

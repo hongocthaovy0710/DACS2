@@ -73,16 +73,18 @@
     </div>
     <script>
         document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Ngăn form gửi thông thường
+
             const email = document.querySelector('input[name="admin_email"]');
             const password = document.querySelector('input[name="admin_password"]');
-            const emailError = email.nextElementSibling; // Vị trí div chứa lỗi cho email
-            const passwordError = password.nextElementSibling; // Vị trí div chứa lỗi cho mật khẩu
-
-            let isValid = true;
+            const emailError = email.nextElementSibling;
+            const passwordError = password.nextElementSibling;
 
             // Xóa thông báo lỗi cũ
             emailError.textContent = '';
             passwordError.textContent = '';
+
+            let isValid = true;
 
             // Kiểm tra email
             if (email.value.trim() === '') {
@@ -96,10 +98,35 @@
                 isValid = false;
             }
 
-            // Nếu không hợp lệ, chặn gửi form
             if (!isValid) {
-                event.preventDefault();
+                return; // Không gửi yêu cầu nếu có lỗi
             }
+
+            // Gửi dữ liệu bằng AJAX
+            fetch('{{ URL::to('/admin-dashboard') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        admin_email: email.value,
+                        admin_password: password.value
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Điều hướng theo URL server trả về
+                        window.location.href = data.redirect;
+                    } else {
+                        // Hiển thị lỗi từ server
+                        passwordError.textContent = data.message;
+                    }
+                })
+                .catch(error => {
+                    console.error('Có lỗi xảy ra:', error);
+                });
         });
     </script>
 
