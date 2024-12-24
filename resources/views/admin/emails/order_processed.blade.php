@@ -8,7 +8,7 @@
 
 <body>
     <h1>Xin chào {{ $name }},</h1>
-    <p>Đơn hàng của bạn với mã đơn hàng <strong>{{ $order_code }}</strong>
+    <p>Đơn hàng của bạn với mã đơn hàng <strong>{{ $order_code }}</strong> đã được xử lý và đang giao đến bạn.</p>
 
     <p>Hãy chú ý điện thoại nhé!!! </p>
     <p>Cảm ơn bạn đã mua sắm tại cửa hàng của chúng tôi!</p>

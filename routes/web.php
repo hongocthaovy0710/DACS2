@@ -11,6 +11,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DeliveryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CouponController;
+use App\Http\Controllers\RegistrationController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/trang chu', 'App\Http\Controllers\HomeController@index');
@@ -134,3 +135,7 @@ Route::get('/insert-coupon', [CouponController::class, 'insert_coupon']);
 Route::get('/delete-coupon/{coupon_id}', [CouponController::class, 'delete_coupon']);
 Route::get('/list-coupon', [CouponController::class, 'list_coupon']);
 Route::post('/insert-coupon-code', [CouponController::class, 'insert_coupon_code']);
+
+//đăng ký
+
+Route::post('/register-ajax', [RegistrationController::class, 'store'])->name('register.ajax');
